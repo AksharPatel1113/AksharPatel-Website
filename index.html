@@ -179,7 +179,7 @@
     .carousel-wrapper { position: relative; border-radius: var(--radius); overflow: hidden; background: var(--surface); border: 1px solid var(--border); user-select: none; }
     .carousel-track { display: flex; transition: transform 0.45s cubic-bezier(0.4,0,0.2,1); }
     .carousel-slide { min-width: 100%; position: relative; }
-    .carousel-slide img { width: 100%; height: 480px; object-fit: contain; display: block; }
+    .carousel-slide img { width: 100%; height: 480px; object-fit: contain; display: block; background: #0d0d14; }
     .carousel-overlay {
       position: absolute; bottom: 0; left: 0; right: 0; padding: 2rem 2rem 1.75rem;
       background: linear-gradient(to top, rgba(10,10,15,0.95) 0%, rgba(10,10,15,0.6) 60%, transparent 100%);
@@ -479,7 +479,7 @@
       <div class="carousel-track" id="carouselTrack">
 
         <div class="carousel-slide">
-          <img src="images/img-000.jpg" alt="Drone Challenge" style="background:#fff;" />
+          <img src="images/img-000.jpg" alt="Drone Challenge" />
           <div class="carousel-overlay">
             <h3>Drone Challenge</h3>
             <p>Designed to scale in Onshape, 3D printed, assembled with soldering — earned 150/155 on full orthographic documentation.</p>
@@ -488,7 +488,7 @@
         </div>
 
         <div class="carousel-slide">
-          <img src="images/img-013.jpg" alt="Universal Toy Design" style="background:#fff;" />
+          <img src="images/img-013.jpg" alt="Universal Toy Design" />
           <div class="carousel-overlay">
             <h3>Universal Toy Design Project</h3>
             <p>Servo-actuated 3D punching action figure — Arduino-programmed, FDM printed, designed around Universal Design Principles.</p>
@@ -497,7 +497,7 @@
         </div>
 
         <div class="carousel-slide">
-          <img src="images/img-022.jpg" alt="Satellite Capstone Project" style="background:#000;" />
+          <img src="images/img-022.jpg" alt="Satellite Capstone Project" />
           <div class="carousel-overlay">
             <h3>Satellite Capstone Project</h3>
             <p>Conceptual EM-disturbance countermeasure system with a 360° multi-directional dish designed in Onshape.</p>
@@ -506,7 +506,7 @@
         </div>
 
         <div class="carousel-slide">
-          <img src="images/img-024.jpg" alt="Inline Four ICE Engine" style="background:#e8ecf0;" />
+          <img src="images/img-024.jpg" alt="Inline Four ICE Engine" />
           <div class="carousel-overlay">
             <h3>Inline Four Internal Combustion Engine</h3>
             <p>Fully articulated SolidWorks assembly — synchronized crankshaft, OHC valvetrain, cooling fan, and oil pan simulating a four-stroke cycle.</p>
@@ -515,7 +515,7 @@
         </div>
 
         <div class="carousel-slide">
-          <img src="pages/page-08.jpg" alt="Standing Desk Design" style="background:#1a1a2e;" />
+          <img src="pages/page-08.jpg" alt="Standing Desk Design" />
           <div class="carousel-overlay">
             <h3>Standing Desk Design</h3>
             <p>Multi-component SolidWorks assembly with worm/spur gear height adjustment, modular storage, and integrated cable management.</p>
@@ -970,7 +970,6 @@
   let current    = 0;
   let elapsed    = 0;     // ms since last slide change
   let lastTick   = null;
-  let paused     = false;
 
   const track    = document.getElementById('carouselTrack');
   const dotsWrap = document.getElementById('carouselDots');
@@ -995,22 +994,14 @@
 
   // rAF-driven ticker so progress bar is smooth
   function tick(ts) {
-    if (!paused) {
-      if (lastTick !== null) elapsed += ts - lastTick;
-      lastTick = ts;
-      const pct = Math.min((elapsed / INTERVAL) * 100, 100);
-      progressFill.style.width = pct + '%';
-      if (elapsed >= INTERVAL) { goTo(current + 1); elapsed = 0; }
-    } else {
-      lastTick = ts;
-    }
+    if (lastTick !== null) elapsed += ts - lastTick;
+    lastTick = ts;
+    const pct = Math.min((elapsed / INTERVAL) * 100, 100);
+    progressFill.style.width = pct + '%';
+    if (elapsed >= INTERVAL) { goTo(current + 1); elapsed = 0; }
     requestAnimationFrame(tick);
   }
   requestAnimationFrame(tick);
-
-  const wrapper = document.querySelector('.carousel-wrapper');
-  wrapper.addEventListener('mouseenter', () => { paused = true; });
-  wrapper.addEventListener('mouseleave', () => { paused = false; });
 
   // Touch swipe
   let touchStartX = 0;
