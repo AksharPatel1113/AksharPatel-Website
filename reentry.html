@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hypersonic Re-Entry CFD | Akshar Patel</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --surface2: #1c1c28;
+      --accent: #6c63ff;
+      --accent2: #00d4ff;
+      --text: #e8e8f0;
+      --muted: #888899;
+      --border: #2a2a3a;
+      --radius: 12px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    /* ── INTRO ── */
+    #intro {
+      position: fixed; inset: 0; z-index: 9999;
+      background: #06060a;
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: none;
+      clip-path: circle(150% at 50% 50%);
+      transition: clip-path 1s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+    #intro.leave { clip-path: circle(0% at 50% 50%); }
+    #intro.gone  { display: none; }
+    #intro::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle, rgba(108,99,255,0.12) 1px, transparent 1px);
+      background-size: 30px 30px;
+      pointer-events: none;
+    }
+    #intro-content { position: relative; z-index: 2; text-align: center; }
+    .intro-clip { overflow: hidden; padding-bottom: 0.12em; }
+    #intro-name {
+      display: block;
+      font-size: clamp(2.4rem, 7vw, 5rem);
+      font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase;
+      background: linear-gradient(120deg, #fff 0%, var(--accent2) 50%, var(--accent) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      transform: translateY(110%);
+      animation: riseUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+    }
+    #intro-sub {
+      display: block;
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.55em; text-transform: uppercase;
+      color: rgba(136,136,153,0.85);
+      transform: translateY(110%);
+      animation: riseUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.42s forwards;
+    }
+    @keyframes riseUp { to { transform: translateY(0); } }
+    #intro-line {
+      height: 2px; width: 0; margin: 1rem auto 0;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 999px;
+      box-shadow: 0 0 14px 2px rgba(0,212,255,0.55);
+      animation: growLine 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards;
+    }
+    @keyframes growLine { to { width: clamp(120px, 30vw, 260px); } }
+
+    #particle-canvas {
+      position: fixed; inset: 0; z-index: 0;
+      pointer-events: none; opacity: 0.45;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10,10,15,0.88); backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; padding: 0 2rem; height: 64px;
+      position: relative; z-index: 1;
+    }
+    .nav-logo {
+      font-size: 1.2rem; font-weight: 700; margin-right: auto; letter-spacing: 0.5px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      text-decoration: none;
+    }
+    .nav-back {
+      display: flex; align-items: center; gap: 0.5rem;
+      color: var(--muted); font-size: 0.9rem; font-weight: 500;
+      text-decoration: none; padding: 0.5rem 1rem;
+      border-radius: 8px; border: 1px solid var(--border);
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .nav-back:hover { color: var(--text); border-color: var(--accent); }
+
+    /* ── LAYOUT ── */
+    .page { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 4rem 2rem 6rem; }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-block; padding: 0.75rem 1.75rem; border-radius: 8px;
+      font-size: 0.95rem; font-weight: 600; text-decoration: none; cursor: pointer;
+      border: none; transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s; font-family: inherit;
+    }
+    .btn:hover { transform: translateY(-2px); opacity: 0.9; }
+    .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; box-shadow: 0 4px 20px rgba(108,99,255,0.35); }
+    .btn-outline { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
+    .btn-outline:hover { border-color: var(--accent); }
+
+    /* ── SECTION LABEL ── */
+    .sec-label {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+
+    /* ── HERO ── */
+    .proj-hero { padding-bottom: 3rem; border-bottom: 1px solid var(--border); margin-bottom: 4rem; }
+    .proj-hero .sec-label { color: var(--accent2); }
+    .proj-hero h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800; line-height: 1.15; margin: 0.5rem 0 1rem;
+    }
+    .proj-hero h1 span {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .proj-hero .subtitle { font-size: 1.1rem; color: var(--muted); line-height: 1.7; max-width: 680px; margin-bottom: 1.5rem; }
+    .tag-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .tag {
+      background: var(--surface2); border: 1px solid var(--border);
+      color: var(--accent2); font-size: 0.75rem; font-weight: 600;
+      padding: 0.25rem 0.65rem; border-radius: 999px;
+    }
+
+    /* ── KEY RESULTS ── */
+    .results-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 4rem; }
+    .result-card {
+      background: linear-gradient(135deg, rgba(108,99,255,0.08), rgba(0,212,255,0.05));
+      border: 1px solid rgba(108,99,255,0.25);
+      border-radius: var(--radius); padding: 1.75rem 1.5rem;
+      position: relative; overflow: hidden;
+    }
+    .result-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+    }
+    .result-card .metric {
+      font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 900;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      line-height: 1; margin-bottom: 0.5rem;
+    }
+    .result-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .result-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
+
+    /* ── PROSE SECTIONS ── */
+    .prose-section { margin-bottom: 4rem; }
+    .prose-section h2 {
+      font-size: 1.6rem; font-weight: 800; margin-bottom: 1rem;
+    }
+    .prose-section h2 span {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .prose-section p { color: var(--muted); font-size: 0.95rem; line-height: 1.8; max-width: 780px; margin-bottom: 0.85rem; }
+    .prose-section p strong { color: var(--text); }
+
+    /* ── METHOD CARDS ── */
+    .method-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 1.25rem; margin-top: 1.5rem; }
+    .method-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.5rem;
+      transition: border-color 0.2s;
+    }
+    .method-card:hover { border-color: rgba(108,99,255,0.4); }
+    .method-card .icon { font-size: 1.6rem; margin-bottom: 0.75rem; }
+    .method-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .method-card p { font-size: 0.87rem; color: var(--muted); line-height: 1.7; }
+    .method-card ul { list-style: none; margin-top: 0.5rem; }
+    .method-card ul li { font-size: 0.84rem; color: var(--muted); padding: 0.2rem 0; }
+    .method-card ul li::before { content: '›  '; color: var(--accent2); font-weight: 700; }
+
+    /* ── GALLERY ── */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+    }
+    @media (max-width: 640px) { .gallery-grid { grid-template-columns: 1fr; } }
+    .gallery-item {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+      transition: border-color 0.2s;
+      cursor: zoom-in;
+    }
+    .gallery-item:hover { border-color: rgba(108,99,255,0.4); }
+    .gallery-item img {
+      width: 100%; height: 240px;
+      object-fit: contain; background: #0d0d14;
+      display: block;
+    }
+    .gallery-placeholder {
+      width: 100%; height: 240px; background: #0d0d14;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted); font-size: 0.85rem; border-bottom: 1px solid var(--border);
+    }
+    .gallery-caption {
+      padding: 0.75rem 1rem;
+      font-size: 0.82rem; color: var(--muted); line-height: 1.5;
+    }
+    .gallery-caption strong { color: var(--text); font-weight: 600; }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      display: none; position: fixed; inset: 0; z-index: 999;
+      background: rgba(0,0,0,0.92); align-items: center; justify-content: center;
+      cursor: zoom-out;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img { max-width: 90vw; max-height: 90vh; object-fit: contain; border-radius: 8px; }
+    .lightbox-close {
+      position: absolute; top: 1.5rem; right: 1.5rem;
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--text); width: 40px; height: 40px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 1.1rem; z-index: 10;
+    }
+
+    /* ── GITHUB CTA ── */
+    .github-cta {
+      text-align: center;
+      padding: 3rem 2rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-top: 1rem;
+    }
+    .github-cta h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .github-cta p { color: var(--muted); font-size: 0.92rem; margin-bottom: 1.5rem; }
+
+    @media (max-width: 768px) {
+      .results-grid, .method-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="particle-canvas"></canvas>
+
+<div id="intro">
+  <div id="intro-content">
+    <div class="intro-clip"><span id="intro-name">Re-Entry CFD</span></div>
+    <div class="intro-clip"><span id="intro-sub">Hypersonic Aero-Thermal Analysis</span></div>
+    <div id="intro-line"></div>
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="" />
+</div>
+
+<nav>
+  <a href="index.html" class="nav-logo">Akshar Patel</a>
+  <a href="index.html" class="nav-back">&#8592; Back to Portfolio</a>
+</nav>
+
+<div class="page">
+
+  <!-- ══ HERO ══ -->
+  <div class="proj-hero">
+    <p class="sec-label">CFD &amp; Thermal · Independent Research · May 2026 – Present</p>
+    <h1>Hypersonic Re-Entry<br /><span>CFD &amp; Thermal Analysis</span></h1>
+    <p class="subtitle">Coupled aerodynamic and thermal analysis of a Dragon-style blunt-body capsule during atmospheric re-entry. Parametric Mach 5–25 sweep with turbulence model benchmarking and transient TPS thermal analysis — validated against Fay-Riddell analytical solutions.</p>
+    <div class="tag-row">
+      <span class="tag">ANSYS Fluent</span>
+      <span class="tag">ANSYS Mechanical</span>
+      <span class="tag">Python</span>
+      <span class="tag">Compressible CFD</span>
+      <span class="tag">Hypersonics</span>
+      <span class="tag">Thermal Protection Systems</span>
+    </div>
+  </div>
+
+  <!-- ══ KEY RESULTS ══ -->
+  <p class="sec-label" style="margin-bottom:1rem;">Key Results</p>
+  <div class="results-grid">
+    <div class="result-card">
+      <div class="metric">&lt;5%</div>
+      <h4>Heat Flux Validation</h4>
+      <p>CFD-derived stagnation heat flux validated within 5% of the Fay-Riddell analytical benchmark across the Mach 5–25 sweep using Python post-processing.</p>
+    </div>
+    <div class="result-card">
+      <div class="metric">Mach 5–25</div>
+      <h4>Parametric Mach Sweep</h4>
+      <p>Full parametric simulation campaign covering re-entry corridor conditions, capturing shock stand-off distance, pressure distributions, and wall temperature evolution.</p>
+    </div>
+    <div class="result-card">
+      <div class="metric">2 Models</div>
+      <h4>Turbulence Benchmarking</h4>
+      <p>Benchmarked two turbulence closure models for hypersonic flow, selecting the optimal closure that improved heat flux prediction accuracy for the re-entry environment.</p>
+    </div>
+  </div>
+
+  <!-- ══ PROBLEM STATEMENT ══ -->
+  <div class="prose-section">
+    <h2>Problem <span>Statement</span></h2>
+    <p>Atmospheric re-entry represents one of the most thermally severe environments in aerospace engineering. A Dragon-style blunt-body capsule experiences stagnation temperatures exceeding 1,600 K during peak heating, with heat flux rates that can ablate unprotected surfaces in seconds.</p>
+    <p>The challenge: accurately predict the coupled aerodynamic heating and structural thermal response across the full re-entry corridor — from hypersonic cruise at Mach 25 down through the subsonic deceleration phase — using <strong>ANSYS Fluent</strong> for the flow field and <strong>ANSYS Mechanical</strong> for transient structural thermal analysis, with results validated against the Fay-Riddell stagnation point heating correlation.</p>
+    <p>An additional objective was to quantify the sensitivity of heat flux predictions to turbulence model selection — a critical modeling decision for flows with strong compressibility effects, shock-boundary layer interaction, and high-temperature gas dynamics.</p>
+  </div>
+
+  <!-- ══ METHODOLOGY ══ -->
+  <div class="prose-section">
+    <h2>Methodology</h2>
+    <div class="method-grid">
+      <div class="method-card">
+        <div class="icon">🔬</div>
+        <h4>CFD Setup</h4>
+        <p>ANSYS Fluent density-based solver with ideal gas and Sutherland viscosity. Pressure far-field boundary conditions set for each Mach number in the sweep.</p>
+        <ul>
+          <li>Density-based compressible solver</li>
+          <li>Mach 5 → 25 parametric sweep</li>
+          <li>Two turbulence closure models benchmarked</li>
+          <li>Wall heat flux extraction for validation</li>
+        </ul>
+      </div>
+      <div class="method-card">
+        <div class="icon">⬡</div>
+        <h4>Mesh &amp; Validation</h4>
+        <p>Structured mesh with boundary layer refinement to capture the thermal gradient near the ablative heat shield surface. Y+ targeting for each turbulence model.</p>
+        <ul>
+          <li>Structured boundary layer mesh</li>
+          <li>Shock-capturing refinement zone</li>
+          <li>Python post-processing pipeline</li>
+          <li>&lt;5% error vs. Fay-Riddell correlation</li>
+        </ul>
+      </div>
+      <div class="method-card">
+        <div class="icon">🌡</div>
+        <h4>Thermal Coupling</h4>
+        <p>CFD-derived heat flux mapped to ANSYS Mechanical as a transient thermal load. TPS material comparison conducted to evaluate time-to-critical-temperature across re-entry phases.</p>
+        <ul>
+          <li>CFD → Mechanical heat flux mapping</li>
+          <li>Transient thermal FEA</li>
+          <li>Multiple TPS material comparison</li>
+          <li>Peak temperature tracking vs. time</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ VISUALS GALLERY ══ -->
+  <div class="prose-section">
+    <h2>Visuals <span>Gallery</span></h2>
+    <div class="gallery-grid">
+
+      <div class="gallery-item" onclick="openLightbox('images/reentry-pressure.jpg')">
+        <img src="images/reentry-pressure.jpg" alt="Static Pressure Contour"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <div class="gallery-placeholder" style="display:none;">[ Static Pressure Contour ]</div>
+        <div class="gallery-caption"><strong>Static Pressure Distribution</strong> — ANSYS Fluent contour plot showing bow shock and stagnation region on the Dragon capsule forebody at hypersonic conditions.</div>
+      </div>
+
+      <div class="gallery-item">
+        <div class="gallery-placeholder">[ Mach Contour — Coming Soon ]</div>
+        <div class="gallery-caption"><strong>Mach Number Contour</strong> — Flow field showing shock stand-off distance and expansion fan behavior across the forebody at Mach 15.</div>
+      </div>
+
+      <div class="gallery-item">
+        <div class="gallery-placeholder">[ Wall Heat Flux Plot — Coming Soon ]</div>
+        <div class="gallery-caption"><strong>Wall Heat Flux vs. Mach</strong> — Stagnation point heat flux across the Mach 5–25 sweep overlaid with Fay-Riddell analytical predictions.</div>
+      </div>
+
+      <div class="gallery-item">
+        <div class="gallery-placeholder">[ Transient Thermal Response — Coming Soon ]</div>
+        <div class="gallery-caption"><strong>Transient TPS Temperature</strong> — ANSYS Mechanical temperature evolution through the heat shield cross-section during peak heating phase.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ GITHUB CTA ══ -->
+  <div class="github-cta">
+    <h3>View the Full Analysis</h3>
+    <p>CFD setup files, Python post-processing scripts, and mesh configurations are available on GitHub.</p>
+    <a href="https://github.com/aksharpatel1113" target="_blank" rel="noopener" class="btn btn-primary">View on GitHub &rarr;</a>
+  </div>
+
+</div>
+
+<script>
+  /* ── PARTICLE BACKGROUND ── */
+  (function () {
+    const canvas = document.getElementById('particle-canvas');
+    const ctx    = canvas.getContext('2d');
+    const ACCENT  = { r:108, g:99,  b:255 };
+    const ACCENT2 = { r:0,   g:212, b:255 };
+    const COUNT   = 80;
+    const MAX_DIST = 140;
+    let W, H, particles = [];
+
+    function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resize);
+    resize();
+    function lerp(a, b, t) { return a + (b - a) * t; }
+    function Particle() {
+      this.x = Math.random() * W; this.y = Math.random() * H;
+      this.vx = (Math.random() - 0.5) * 0.4; this.vy = (Math.random() - 0.5) * 0.4;
+      this.r = Math.random() * 1.8 + 0.8; this.t = Math.random() * Math.PI * 2;
+    }
+    for (let i = 0; i < COUNT; i++) particles.push(new Particle());
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      const now = Date.now() * 0.001;
+      for (const p of particles) {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+        if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+        const pulse = 0.5 + 0.5 * Math.sin(now * 1.2 + p.t);
+        const r = Math.round(lerp(ACCENT.r, ACCENT2.r, pulse));
+        const g = Math.round(lerp(ACCENT.g, ACCENT2.g, pulse));
+        const b = Math.round(lerp(ACCENT.b, ACCENT2.b, pulse));
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${r},${g},${b},0.7)`; ctx.fill();
+      }
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const a = particles[i], b = particles[j];
+          const dx = a.x - b.x, dy = a.y - b.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < MAX_DIST) {
+            const alpha = (1 - dist / MAX_DIST) * 0.25;
+            ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
+            ctx.strokeStyle = `rgba(108,99,255,${alpha})`; ctx.lineWidth = 0.8; ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+    draw();
+  })();
+
+  /* ── INTRO ── */
+  (function () {
+    const intro = document.getElementById('intro');
+    setTimeout(() => {
+      intro.classList.add('leave');
+      intro.addEventListener('transitionend', () => intro.classList.add('gone'), { once: true });
+    }, 2000);
+  })();
+
+  /* ── LIGHTBOX ── */
+  function openLightbox(src) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+</script>
+</body>
+</html>

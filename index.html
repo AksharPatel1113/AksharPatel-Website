@@ -532,7 +532,7 @@
   <div class="nav-logo">Akshar Patel</div>
   <ul class="nav-tabs">
     <li><a href="#" class="active" onclick="showTab('home', this); return false;">Home</a></li>
-    <li><a href="#" onclick="showTab('project1', this); return false;">Project 1</a></li>
+    <li><a href="reentry.html">Re-Entry CFD</a></li>
     <li><a href="#" onclick="showTab('cad', this); return false;">Additional CAD Projects</a></li>
     <li><a href="#" onclick="showTab('resume', this); return false;">Resume</a></li>
     <li><a href="#" onclick="showTab('contact', this); return false;">Contact</a></li>
@@ -542,9 +542,9 @@
 <!-- ══════════════════════════════ HOME ══════════════════════════════ -->
 <div id="home" class="section active">
   <div class="hero">
-    <p class="hero-tag">Aerospace Engineering · Thermal Design · Systems Engineering · GNC</p>
+    <p class="hero-tag" style="white-space:nowrap;">Aerospace Engineering · Thermal Design · Systems Engineering</p>
     <h1>Hi, I'm <span>Akshar Patel</span></h1>
-    <p>Rutgers Aerospace Engineering student (GPA 3.68) operating at the level the industry says comes later — concurrently inside real programs at Lockheed Martin RMS and Space Ocean Corp, with a DoD Secret clearance.</p>
+    <p>Rutgers Aerospace Engineering student operating at the level the industry says comes later — concurrently inside real programs at Lockheed Martin RMS and Space Ocean Corp, with a DoD Secret clearance.</p>
     <div class="hero-btns">
       <a class="btn btn-primary" href="#" onclick="showTabByName('cad'); return false;">View Projects</a>
       <a class="btn btn-outline" href="#" onclick="showTabByName('contact'); return false;">Get in Touch</a>
@@ -652,6 +652,36 @@
       <a class="btn btn-primary" href="#" onclick="showTabByName('cad'); return false;">View All CAD Projects &rarr;</a>
     </div>
   </div>
+
+  <!-- ── AEROSPACE SIMULATIONS ── -->
+  <div class="carousel-section" style="margin-top:3.5rem;">
+    <h2>Aerospace <span>Simulations</span></h2>
+    <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:1.5rem;">
+
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; transition:border-color 0.2s, transform 0.2s;" onmouseover="this.style.borderColor='rgba(108,99,255,0.5)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform=''">
+        <div style="height:220px; background:#0d0d14; overflow:hidden; position:relative;">
+          <img src="images/reentry-pressure.jpg" alt="Hypersonic Re-Entry CFD" style="width:100%;height:100%;object-fit:contain;" onerror="this.style.display='none'" />
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;">
+            <span style="font-size:0.75rem;color:var(--muted);background:rgba(10,10,15,0.7);padding:0.3rem 0.7rem;border-radius:999px;border:1px solid var(--border);">Static Pressure Contour · Mach 5–25</span>
+          </div>
+        </div>
+        <div style="padding:1.5rem;">
+          <p style="font-size:0.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">CFD &amp; THERMAL</p>
+          <h3 style="font-size:1.15rem;font-weight:800;margin-bottom:0.75rem;line-height:1.3;">Hypersonic Re-Entry CFD &amp; Thermal Analysis</h3>
+          <p style="font-size:0.88rem;color:var(--muted);line-height:1.7;margin-bottom:1rem;">Coupled aerodynamic and thermal analysis of a Dragon-style blunt-body capsule during atmospheric re-entry. Parametric Mach 5–25 sweep with turbulence model benchmarking and transient TPS thermal analysis.</p>
+          <div class="tag-list" style="margin-bottom:1.25rem;">
+            <span class="tag">ANSYS Fluent</span>
+            <span class="tag">ANSYS Mechanical</span>
+            <span class="tag">Python</span>
+            <span class="tag">Compressible CFD</span>
+          </div>
+          <a href="reentry.html" class="btn btn-primary" style="font-size:0.88rem;padding:0.6rem 1.4rem;">View Project &rarr;</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
 </div>
 
 <!-- ══════════════════════════════ PROJECT 1 ══════════════════════════════ -->
