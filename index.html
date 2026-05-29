@@ -33,8 +33,8 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(10,10,15,0.85);
-      backdrop-filter: blur(12px);
+      background: rgba(10,10,15,0.88);
+      backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
@@ -71,15 +71,8 @@
       cursor: pointer;
     }
 
-    .nav-tabs li a:hover,
-    .nav-tabs li a.active {
-      color: var(--text);
-      background: var(--surface2);
-    }
-
-    .nav-tabs li a.active {
-      color: var(--accent2);
-    }
+    .nav-tabs li a:hover { color: var(--text); background: var(--surface2); }
+    .nav-tabs li a.active { color: var(--accent2); background: var(--surface2); }
 
     /* ── SECTIONS ── */
     .section {
@@ -92,13 +85,43 @@
 
     .section.active { display: block; }
 
-    /* ── HOME ── */
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.75rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+      font-family: inherit;
+    }
+
+    .btn:hover { transform: translateY(-2px); opacity: 0.9; }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(108,99,255,0.35);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1.5px solid var(--border);
+    }
+
+    .btn-outline:hover { border-color: var(--accent); }
+
+    /* ── HOME HERO ── */
     .hero {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      min-height: calc(100vh - 64px - 8rem);
       gap: 1.5rem;
+      padding-bottom: 3rem;
     }
 
     .hero-tag {
@@ -122,52 +145,19 @@
       background-clip: text;
     }
 
-    .hero p {
+    .hero > p {
       font-size: 1.15rem;
       color: var(--muted);
       max-width: 560px;
       line-height: 1.7;
     }
 
-    .hero-btns {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 0.75rem 1.75rem;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      text-decoration: none;
-      cursor: pointer;
-      border: none;
-      transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
-    }
-
-    .btn:hover { transform: translateY(-2px); opacity: 0.9; }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: #fff;
-      box-shadow: 0 4px 20px rgba(108,99,255,0.35);
-    }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--text);
-      border: 1.5px solid var(--border);
-    }
-
-    .btn-outline:hover { border-color: var(--accent); }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
 
     .stats {
       display: flex;
       gap: 2.5rem;
       flex-wrap: wrap;
-      margin-top: 1rem;
       padding-top: 2rem;
       border-top: 1px solid var(--border);
     }
@@ -182,15 +172,132 @@
       background-clip: text;
     }
 
-    .stat-item span {
-      font-size: 0.85rem;
-      color: var(--muted);
+    .stat-item span { font-size: 0.85rem; color: var(--muted); }
+
+    /* ── CAROUSEL ── */
+    .carousel-section {
+      margin-top: 4rem;
     }
 
-    /* ── GENERIC PAGE HEADER ── */
-    .page-header {
-      margin-bottom: 3rem;
+    .carousel-section h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: var(--text);
     }
+
+    .carousel-section h2 span {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .carousel-wrapper {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      user-select: none;
+    }
+
+    .carousel-track {
+      display: flex;
+      transition: transform 0.45s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    .carousel-slide {
+      min-width: 100%;
+      position: relative;
+    }
+
+    .carousel-slide img {
+      width: 100%;
+      height: 480px;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+    }
+
+    .carousel-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 2rem 2rem 1.75rem;
+      background: linear-gradient(to top, rgba(10,10,15,0.95) 0%, rgba(10,10,15,0.6) 60%, transparent 100%);
+    }
+
+    .carousel-overlay h3 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+
+    .carousel-overlay p {
+      font-size: 0.9rem;
+      color: rgba(232,232,240,0.75);
+      line-height: 1.5;
+      max-width: 620px;
+      margin-bottom: 1rem;
+    }
+
+    /* arrows */
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      background: rgba(10,10,15,0.7);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      color: var(--text);
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      transition: background 0.2s, border-color 0.2s;
+      backdrop-filter: blur(6px);
+    }
+
+    .carousel-arrow:hover { background: var(--accent); border-color: var(--accent); }
+    .carousel-arrow.prev { left: 1rem; }
+    .carousel-arrow.next { right: 1rem; }
+
+    /* dots */
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1rem 0 0.75rem;
+    }
+
+    .carousel-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      border: none;
+    }
+
+    .carousel-dot.active {
+      background: var(--accent2);
+      transform: scale(1.3);
+    }
+
+    .carousel-cta {
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-header { margin-bottom: 3rem; }
 
     .page-header h2 {
       font-size: clamp(1.8rem, 4vw, 2.8rem);
@@ -205,12 +312,7 @@
       background-clip: text;
     }
 
-    .page-header p {
-      color: var(--muted);
-      font-size: 1rem;
-      max-width: 600px;
-      line-height: 1.6;
-    }
+    .page-header p { color: var(--muted); font-size: 1rem; max-width: 600px; line-height: 1.6; }
 
     /* ── CARDS ── */
     .card {
@@ -221,27 +323,52 @@
       transition: border-color 0.2s, transform 0.2s;
     }
 
-    .card:hover {
-      border-color: var(--accent);
-      transform: translateY(-3px);
-    }
+    .card:hover { border-color: var(--accent); transform: translateY(-3px); }
 
-    .card h3 {
-      font-size: 1.2rem;
-      font-weight: 700;
-      margin-bottom: 0.75rem;
-    }
-
-    .card p {
-      color: var(--muted);
-      font-size: 0.95rem;
-      line-height: 1.6;
-    }
+    .card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.75rem; }
+    .card p { color: var(--muted); font-size: 0.95rem; line-height: 1.6; }
 
     .card-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: 1.5rem;
+    }
+
+    /* ── CAD PROJECT CARDS ── */
+    .cad-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .cad-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+
+    .cad-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cad-card-body { padding: 1.5rem; }
+
+    .cad-card-body h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.6rem; }
+    .cad-card-body p { color: var(--muted); font-size: 0.88rem; line-height: 1.6; margin-bottom: 1rem; }
+
+    .tag-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+    .tag {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--accent2);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.25rem 0.65rem;
+      border-radius: 999px;
     }
 
     /* ── PROJECT 1 ── */
@@ -253,33 +380,21 @@
       margin-bottom: 2rem;
     }
 
-    .project-hero h3 {
-      font-size: 1.6rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-    }
+    .project-hero h3 { font-size: 1.6rem; font-weight: 700; margin-bottom: 1rem; }
+    .project-hero p { color: var(--muted); line-height: 1.7; margin-bottom: 1.5rem; }
 
-    .project-hero p {
-      color: var(--muted);
-      line-height: 1.7;
-      margin-bottom: 1.5rem;
-    }
-
-    .tag-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    .tag {
+    .img-placeholder {
+      width: 100%;
+      aspect-ratio: 16/9;
       background: var(--surface2);
-      border: 1px solid var(--border);
-      color: var(--accent2);
-      font-size: 0.78rem;
-      font-weight: 600;
-      padding: 0.3rem 0.75rem;
-      border-radius: 999px;
-      letter-spacing: 0.3px;
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
     }
 
     /* ── RESUME ── */
@@ -307,23 +422,9 @@
       padding: 1.25rem 1.5rem;
     }
 
-    .timeline-body h4 {
-      font-size: 1rem;
-      font-weight: 700;
-      margin-bottom: 0.2rem;
-    }
-
-    .timeline-body .org {
-      font-size: 0.85rem;
-      color: var(--accent2);
-      margin-bottom: 0.6rem;
-    }
-
-    .timeline-body p {
-      font-size: 0.9rem;
-      color: var(--muted);
-      line-height: 1.6;
-    }
+    .timeline-body h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.2rem; }
+    .timeline-body .org { font-size: 0.85rem; color: var(--accent2); margin-bottom: 0.6rem; }
+    .timeline-body p { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
 
     .section-label {
       font-size: 0.78rem;
@@ -342,23 +443,8 @@
       align-items: start;
     }
 
-    @media (max-width: 640px) {
-      .contact-grid { grid-template-columns: 1fr; }
-      .timeline-item { grid-template-columns: 1fr; }
-      .timeline-date { text-align: left; }
-    }
-
-    .contact-info h3 {
-      font-size: 1.4rem;
-      font-weight: 700;
-      margin-bottom: 0.75rem;
-    }
-
-    .contact-info p {
-      color: var(--muted);
-      line-height: 1.7;
-      margin-bottom: 1.5rem;
-    }
+    .contact-info h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.75rem; }
+    .contact-info p { color: var(--muted); line-height: 1.7; margin-bottom: 1.5rem; }
 
     .contact-link {
       display: flex;
@@ -411,26 +497,14 @@
       resize: vertical;
     }
 
-    form input:focus, form textarea:focus {
-      outline: none;
-      border-color: var(--accent);
-    }
-
+    form input:focus, form textarea:focus { outline: none; border-color: var(--accent); }
     form textarea { min-height: 120px; }
 
-    /* ── PLACEHOLDER IMAGE ── */
-    .img-placeholder {
-      width: 100%;
-      aspect-ratio: 16/9;
-      background: var(--surface2);
-      border: 1px dashed var(--border);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--muted);
-      font-size: 0.9rem;
-      margin-bottom: 1.5rem;
+    @media (max-width: 640px) {
+      .contact-grid { grid-template-columns: 1fr; }
+      .timeline-item { grid-template-columns: 1fr; }
+      .timeline-date { text-align: left; }
+      .carousel-slide img { height: 260px; }
     }
   </style>
 </head>
@@ -439,36 +513,116 @@
 <nav>
   <div class="nav-logo">Akshar Patel</div>
   <ul class="nav-tabs">
-    <li><a href="#" class="active" onclick="showTab('home', this)">Home</a></li>
-    <li><a href="#" onclick="showTab('project1', this)">Project 1</a></li>
-    <li><a href="#" onclick="showTab('cad', this)">Additional CAD Projects</a></li>
-    <li><a href="#" onclick="showTab('resume', this)">Resume</a></li>
-    <li><a href="#" onclick="showTab('contact', this)">Contact</a></li>
+    <li><a href="#" class="active" onclick="showTab('home', this); return false;">Home</a></li>
+    <li><a href="#" onclick="showTab('project1', this); return false;">Project 1</a></li>
+    <li><a href="#" onclick="showTab('cad', this); return false;">Additional CAD Projects</a></li>
+    <li><a href="#" onclick="showTab('resume', this); return false;">Resume</a></li>
+    <li><a href="#" onclick="showTab('contact', this); return false;">Contact</a></li>
   </ul>
 </nav>
 
-<!-- ── HOME ── -->
+<!-- ══════════════════════════════ HOME ══════════════════════════════ -->
 <div id="home" class="section active">
   <div class="hero">
     <p class="hero-tag">Engineering Portfolio</p>
     <h1>Hi, I'm <span>Akshar Patel</span></h1>
     <p>
-      Aspiring engineer with a passion for design, CAD, and building things that solve real problems.
+      Aspiring engineer with a passion for CAD, mechanical design, and building things that solve real problems.
       Welcome to my portfolio.
     </p>
     <div class="hero-btns">
-      <a class="btn btn-primary" href="#" onclick="showTabByName('project1')">View Projects</a>
-      <a class="btn btn-outline" href="#" onclick="showTabByName('contact')">Get in Touch</a>
+      <a class="btn btn-primary" href="#" onclick="showTabByName('cad'); return false;">View Projects</a>
+      <a class="btn btn-outline" href="#" onclick="showTabByName('contact'); return false;">Get in Touch</a>
     </div>
     <div class="stats">
       <div class="stat-item"><strong>5+</strong><span>Projects Completed</span></div>
-      <div class="stat-item"><strong>3+</strong><span>Years of CAD Experience</span></div>
-      <div class="stat-item"><strong>1</strong><span>Degree in Progress</span></div>
+      <div class="stat-item"><strong>3+</strong><span>Tools Mastered</span></div>
+      <div class="stat-item"><strong>150<small style="font-size:1rem">/155</small></strong><span>Documentation Score</span></div>
+    </div>
+  </div>
+
+  <!-- CAROUSEL -->
+  <div class="carousel-section">
+    <h2>Featured <span>CAD Projects</span></h2>
+
+    <div class="carousel-wrapper">
+      <button class="carousel-arrow prev" onclick="carouselMove(-1)" aria-label="Previous">&#8592;</button>
+      <button class="carousel-arrow next" onclick="carouselMove(1)"  aria-label="Next">&#8594;</button>
+
+      <div class="carousel-track" id="carouselTrack">
+
+        <!-- Slide 1: Drone Challenge -->
+        <div class="carousel-slide">
+          <img src="pages/page-02.jpg" alt="Drone Challenge" />
+          <div class="carousel-overlay">
+            <h3>Drone Challenge</h3>
+            <p>Designed a custom drone to scale, modeled all components in Onshape, and earned 150/155 points on professional engineering drawings.</p>
+            <span class="tag" style="margin-right:0.5rem">Onshape</span>
+            <span class="tag" style="margin-right:0.5rem">3D Printing</span>
+            <span class="tag">Wiring Diagrams</span>
+          </div>
+        </div>
+
+        <!-- Slide 2: Universal Toy -->
+        <div class="carousel-slide">
+          <img src="pages/page-04.jpg" alt="Universal Toy Design" />
+          <div class="carousel-overlay">
+            <h3>Universal Toy Design Project</h3>
+            <p>A servo-actuated 3D punching action figure designed around Universal Design Principles, Arduino-controlled with iterative FDM prototyping.</p>
+            <span class="tag" style="margin-right:0.5rem">Onshape</span>
+            <span class="tag" style="margin-right:0.5rem">Arduino</span>
+            <span class="tag">Bambu Studio</span>
+          </div>
+        </div>
+
+        <!-- Slide 3: Satellite -->
+        <div class="carousel-slide">
+          <img src="pages/page-05.jpg" alt="Satellite Capstone Project" />
+          <div class="carousel-overlay">
+            <h3>Satellite Capstone Project</h3>
+            <p>Conceptual system that detects EM disturbances from solar activity and counteracts them via destructive interference — with a 360° multi-directional dish designed in Onshape.</p>
+            <span class="tag" style="margin-right:0.5rem">Onshape</span>
+            <span class="tag" style="margin-right:0.5rem">Research</span>
+            <span class="tag">Systems Design</span>
+          </div>
+        </div>
+
+        <!-- Slide 4: ICE Engine -->
+        <div class="carousel-slide">
+          <img src="pages/page-07.jpg" alt="Inline Four ICE Engine" />
+          <div class="carousel-overlay">
+            <h3>Inline Four Internal Combustion Engine</h3>
+            <p>Fully articulated SolidWorks assembly with synchronized crankshaft, overhead camshaft, articulated valvetrain, cooling fan, and oil pan simulating a four-stroke cycle.</p>
+            <span class="tag" style="margin-right:0.5rem">SolidWorks</span>
+            <span class="tag" style="margin-right:0.5rem">Assembly</span>
+            <span class="tag">Mechanical Mates</span>
+          </div>
+        </div>
+
+        <!-- Slide 5: Standing Desk -->
+        <div class="carousel-slide">
+          <img src="pages/page-08.jpg" alt="Standing Desk Design" />
+          <div class="carousel-overlay">
+            <h3>Standing Desk Design</h3>
+            <p>Multi-component SolidWorks furniture assembly with a worm/spur gear height-adjustment mechanism, modular storage, mobility system, and cable management.</p>
+            <span class="tag" style="margin-right:0.5rem">SolidWorks</span>
+            <span class="tag" style="margin-right:0.5rem">Gear Train</span>
+            <span class="tag">Furniture Design</span>
+          </div>
+        </div>
+
+      </div><!-- /track -->
+
+      <div class="carousel-dots" id="carouselDots"></div>
+    </div><!-- /wrapper -->
+
+    <div class="carousel-cta">
+      <a class="btn btn-primary" href="#" onclick="showTabByName('cad'); return false;">View All CAD Projects &rarr;</a>
     </div>
   </div>
 </div>
 
-<!-- ── PROJECT 1 ── -->
+<!-- ══════════════════════════════ PROJECT 1 ══════════════════════════════ -->
 <div id="project1" class="section">
   <div class="page-header">
     <h2>Project <span>One</span></h2>
@@ -506,54 +660,115 @@
   </div>
 </div>
 
-<!-- ── ADDITIONAL CAD PROJECTS ── -->
+<!-- ══════════════════════════════ CAD PROJECTS ══════════════════════════════ -->
 <div id="cad" class="section">
   <div class="page-header">
     <h2>Additional <span>CAD Projects</span></h2>
-    <p>A collection of additional designs, models, and CAD work.</p>
+    <p>A full collection of engineering designs, models, and CAD work across multiple tools and domains.</p>
   </div>
 
   <div class="card-grid">
-    <div class="card">
-      <div class="img-placeholder" style="aspect-ratio:4/3;">[ Model Image ]</div>
-      <h3>CAD Project A</h3>
-      <p>Brief description of this model or design. Tools used, purpose, and key features.</p>
-      <div class="tag-list" style="margin-top:1rem;">
-        <span class="tag">Fusion 360</span>
-        <span class="tag">3D Print</span>
+
+    <!-- Drone Challenge -->
+    <div class="cad-card">
+      <img src="pages/page-02.jpg" alt="Drone Challenge" />
+      <div class="cad-card-body">
+        <h3>Drone Challenge</h3>
+        <p>Designed a custom drone to scale in Onshape to visualize custom onboard components. Used rapid prototyping and iterative design — 3D printing with Bambu Studio and soldering for assembly. Created wiring diagrams to optimize power output and minimize electrical noise, mapped flight controller I/O, and produced professional orthographic engineering drawings. <strong style="color:var(--accent2)">Earned 150/155 on documentation.</strong></p>
+        <div class="tag-list">
+          <span class="tag">Onshape</span>
+          <span class="tag">3D Printing</span>
+          <span class="tag">Wiring Diagrams</span>
+          <span class="tag">Orthographic Drawings</span>
+        </div>
       </div>
     </div>
-    <div class="card">
-      <div class="img-placeholder" style="aspect-ratio:4/3;">[ Model Image ]</div>
-      <h3>CAD Project B</h3>
-      <p>Brief description of this model or design. Tools used, purpose, and key features.</p>
-      <div class="tag-list" style="margin-top:1rem;">
-        <span class="tag">SolidWorks</span>
-        <span class="tag">Assembly</span>
+
+    <!-- Universal Toy -->
+    <div class="cad-card">
+      <img src="pages/page-04.jpg" alt="Universal Toy Design" />
+      <div class="cad-card-body">
+        <h3>Universal Toy Design Project</h3>
+        <p>An in-class project highlighting Universal Design Principles and Manufacturing Process Principles. Designed a servo-actuated 3D punching action figure in Onshape within strict size constraints, housing all Arduino components. 3D printed using FDM (Bambu Studio) with iterative fit-checks to tolerance. Programmed Arduino servos and buttons in Java and documented full wiring diagrams.</p>
+        <div class="tag-list">
+          <span class="tag">Onshape</span>
+          <span class="tag">Arduino</span>
+          <span class="tag">Bambu Studio</span>
+          <span class="tag">FDM</span>
+        </div>
       </div>
     </div>
-    <div class="card">
-      <div class="img-placeholder" style="aspect-ratio:4/3;">[ Model Image ]</div>
-      <h3>CAD Project C</h3>
-      <p>Brief description of this model or design. Tools used, purpose, and key features.</p>
-      <div class="tag-list" style="margin-top:1rem;">
-        <span class="tag">AutoCAD</span>
-        <span class="tag">Drafting</span>
+
+    <!-- Satellite Capstone -->
+    <div class="cad-card">
+      <img src="pages/page-05.jpg" alt="Satellite Capstone" />
+      <div class="cad-card-body">
+        <h3>Satellite Capstone Project</h3>
+        <p>Conceptual system that detects electromagnetic disturbances from solar activity and actively counteracts them by generating opposing EM waves (destructive interference) to protect satellite communications. Designed a satellite-mounted multi-directional dish system in Onshape providing 360° coverage for real-time response. Also explores harnessing solar flare energy as a supplementary power source.</p>
+        <div class="tag-list">
+          <span class="tag">Onshape</span>
+          <span class="tag">Systems Design</span>
+          <span class="tag">Research</span>
+          <span class="tag">Conceptual Engineering</span>
+        </div>
       </div>
     </div>
-    <div class="card">
-      <div class="img-placeholder" style="aspect-ratio:4/3;">[ Model Image ]</div>
-      <h3>CAD Project D</h3>
-      <p>Brief description of this model or design. Tools used, purpose, and key features.</p>
-      <div class="tag-list" style="margin-top:1rem;">
-        <span class="tag">Simulation</span>
-        <span class="tag">FEA</span>
+
+    <!-- ICE Engine -->
+    <div class="cad-card">
+      <img src="pages/page-07.jpg" alt="Inline Four ICE Engine" />
+      <div class="cad-card-body">
+        <h3>Inline Four Internal Combustion Engine</h3>
+        <p>Fully articulated SolidWorks assembly demonstrating mechanical timing and complex motion. Features a synchronized 180° crankshaft and overhead camshaft (OHC) linked via a front-end timing drive, modeled cam lobes and rockers that actuate with piston travel, a cooling fan, deep-sump oil pan, and dipstick. Advanced mechanical mates simulate a realistic four-stroke cycle.</p>
+        <div class="tag-list">
+          <span class="tag">SolidWorks</span>
+          <span class="tag">Assembly</span>
+          <span class="tag">Mechanical Mates</span>
+          <span class="tag">Motion Study</span>
+        </div>
       </div>
     </div>
+
+    <!-- Standing Desk -->
+    <div class="cad-card">
+      <img src="pages/page-08.jpg" alt="Standing Desk Design" />
+      <div class="cad-card-body">
+        <h3>Standing Desk Design</h3>
+        <p>Multi-component SolidWorks furniture assembly with integrated mechanical adjustments. A worm gear and spur gear system (16DP, 24T) drives four internal shafts for precise vertical height adjustment. Includes a custom drawer assembly, headset holder, speaker mounts, a specialized wheel and casing for mobility, integrated wire management, and a multi-stage leg design for stability across the full range of motion.</p>
+        <div class="tag-list">
+          <span class="tag">SolidWorks</span>
+          <span class="tag">Gear Train</span>
+          <span class="tag">Furniture Design</span>
+          <span class="tag">Assembly</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Smaller Projects -->
+    <div class="cad-card">
+      <img src="pages/page-09.jpg" alt="Additional Smaller Projects" />
+      <div class="cad-card-body">
+        <h3>Additional Smaller Projects</h3>
+        <p>
+          <strong style="color:var(--text)">STILH Multi-Tool:</strong> Modular gardening device with dual shovel/rake, weed wacker, and robot lawn mower.<br><br>
+          <strong style="color:var(--text)">Radiation Detection System:</strong> Conceptual device to stop nuclear terrorism by detecting radioactive waves in shipping containers.<br><br>
+          <strong style="color:var(--text)">Desk Accessories:</strong> Fully 3D-modeled desk with custom phone &amp; AirPod holder and wire manager.<br><br>
+          <strong style="color:var(--text)">HESS Orthographic:</strong> 1:1 fully dimensioned HESS Truck drawing in AutoCAD.<br><br>
+          <strong style="color:var(--text)">Mouse Mobile:</strong> Fun project — a mouse-shaped, mouse car.
+        </p>
+        <div class="tag-list">
+          <span class="tag">AutoCAD</span>
+          <span class="tag">Onshape</span>
+          <span class="tag">3D Printing</span>
+          <span class="tag">Concept Design</span>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
-<!-- ── RESUME ── -->
+<!-- ══════════════════════════════ RESUME ══════════════════════════════ -->
 <div id="resume" class="section">
   <div class="page-header">
     <h2>My <span>Resume</span></h2>
@@ -600,20 +815,20 @@
   <div class="card-grid">
     <div class="card">
       <h3>CAD &amp; Design</h3>
-      <p>SolidWorks · Fusion 360 · AutoCAD · CATIA</p>
-    </div>
-    <div class="card">
-      <h3>Engineering Tools</h3>
-      <p>MATLAB · FEA · GD&amp;T · Technical Drawing</p>
+      <p>SolidWorks · Onshape · Fusion 360 · AutoCAD</p>
     </div>
     <div class="card">
       <h3>Fabrication</h3>
-      <p>3D Printing · Laser Cutting · Machining · Prototyping</p>
+      <p>FDM 3D Printing (Bambu Studio) · Soldering · Prototyping</p>
+    </div>
+    <div class="card">
+      <h3>Engineering &amp; Programming</h3>
+      <p>Arduino (Java) · Wiring Diagrams · Technical Drawings · GD&amp;T</p>
     </div>
   </div>
 </div>
 
-<!-- ── CONTACT ── -->
+<!-- ══════════════════════════════ CONTACT ══════════════════════════════ -->
 <div id="contact" class="section">
   <div class="page-header">
     <h2>Get in <span>Touch</span></h2>
@@ -628,13 +843,13 @@
         <span class="icon">✉</span>
         aksharpat06@gmail.com
       </a>
-      <a class="contact-link" href="#">
-        <span class="icon">in</span>
-        LinkedIn
+      <a class="contact-link" href="tel:+12017023944">
+        <span class="icon">☏</span>
+        +1 (201) 702-3944
       </a>
-      <a class="contact-link" href="#">
-        <span class="icon">⚙</span>
-        GitHub
+      <a class="contact-link" href="https://www.linkedin.com/in/aksharpat1" target="_blank" rel="noopener">
+        <span class="icon">in</span>
+        linkedin.com/in/aksharpat1
       </a>
     </div>
 
@@ -657,6 +872,7 @@
 </div>
 
 <script>
+  /* ── Tab switching ── */
   function showTab(id, link) {
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
     document.querySelectorAll('.nav-tabs a').forEach(a => a.classList.remove('active'));
@@ -670,6 +886,46 @@
       .find(a => a.getAttribute('onclick')?.includes(`'${id}'`));
     showTab(id, link);
   }
+
+  /* ── Carousel ── */
+  const TOTAL = 5;
+  let current = 0;
+
+  const track = document.getElementById('carouselTrack');
+  const dotsContainer = document.getElementById('carouselDots');
+
+  // Build dots
+  for (let i = 0; i < TOTAL; i++) {
+    const d = document.createElement('button');
+    d.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+    d.setAttribute('aria-label', 'Slide ' + (i + 1));
+    d.addEventListener('click', () => goTo(i));
+    dotsContainer.appendChild(d);
+  }
+
+  function goTo(n) {
+    current = (n + TOTAL) % TOTAL;
+    track.style.transform = `translateX(-${current * 100}%)`;
+    document.querySelectorAll('.carousel-dot').forEach((d, i) =>
+      d.classList.toggle('active', i === current));
+  }
+
+  function carouselMove(dir) { goTo(current + dir); }
+
+  // Auto-advance every 5 s
+  let autoTimer = setInterval(() => carouselMove(1), 5000);
+  document.querySelector('.carousel-wrapper').addEventListener('mouseenter', () => clearInterval(autoTimer));
+  document.querySelector('.carousel-wrapper').addEventListener('mouseleave', () => {
+    autoTimer = setInterval(() => carouselMove(1), 5000);
+  });
+
+  // Touch / swipe support
+  let touchStartX = 0;
+  track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  track.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 40) carouselMove(dx < 0 ? 1 : -1);
+  });
 </script>
 </body>
 </html>
