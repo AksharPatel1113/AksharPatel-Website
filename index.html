@@ -172,6 +172,92 @@
     .stat-item strong { display: block; font-size: 2rem; font-weight: 800; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .stat-item span { font-size: 0.85rem; color: var(--muted); }
 
+    /* ── ABOUT SECTION ── */
+    .about-block {
+      margin-top: 2.5rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 760px) { .about-block { grid-template-columns: 1fr; } }
+
+    .about-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.4rem 1.6rem;
+      transition: border-color 0.2s;
+    }
+    .about-card:hover { border-color: rgba(108,99,255,0.5); }
+
+    .about-card-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 0.55rem;
+    }
+
+    .about-card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .about-card p strong { color: var(--text); font-weight: 600; }
+
+    /* full-width highlight bar */
+    .about-highlight {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, rgba(108,99,255,0.1), rgba(0,212,255,0.06));
+      border: 1px solid rgba(108,99,255,0.25);
+      border-radius: var(--radius);
+      padding: 1.4rem 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .about-highlight-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .about-highlight p {
+      font-size: 0.92rem;
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    .about-highlight p em {
+      font-style: normal;
+      color: var(--accent2);
+      font-weight: 600;
+    }
+
+    /* role pills */
+    .role-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+    .role-pill {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.3rem 0.8rem;
+      border-radius: 999px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .role-pill.accent { border-color: var(--accent); color: var(--accent); }
+    .role-pill.accent2 { border-color: var(--accent2); color: var(--accent2); }
+
     /* ── CAROUSEL ── */
     .carousel-section { margin-top: 4rem; }
     .carousel-section h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 1.5rem; }
@@ -456,17 +542,59 @@
 <!-- ══════════════════════════════ HOME ══════════════════════════════ -->
 <div id="home" class="section active">
   <div class="hero">
-    <p class="hero-tag">Engineering Portfolio</p>
+    <p class="hero-tag">Systems Engineering · Thermal Design · Aerospace &amp; Defense</p>
     <h1>Hi, I'm <span>Akshar Patel</span></h1>
-    <p>Aspiring engineer with a passion for CAD, mechanical design, and building things that solve real problems. Welcome to my portfolio.</p>
+    <p>Sophomore engineering student operating at the level the industry says comes later — active inside real programs at Lockheed Martin, Space Ocean Corp, and Rutgers Formula SAE. Simultaneously.</p>
     <div class="hero-btns">
       <a class="btn btn-primary" href="#" onclick="showTabByName('cad'); return false;">View Projects</a>
       <a class="btn btn-outline" href="#" onclick="showTabByName('contact'); return false;">Get in Touch</a>
     </div>
-    <div class="stats">
-      <div class="stat-item"><strong>5+</strong><span>Projects Completed</span></div>
-      <div class="stat-item"><strong>3+</strong><span>Tools Mastered</span></div>
-      <div class="stat-item"><strong>150<small style="font-size:1rem">/155</small></strong><span>Documentation Score</span></div>
+
+    <!-- ABOUT CARDS -->
+    <div class="about-block">
+
+      <!-- Highlight bar: the three roles -->
+      <div class="about-highlight">
+        <span class="about-highlight-icon">⚡</span>
+        <p>Sophomore year: <em>on-site at Lockheed Martin RMS</em> as a Systems Engineering Apprentice Sr. with DoD Secret clearance, simultaneously designing a <em>6-node orbital thermal model in Python</em> for a commercial LEO spacecraft at Space Ocean Corp, and hand-laying <em>carbon fiber composite aero components</em> for Rutgers Formula SAE. Three concurrent engineering roles. Full academic load. That's where I learned what operating under real constraints actually means.</p>
+      </div>
+
+      <!-- Card: What I've done -->
+      <div class="about-card">
+        <p class="about-card-label">Real Program Experience</p>
+        <p>Not a shadowing program. Not a class project. Actual work on the <strong>Aegis Combat System</strong> — a DoD program where requirements aren't optional and margin is earned. I've presented <strong>PDRs, SDRs, SRRs</strong>, and other formal technical review documents in professional engineering environments.</p>
+      </div>
+
+      <!-- Card: What I'm looking for -->
+      <div class="about-card">
+        <p class="about-card-label">Where I Work Best</p>
+        <p>With teams building systems where <strong>failure isn't an option</strong> — defense platforms, spacecraft subsystems, high-performance vehicles. Teams that want someone who's already been inside a real program, not someone they need to orient for the first month.</p>
+        <div class="role-pills" style="margin-top:0.85rem;">
+          <span class="role-pill accent2">Thermal Design</span>
+          <span class="role-pill accent2">GNC</span>
+          <span class="role-pill accent2">Aerodynamics</span>
+          <span class="role-pill accent">Defense Systems</span>
+          <span class="role-pill accent">Spacecraft</span>
+        </div>
+      </div>
+
+      <!-- Card: What I bring -->
+      <div class="about-card">
+        <p class="about-card-label">What Modern Space &amp; Defense Teams Need</p>
+        <p>The best aerospace and defense companies — <strong>SpaceX, Northrop Grumman, L3Harris, Rocket Lab, Blue Origin, Anduril</strong> — aren't looking for someone who will grow into the role. They need engineers who've already operated under program pressure, understand system-level thinking, and can execute. I'm already doing exactly that.</p>
+      </div>
+
+      <!-- Card: Open to -->
+      <div class="about-card">
+        <p class="about-card-label">Open To</p>
+        <p>Summer 2027 internship and co-op opportunities in <strong>thermal design, GNC, and aerodynamics</strong>. If you're building something that has to work — in orbit, in the air, or in a mission-critical defense environment — let's talk.</p>
+        <div class="role-pills" style="margin-top:0.85rem;">
+          <span class="role-pill">Summer 2027</span>
+          <span class="role-pill">Internship</span>
+          <span class="role-pill">Co-op</span>
+        </div>
+      </div>
+
     </div>
   </div>
 
