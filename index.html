@@ -76,7 +76,7 @@
     .carousel-wrapper { position: relative; border-radius: var(--radius); overflow: hidden; background: var(--surface); border: 1px solid var(--border); user-select: none; }
     .carousel-track { display: flex; transition: transform 0.45s cubic-bezier(0.4,0,0.2,1); }
     .carousel-slide { min-width: 100%; position: relative; }
-    .carousel-slide img { width: 100%; height: 480px; object-fit: cover; object-position: center; display: block; background: #111; }
+    .carousel-slide img { width: 100%; height: 480px; object-fit: contain; display: block; }
     .carousel-overlay {
       position: absolute; bottom: 0; left: 0; right: 0; padding: 2rem 2rem 1.75rem;
       background: linear-gradient(to top, rgba(10,10,15,0.95) 0%, rgba(10,10,15,0.6) 60%, transparent 100%);
@@ -155,18 +155,18 @@
       object-position: center;
       display: block;
       cursor: zoom-in;
-      min-height: 280px;
-      max-height: 340px;
+      min-height: 300px;
+      max-height: 420px;
       padding: 1rem;
       background: #0d0d14;
       transition: opacity 0.2s;
     }
 
-    /* for dark-bg images like the satellite */
+    /* dark-bg images: no padding, still contain so nothing is cut */
     .proj-main-img.dark-bg {
-      object-fit: cover;
+      object-fit: contain;
       padding: 0;
-      max-height: 380px;
+      max-height: 420px;
     }
 
     .proj-thumbs {
@@ -333,7 +333,7 @@
       <div class="carousel-track" id="carouselTrack">
 
         <div class="carousel-slide">
-          <img src="images/img-000.jpg" alt="Drone Challenge" style="object-fit:contain; background:#fff;" />
+          <img src="images/img-000.jpg" alt="Drone Challenge" style="background:#fff;" />
           <div class="carousel-overlay">
             <h3>Drone Challenge</h3>
             <p>Designed to scale in Onshape, 3D printed, assembled with soldering — earned 150/155 on full orthographic documentation.</p>
@@ -342,7 +342,7 @@
         </div>
 
         <div class="carousel-slide">
-          <img src="images/img-013.jpg" alt="Universal Toy Design" style="object-fit:contain; background:#fff;" />
+          <img src="images/img-013.jpg" alt="Universal Toy Design" style="background:#fff;" />
           <div class="carousel-overlay">
             <h3>Universal Toy Design Project</h3>
             <p>Servo-actuated 3D punching action figure — Arduino-programmed, FDM printed, designed around Universal Design Principles.</p>
@@ -351,7 +351,7 @@
         </div>
 
         <div class="carousel-slide">
-          <img src="images/img-022.jpg" alt="Satellite Capstone Project" style="object-fit:cover;" />
+          <img src="images/img-022.jpg" alt="Satellite Capstone Project" style="background:#000;" />
           <div class="carousel-overlay">
             <h3>Satellite Capstone Project</h3>
             <p>Conceptual EM-disturbance countermeasure system with a 360° multi-directional dish designed in Onshape.</p>
@@ -360,7 +360,7 @@
         </div>
 
         <div class="carousel-slide">
-          <img src="images/img-024.jpg" alt="Inline Four ICE Engine" style="object-fit:contain; background:#e8ecf0;" />
+          <img src="images/img-024.jpg" alt="Inline Four ICE Engine" style="background:#e8ecf0;" />
           <div class="carousel-overlay">
             <h3>Inline Four Internal Combustion Engine</h3>
             <p>Fully articulated SolidWorks assembly — synchronized crankshaft, OHC valvetrain, cooling fan, and oil pan simulating a four-stroke cycle.</p>
@@ -369,7 +369,7 @@
         </div>
 
         <div class="carousel-slide">
-          <img src="pages/page-08.jpg" alt="Standing Desk Design" style="object-fit:cover; object-position:top;" />
+          <img src="pages/page-08.jpg" alt="Standing Desk Design" style="background:#1a1a2e;" />
           <div class="carousel-overlay">
             <h3>Standing Desk Design</h3>
             <p>Multi-component SolidWorks assembly with worm/spur gear height adjustment, modular storage, and integrated cable management.</p>
@@ -505,7 +505,7 @@
         <span class="img-count" id="cnt-engine">1 / 2</span>
         <img class="proj-main-img" id="main-engine"
           src="images/img-024.jpg" alt="ICE Engine"
-          style="background:#e8ecf0;"
+          style="background:#e8ecf0; object-fit:contain;"
           onclick="openLightbox(this.src)" />
         <div class="proj-thumbs">
           <img class="proj-thumb active" src="images/img-024.jpg" alt="Isometric view" onclick="swapImg('engine',0,this)" title="Isometric View" style="background:#e8ecf0;" />
