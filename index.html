@@ -20,495 +20,282 @@
     }
 
     html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-    }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
     /* ── NAV ── */
     nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(10,10,15,0.88);
-      backdrop-filter: blur(14px);
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10,10,15,0.88); backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      padding: 0 2rem;
-      height: 64px;
+      display: flex; align-items: center; padding: 0 2rem; height: 64px;
     }
-
     .nav-logo {
-      font-size: 1.2rem;
-      font-weight: 700;
+      font-size: 1.2rem; font-weight: 700; margin-right: auto; letter-spacing: 0.5px;
       background: linear-gradient(135deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-right: auto;
-      letter-spacing: 0.5px;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
-
-    .nav-tabs {
-      display: flex;
-      gap: 0.25rem;
-      list-style: none;
-    }
-
+    .nav-tabs { display: flex; gap: 0.25rem; list-style: none; }
     .nav-tabs li a {
-      display: block;
-      padding: 0.5rem 1rem;
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 500;
-      border-radius: 8px;
-      transition: color 0.2s, background 0.2s;
-      cursor: pointer;
+      display: block; padding: 0.5rem 1rem; color: var(--muted);
+      text-decoration: none; font-size: 0.9rem; font-weight: 500;
+      border-radius: 8px; transition: color 0.2s, background 0.2s; cursor: pointer;
     }
-
     .nav-tabs li a:hover { color: var(--text); background: var(--surface2); }
     .nav-tabs li a.active { color: var(--accent2); background: var(--surface2); }
 
     /* ── SECTIONS ── */
-    .section {
-      display: none;
-      min-height: calc(100vh - 64px);
-      padding: 4rem 2rem;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
+    .section { display: none; min-height: calc(100vh - 64px); padding: 4rem 2rem; max-width: 1100px; margin: 0 auto; }
     .section.active { display: block; }
 
     /* ── BUTTONS ── */
     .btn {
-      display: inline-block;
-      padding: 0.75rem 1.75rem;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      text-decoration: none;
-      cursor: pointer;
-      border: none;
-      transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
-      font-family: inherit;
+      display: inline-block; padding: 0.75rem 1.75rem; border-radius: 8px;
+      font-size: 0.95rem; font-weight: 600; text-decoration: none; cursor: pointer;
+      border: none; transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s; font-family: inherit;
     }
-
     .btn:hover { transform: translateY(-2px); opacity: 0.9; }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: #fff;
-      box-shadow: 0 4px 20px rgba(108,99,255,0.35);
-    }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--text);
-      border: 1.5px solid var(--border);
-    }
-
+    .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; box-shadow: 0 4px 20px rgba(108,99,255,0.35); }
+    .btn-outline { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
     .btn-outline:hover { border-color: var(--accent); }
 
     /* ── HOME HERO ── */
-    .hero {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 1.5rem;
-      padding-bottom: 3rem;
-    }
-
-    .hero-tag {
-      font-size: 0.85rem;
-      font-weight: 600;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--accent2);
-    }
-
-    .hero h1 {
-      font-size: clamp(2.5rem, 6vw, 4.5rem);
-      font-weight: 800;
-      line-height: 1.1;
-    }
-
-    .hero h1 span {
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero > p {
-      font-size: 1.15rem;
-      color: var(--muted);
-      max-width: 560px;
-      line-height: 1.7;
-    }
-
+    .hero { display: flex; flex-direction: column; justify-content: center; gap: 1.5rem; padding-bottom: 3rem; }
+    .hero-tag { font-size: 0.85rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--accent2); }
+    .hero h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800; line-height: 1.1; }
+    .hero h1 span { background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero > p { font-size: 1.15rem; color: var(--muted); max-width: 560px; line-height: 1.7; }
     .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
-
-    .stats {
-      display: flex;
-      gap: 2.5rem;
-      flex-wrap: wrap;
-      padding-top: 2rem;
-      border-top: 1px solid var(--border);
-    }
-
-    .stat-item strong {
-      display: block;
-      font-size: 2rem;
-      font-weight: 800;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
+    .stats { display: flex; gap: 2.5rem; flex-wrap: wrap; padding-top: 2rem; border-top: 1px solid var(--border); }
+    .stat-item strong { display: block; font-size: 2rem; font-weight: 800; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .stat-item span { font-size: 0.85rem; color: var(--muted); }
 
     /* ── CAROUSEL ── */
-    .carousel-section {
-      margin-top: 4rem;
-    }
-
-    .carousel-section h2 {
-      font-size: 1.4rem;
-      font-weight: 700;
-      margin-bottom: 1.5rem;
-      color: var(--text);
-    }
-
-    .carousel-section h2 span {
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .carousel-wrapper {
-      position: relative;
-      border-radius: var(--radius);
-      overflow: hidden;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      user-select: none;
-    }
-
-    .carousel-track {
-      display: flex;
-      transition: transform 0.45s cubic-bezier(0.4,0,0.2,1);
-    }
-
-    .carousel-slide {
-      min-width: 100%;
-      position: relative;
-    }
-
-    .carousel-slide img {
-      width: 100%;
-      height: 480px;
-      object-fit: cover;
-      object-position: top center;
-      display: block;
-    }
-
+    .carousel-section { margin-top: 4rem; }
+    .carousel-section h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 1.5rem; }
+    .carousel-section h2 span { background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .carousel-wrapper { position: relative; border-radius: var(--radius); overflow: hidden; background: var(--surface); border: 1px solid var(--border); user-select: none; }
+    .carousel-track { display: flex; transition: transform 0.45s cubic-bezier(0.4,0,0.2,1); }
+    .carousel-slide { min-width: 100%; position: relative; }
+    .carousel-slide img { width: 100%; height: 480px; object-fit: cover; object-position: center; display: block; background: #111; }
     .carousel-overlay {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 2rem 2rem 1.75rem;
+      position: absolute; bottom: 0; left: 0; right: 0; padding: 2rem 2rem 1.75rem;
       background: linear-gradient(to top, rgba(10,10,15,0.95) 0%, rgba(10,10,15,0.6) 60%, transparent 100%);
     }
-
-    .carousel-overlay h3 {
-      font-size: 1.4rem;
-      font-weight: 700;
-      margin-bottom: 0.4rem;
-    }
-
-    .carousel-overlay p {
-      font-size: 0.9rem;
-      color: rgba(232,232,240,0.75);
-      line-height: 1.5;
-      max-width: 620px;
-      margin-bottom: 1rem;
-    }
-
-    /* arrows */
+    .carousel-overlay h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .carousel-overlay p { font-size: 0.9rem; color: rgba(232,232,240,0.75); line-height: 1.5; max-width: 620px; margin-bottom: 1rem; }
     .carousel-arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 44px;
-      height: 44px;
-      background: rgba(10,10,15,0.7);
-      border: 1px solid var(--border);
-      border-radius: 50%;
-      color: var(--text);
-      font-size: 1.2rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      z-index: 10;
-      transition: background 0.2s, border-color 0.2s;
-      backdrop-filter: blur(6px);
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 44px; height: 44px; background: rgba(10,10,15,0.7); border: 1px solid var(--border);
+      border-radius: 50%; color: var(--text); font-size: 1.2rem;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; z-index: 10; transition: background 0.2s, border-color 0.2s; backdrop-filter: blur(6px);
     }
-
     .carousel-arrow:hover { background: var(--accent); border-color: var(--accent); }
     .carousel-arrow.prev { left: 1rem; }
     .carousel-arrow.next { right: 1rem; }
-
-    /* dots */
-    .carousel-dots {
-      display: flex;
-      justify-content: center;
-      gap: 0.5rem;
-      padding: 1rem 0 0.75rem;
-    }
-
-    .carousel-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--border);
-      cursor: pointer;
-      transition: background 0.2s, transform 0.2s;
-      border: none;
-    }
-
-    .carousel-dot.active {
-      background: var(--accent2);
-      transform: scale(1.3);
-    }
-
-    .carousel-cta {
-      text-align: center;
-      margin-top: 1.5rem;
-    }
+    .carousel-dots { display: flex; justify-content: center; gap: 0.5rem; padding: 1rem 0 0.75rem; }
+    .carousel-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); cursor: pointer; transition: background 0.2s, transform 0.2s; border: none; }
+    .carousel-dot.active { background: var(--accent2); transform: scale(1.3); }
+    .carousel-cta { text-align: center; margin-top: 1.5rem; }
 
     /* ── PAGE HEADER ── */
     .page-header { margin-bottom: 3rem; }
-
-    .page-header h2 {
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
-      font-weight: 800;
-      margin-bottom: 0.5rem;
-    }
-
-    .page-header h2 span {
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
+    .page-header h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; margin-bottom: 0.5rem; }
+    .page-header h2 span { background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .page-header p { color: var(--muted); font-size: 1rem; max-width: 600px; line-height: 1.6; }
 
-    /* ── CARDS ── */
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 2rem;
-      transition: border-color 0.2s, transform 0.2s;
-    }
-
+    /* ── CARDS (resume/project1) ── */
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; transition: border-color 0.2s, transform 0.2s; }
     .card:hover { border-color: var(--accent); transform: translateY(-3px); }
-
     .card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.75rem; }
     .card p { color: var(--muted); font-size: 0.95rem; line-height: 1.6; }
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
 
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.5rem;
-    }
-
-    /* ── CAD PROJECT CARDS ── */
-    .cad-card {
+    /* ── PROJECT ENTRY (CAD section) ── */
+    .proj-entry {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       overflow: hidden;
-      transition: border-color 0.2s, transform 0.2s;
+      margin-bottom: 2.5rem;
+      transition: border-color 0.2s;
+    }
+    .proj-entry:hover { border-color: rgba(108,99,255,0.4); }
+
+    .proj-layout {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      min-height: 380px;
     }
 
-    .cad-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+    /* flip layout for alternating entries */
+    .proj-entry.flip .proj-layout {
+      grid-template-columns: 380px 1fr;
+    }
+    .proj-entry.flip .proj-viewer { order: 1; }
+    .proj-entry.flip .proj-info   { order: 2; }
 
-    .cad-card img {
+    /* viewer */
+    .proj-viewer {
+      position: relative;
+      background: #0d0d14;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+    }
+    .proj-entry.flip .proj-viewer {
+      border-right: none;
+      border-left: 1px solid var(--border);
+    }
+
+    .proj-main-img {
       width: 100%;
-      height: 220px;
-      object-fit: cover;
-      object-position: top center;
+      flex: 1;
+      object-fit: contain;
+      object-position: center;
       display: block;
-      border-bottom: 1px solid var(--border);
+      cursor: zoom-in;
+      min-height: 280px;
+      max-height: 340px;
+      padding: 1rem;
+      background: #0d0d14;
+      transition: opacity 0.2s;
     }
 
-    .cad-card-body { padding: 1.5rem; }
+    /* for dark-bg images like the satellite */
+    .proj-main-img.dark-bg {
+      object-fit: cover;
+      padding: 0;
+      max-height: 380px;
+    }
 
-    .cad-card-body h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.6rem; }
-    .cad-card-body p { color: var(--muted); font-size: 0.88rem; line-height: 1.6; margin-bottom: 1rem; }
+    .proj-thumbs {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.75rem;
+      border-top: 1px solid var(--border);
+      overflow-x: auto;
+      background: var(--surface2);
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+
+    .proj-thumb {
+      width: 72px;
+      height: 52px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: opacity 0.15s, border-color 0.15s, transform 0.15s;
+      flex-shrink: 0;
+      background: #111;
+    }
+    .proj-thumb:hover { opacity: 0.9; transform: scale(1.06); }
+    .proj-thumb.active { border-color: var(--accent2); opacity: 1; }
+
+    /* count badge */
+    .img-count {
+      position: absolute; top: 0.6rem; right: 0.6rem;
+      background: rgba(10,10,15,0.75); backdrop-filter: blur(4px);
+      color: var(--muted); font-size: 0.72rem; font-weight: 600;
+      padding: 0.2rem 0.5rem; border-radius: 999px; border: 1px solid var(--border);
+      pointer-events: none;
+    }
+
+    /* info panel */
+    .proj-info {
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .proj-number {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--accent);
+    }
+
+    .proj-info h3 { font-size: 1.25rem; font-weight: 800; line-height: 1.25; }
+
+    .proj-info p { color: var(--muted); font-size: 0.88rem; line-height: 1.7; }
 
     .tag-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-
     .tag {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      color: var(--accent2);
-      font-size: 0.75rem;
-      font-weight: 600;
-      padding: 0.25rem 0.65rem;
-      border-radius: 999px;
+      background: var(--surface2); border: 1px solid var(--border);
+      color: var(--accent2); font-size: 0.75rem; font-weight: 600;
+      padding: 0.25rem 0.65rem; border-radius: 999px;
+    }
+
+    /* lightbox */
+    .lightbox {
+      display: none; position: fixed; inset: 0; z-index: 999;
+      background: rgba(0,0,0,0.92); align-items: center; justify-content: center;
+      cursor: zoom-out;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img { max-width: 90vw; max-height: 90vh; object-fit: contain; border-radius: 8px; }
+    .lightbox-close {
+      position: absolute; top: 1.5rem; right: 1.5rem;
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--text); width: 40px; height: 40px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 1.1rem;
     }
 
     /* ── PROJECT 1 ── */
-    .project-hero {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 2.5rem;
-      margin-bottom: 2rem;
-    }
-
+    .project-hero { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 2.5rem; margin-bottom: 2rem; }
     .project-hero h3 { font-size: 1.6rem; font-weight: 700; margin-bottom: 1rem; }
     .project-hero p { color: var(--muted); line-height: 1.7; margin-bottom: 1.5rem; }
-
-    .img-placeholder {
-      width: 100%;
-      aspect-ratio: 16/9;
-      background: var(--surface2);
-      border: 1px dashed var(--border);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--muted);
-      font-size: 0.9rem;
-      margin-bottom: 1.5rem;
-    }
+    .img-placeholder { width: 100%; aspect-ratio: 16/9; background: var(--surface2); border: 1px dashed var(--border); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
 
     /* ── RESUME ── */
     .timeline { display: flex; flex-direction: column; gap: 1.5rem; }
-
-    .timeline-item {
-      display: grid;
-      grid-template-columns: 140px 1fr;
-      gap: 1.5rem;
-      align-items: start;
-    }
-
-    .timeline-date {
-      font-size: 0.82rem;
-      color: var(--muted);
-      font-weight: 600;
-      padding-top: 0.2rem;
-      text-align: right;
-    }
-
-    .timeline-body {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.25rem 1.5rem;
-    }
-
+    .timeline-item { display: grid; grid-template-columns: 140px 1fr; gap: 1.5rem; align-items: start; }
+    .timeline-date { font-size: 0.82rem; color: var(--muted); font-weight: 600; padding-top: 0.2rem; text-align: right; }
+    .timeline-body { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.5rem; }
     .timeline-body h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.2rem; }
     .timeline-body .org { font-size: 0.85rem; color: var(--accent2); margin-bottom: 0.6rem; }
     .timeline-body p { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
-
-    .section-label {
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin: 2.5rem 0 1rem;
-    }
+    .section-label { font-size: 0.78rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin: 2.5rem 0 1rem; }
 
     /* ── CONTACT ── */
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      align-items: start;
-    }
-
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
     .contact-info h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.75rem; }
     .contact-info p { color: var(--muted); line-height: 1.7; margin-bottom: 1.5rem; }
-
-    .contact-link {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      color: var(--text);
-      text-decoration: none;
-      padding: 0.75rem 1rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      margin-bottom: 0.75rem;
-      font-size: 0.9rem;
-      transition: border-color 0.2s;
-    }
-
+    .contact-link { display: flex; align-items: center; gap: 0.75rem; color: var(--text); text-decoration: none; padding: 0.75rem 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 0.75rem; font-size: 0.9rem; transition: border-color 0.2s; }
     .contact-link:hover { border-color: var(--accent); }
-
-    .contact-link .icon {
-      width: 36px;
-      height: 36px;
-      background: var(--surface2);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-    }
-
+    .contact-link .icon { width: 36px; height: 36px; background: var(--surface2); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
     form { display: flex; flex-direction: column; gap: 1rem; }
-
-    form label {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--muted);
-      margin-bottom: 0.25rem;
-      display: block;
-    }
-
-    form input, form textarea {
-      width: 100%;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      color: var(--text);
-      font-size: 0.95rem;
-      padding: 0.75rem 1rem;
-      font-family: inherit;
-      transition: border-color 0.2s;
-      resize: vertical;
-    }
-
+    form label { font-size: 0.85rem; font-weight: 600; color: var(--muted); margin-bottom: 0.25rem; display: block; }
+    form input, form textarea { width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 0.95rem; padding: 0.75rem 1rem; font-family: inherit; transition: border-color 0.2s; resize: vertical; }
     form input:focus, form textarea:focus { outline: none; border-color: var(--accent); }
     form textarea { min-height: 120px; }
 
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .proj-layout, .proj-entry.flip .proj-layout { grid-template-columns: 1fr; }
+      .proj-entry.flip .proj-viewer { order: 0; border-left: none; border-bottom: 1px solid var(--border); }
+      .proj-viewer { border-right: none; border-bottom: 1px solid var(--border); }
+      .proj-main-img { max-height: 240px; }
+      .carousel-slide img { height: 260px; }
+    }
     @media (max-width: 640px) {
       .contact-grid { grid-template-columns: 1fr; }
       .timeline-item { grid-template-columns: 1fr; }
       .timeline-date { text-align: left; }
-      .carousel-slide img { height: 260px; }
     }
   </style>
 </head>
 <body>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="" />
+</div>
 
 <nav>
   <div class="nav-logo">Akshar Patel</div>
@@ -526,10 +313,7 @@
   <div class="hero">
     <p class="hero-tag">Engineering Portfolio</p>
     <h1>Hi, I'm <span>Akshar Patel</span></h1>
-    <p>
-      Aspiring engineer with a passion for CAD, mechanical design, and building things that solve real problems.
-      Welcome to my portfolio.
-    </p>
+    <p>Aspiring engineer with a passion for CAD, mechanical design, and building things that solve real problems. Welcome to my portfolio.</p>
     <div class="hero-btns">
       <a class="btn btn-primary" href="#" onclick="showTabByName('cad'); return false;">View Projects</a>
       <a class="btn btn-outline" href="#" onclick="showTabByName('contact'); return false;">Get in Touch</a>
@@ -541,81 +325,61 @@
     </div>
   </div>
 
-  <!-- CAROUSEL -->
   <div class="carousel-section">
     <h2>Featured <span>CAD Projects</span></h2>
-
     <div class="carousel-wrapper">
       <button class="carousel-arrow prev" onclick="carouselMove(-1)" aria-label="Previous">&#8592;</button>
       <button class="carousel-arrow next" onclick="carouselMove(1)"  aria-label="Next">&#8594;</button>
-
       <div class="carousel-track" id="carouselTrack">
 
-        <!-- Slide 1: Drone Challenge -->
         <div class="carousel-slide">
-          <img src="pages/page-02.jpg" alt="Drone Challenge" />
+          <img src="images/img-000.jpg" alt="Drone Challenge" style="object-fit:contain; background:#fff;" />
           <div class="carousel-overlay">
             <h3>Drone Challenge</h3>
-            <p>Designed a custom drone to scale, modeled all components in Onshape, and earned 150/155 points on professional engineering drawings.</p>
-            <span class="tag" style="margin-right:0.5rem">Onshape</span>
-            <span class="tag" style="margin-right:0.5rem">3D Printing</span>
-            <span class="tag">Wiring Diagrams</span>
+            <p>Designed to scale in Onshape, 3D printed, assembled with soldering — earned 150/155 on full orthographic documentation.</p>
+            <span class="tag" style="margin-right:0.5rem">Onshape</span><span class="tag" style="margin-right:0.5rem">3D Printing</span><span class="tag">Wiring Diagrams</span>
           </div>
         </div>
 
-        <!-- Slide 2: Universal Toy -->
         <div class="carousel-slide">
-          <img src="pages/page-04.jpg" alt="Universal Toy Design" />
+          <img src="images/img-013.jpg" alt="Universal Toy Design" style="object-fit:contain; background:#fff;" />
           <div class="carousel-overlay">
             <h3>Universal Toy Design Project</h3>
-            <p>A servo-actuated 3D punching action figure designed around Universal Design Principles, Arduino-controlled with iterative FDM prototyping.</p>
-            <span class="tag" style="margin-right:0.5rem">Onshape</span>
-            <span class="tag" style="margin-right:0.5rem">Arduino</span>
-            <span class="tag">Bambu Studio</span>
+            <p>Servo-actuated 3D punching action figure — Arduino-programmed, FDM printed, designed around Universal Design Principles.</p>
+            <span class="tag" style="margin-right:0.5rem">Onshape</span><span class="tag" style="margin-right:0.5rem">Arduino</span><span class="tag">Bambu Studio</span>
           </div>
         </div>
 
-        <!-- Slide 3: Satellite -->
         <div class="carousel-slide">
-          <img src="pages/page-05.jpg" alt="Satellite Capstone Project" />
+          <img src="images/img-022.jpg" alt="Satellite Capstone Project" style="object-fit:cover;" />
           <div class="carousel-overlay">
             <h3>Satellite Capstone Project</h3>
-            <p>Conceptual system that detects EM disturbances from solar activity and counteracts them via destructive interference — with a 360° multi-directional dish designed in Onshape.</p>
-            <span class="tag" style="margin-right:0.5rem">Onshape</span>
-            <span class="tag" style="margin-right:0.5rem">Research</span>
-            <span class="tag">Systems Design</span>
+            <p>Conceptual EM-disturbance countermeasure system with a 360° multi-directional dish designed in Onshape.</p>
+            <span class="tag" style="margin-right:0.5rem">Onshape</span><span class="tag" style="margin-right:0.5rem">Research</span><span class="tag">Systems Design</span>
           </div>
         </div>
 
-        <!-- Slide 4: ICE Engine -->
         <div class="carousel-slide">
-          <img src="pages/page-07.jpg" alt="Inline Four ICE Engine" />
+          <img src="images/img-024.jpg" alt="Inline Four ICE Engine" style="object-fit:contain; background:#e8ecf0;" />
           <div class="carousel-overlay">
             <h3>Inline Four Internal Combustion Engine</h3>
-            <p>Fully articulated SolidWorks assembly with synchronized crankshaft, overhead camshaft, articulated valvetrain, cooling fan, and oil pan simulating a four-stroke cycle.</p>
-            <span class="tag" style="margin-right:0.5rem">SolidWorks</span>
-            <span class="tag" style="margin-right:0.5rem">Assembly</span>
-            <span class="tag">Mechanical Mates</span>
+            <p>Fully articulated SolidWorks assembly — synchronized crankshaft, OHC valvetrain, cooling fan, and oil pan simulating a four-stroke cycle.</p>
+            <span class="tag" style="margin-right:0.5rem">SolidWorks</span><span class="tag" style="margin-right:0.5rem">Assembly</span><span class="tag">Motion Study</span>
           </div>
         </div>
 
-        <!-- Slide 5: Standing Desk -->
         <div class="carousel-slide">
-          <img src="pages/page-08.jpg" alt="Standing Desk Design" />
+          <img src="pages/page-08.jpg" alt="Standing Desk Design" style="object-fit:cover; object-position:top;" />
           <div class="carousel-overlay">
             <h3>Standing Desk Design</h3>
-            <p>Multi-component SolidWorks furniture assembly with a worm/spur gear height-adjustment mechanism, modular storage, mobility system, and cable management.</p>
-            <span class="tag" style="margin-right:0.5rem">SolidWorks</span>
-            <span class="tag" style="margin-right:0.5rem">Gear Train</span>
-            <span class="tag">Furniture Design</span>
+            <p>Multi-component SolidWorks assembly with worm/spur gear height adjustment, modular storage, and integrated cable management.</p>
+            <span class="tag" style="margin-right:0.5rem">SolidWorks</span><span class="tag" style="margin-right:0.5rem">Gear Train</span><span class="tag">Furniture Design</span>
           </div>
         </div>
 
-      </div><!-- /track -->
-
+      </div>
       <div class="carousel-dots" id="carouselDots"></div>
-    </div><!-- /wrapper -->
-
+    </div>
     <div class="carousel-cta">
       <a class="btn btn-primary" href="#" onclick="showTabByName('cad'); return false;">View All CAD Projects &rarr;</a>
     </div>
@@ -628,35 +392,16 @@
     <h2>Project <span>One</span></h2>
     <p>A detailed look at my featured engineering project.</p>
   </div>
-
   <div class="project-hero">
     <div class="img-placeholder">[ Project Image / Render ]</div>
     <h3>Project Title Goes Here</h3>
-    <p>
-      Describe what this project is, what problem it solves, and what makes it interesting.
-      You can talk about the design process, materials used, and any challenges overcome.
-    </p>
-    <div class="tag-list">
-      <span class="tag">CAD</span>
-      <span class="tag">SolidWorks</span>
-      <span class="tag">Fabrication</span>
-      <span class="tag">Design</span>
-    </div>
+    <p>Describe what this project is, what problem it solves, and what makes it interesting.</p>
+    <div class="tag-list"><span class="tag">CAD</span><span class="tag">SolidWorks</span><span class="tag">Fabrication</span></div>
   </div>
-
   <div class="card-grid">
-    <div class="card">
-      <h3>Problem Statement</h3>
-      <p>Describe the challenge or need that motivated this project.</p>
-    </div>
-    <div class="card">
-      <h3>Design Process</h3>
-      <p>Walk through how you approached ideation, iteration, and refinement.</p>
-    </div>
-    <div class="card">
-      <h3>Results &amp; Outcome</h3>
-      <p>What was achieved? Any measurements, testing results, or demonstrations.</p>
-    </div>
+    <div class="card"><h3>Problem Statement</h3><p>Describe the challenge or need that motivated this project.</p></div>
+    <div class="card"><h3>Design Process</h3><p>Walk through ideation, iteration, and refinement.</p></div>
+    <div class="card"><h3>Results &amp; Outcome</h3><p>What was achieved? Testing results or demonstrations.</p></div>
   </div>
 </div>
 
@@ -664,108 +409,176 @@
 <div id="cad" class="section">
   <div class="page-header">
     <h2>Additional <span>CAD Projects</span></h2>
-    <p>A full collection of engineering designs, models, and CAD work across multiple tools and domains.</p>
+    <p>Click any thumbnail to swap the main view. Click the main image to open full-screen.</p>
   </div>
 
-  <div class="card-grid">
-
-    <!-- Drone Challenge -->
-    <div class="cad-card">
-      <img src="pages/page-02.jpg" alt="Drone Challenge" />
-      <div class="cad-card-body">
+  <!-- ── 1. DRONE ── -->
+  <div class="proj-entry" id="pe-drone">
+    <div class="proj-layout">
+      <div class="proj-viewer">
+        <span class="img-count" id="cnt-drone">1 / 6</span>
+        <img class="proj-main-img" id="main-drone"
+          src="images/img-000.jpg" alt="Drone"
+          onclick="openLightbox(this.src)" />
+        <div class="proj-thumbs">
+          <img class="proj-thumb active" src="images/img-000.jpg" alt="Iteration 2 render" onclick="swapImg('drone',0,this)" title="Iteration 2 — Full Assembly" />
+          <img class="proj-thumb"        src="images/img-002.jpg" alt="Iteration 1 render" onclick="swapImg('drone',1,this)" title="Iteration 1 — Race Frame" />
+          <img class="proj-thumb"        src="images/img-007.jpg" alt="Wiring overview"    onclick="swapImg('drone',2,this)" title="Wiring Overview Diagram" />
+          <img class="proj-thumb"        src="images/img-010.jpg" alt="FC to ESC"          onclick="swapImg('drone',3,this)" title="Flight Controller → ESC" />
+          <img class="proj-thumb"        src="images/img-006.jpg" alt="FC to GPS"          onclick="swapImg('drone',4,this)" title="Flight Controller → GPS" />
+          <img class="proj-thumb"        src="images/img-008.jpg" alt="Orthographic"       onclick="swapImg('drone',5,this)" title="Orthographic Drawings" />
+        </div>
+      </div>
+      <div class="proj-info">
+        <p class="proj-number">Project 01</p>
         <h3>Drone Challenge</h3>
-        <p>Designed a custom drone to scale in Onshape to visualize custom onboard components. Used rapid prototyping and iterative design — 3D printing with Bambu Studio and soldering for assembly. Created wiring diagrams to optimize power output and minimize electrical noise, mapped flight controller I/O, and produced professional orthographic engineering drawings. <strong style="color:var(--accent2)">Earned 150/155 on documentation.</strong></p>
+        <p>Designed a custom drone to scale in Onshape to visualize custom onboard components. Underwent rapid prototyping across two iterations — 3D printing with Bambu Studio and soldering for full assembly.</p>
+        <p>Designed wiring diagrams to optimize power output and minimize electrical noise. Mapped flight controller I/O to onboard components accounting for voltage requirements, signal types, and grounding. Produced professional orthographic engineering drawings for all parts.</p>
+        <p style="color:var(--accent2); font-weight:700; font-size:0.88rem;">Earned 150 / 155 on documentation paperwork.</p>
         <div class="tag-list">
-          <span class="tag">Onshape</span>
-          <span class="tag">3D Printing</span>
-          <span class="tag">Wiring Diagrams</span>
+          <span class="tag">Onshape</span><span class="tag">3D Printing</span>
+          <span class="tag">Wiring Diagrams</span><span class="tag">Soldering</span>
           <span class="tag">Orthographic Drawings</span>
         </div>
       </div>
     </div>
-
-    <!-- Universal Toy -->
-    <div class="cad-card">
-      <img src="pages/page-04.jpg" alt="Universal Toy Design" />
-      <div class="cad-card-body">
-        <h3>Universal Toy Design Project</h3>
-        <p>An in-class project highlighting Universal Design Principles and Manufacturing Process Principles. Designed a servo-actuated 3D punching action figure in Onshape within strict size constraints, housing all Arduino components. 3D printed using FDM (Bambu Studio) with iterative fit-checks to tolerance. Programmed Arduino servos and buttons in Java and documented full wiring diagrams.</p>
-        <div class="tag-list">
-          <span class="tag">Onshape</span>
-          <span class="tag">Arduino</span>
-          <span class="tag">Bambu Studio</span>
-          <span class="tag">FDM</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Satellite Capstone -->
-    <div class="cad-card">
-      <img src="pages/page-05.jpg" alt="Satellite Capstone" />
-      <div class="cad-card-body">
-        <h3>Satellite Capstone Project</h3>
-        <p>Conceptual system that detects electromagnetic disturbances from solar activity and actively counteracts them by generating opposing EM waves (destructive interference) to protect satellite communications. Designed a satellite-mounted multi-directional dish system in Onshape providing 360° coverage for real-time response. Also explores harnessing solar flare energy as a supplementary power source.</p>
-        <div class="tag-list">
-          <span class="tag">Onshape</span>
-          <span class="tag">Systems Design</span>
-          <span class="tag">Research</span>
-          <span class="tag">Conceptual Engineering</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- ICE Engine -->
-    <div class="cad-card">
-      <img src="pages/page-07.jpg" alt="Inline Four ICE Engine" />
-      <div class="cad-card-body">
-        <h3>Inline Four Internal Combustion Engine</h3>
-        <p>Fully articulated SolidWorks assembly demonstrating mechanical timing and complex motion. Features a synchronized 180° crankshaft and overhead camshaft (OHC) linked via a front-end timing drive, modeled cam lobes and rockers that actuate with piston travel, a cooling fan, deep-sump oil pan, and dipstick. Advanced mechanical mates simulate a realistic four-stroke cycle.</p>
-        <div class="tag-list">
-          <span class="tag">SolidWorks</span>
-          <span class="tag">Assembly</span>
-          <span class="tag">Mechanical Mates</span>
-          <span class="tag">Motion Study</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Standing Desk -->
-    <div class="cad-card">
-      <img src="pages/page-08.jpg" alt="Standing Desk Design" />
-      <div class="cad-card-body">
-        <h3>Standing Desk Design</h3>
-        <p>Multi-component SolidWorks furniture assembly with integrated mechanical adjustments. A worm gear and spur gear system (16DP, 24T) drives four internal shafts for precise vertical height adjustment. Includes a custom drawer assembly, headset holder, speaker mounts, a specialized wheel and casing for mobility, integrated wire management, and a multi-stage leg design for stability across the full range of motion.</p>
-        <div class="tag-list">
-          <span class="tag">SolidWorks</span>
-          <span class="tag">Gear Train</span>
-          <span class="tag">Furniture Design</span>
-          <span class="tag">Assembly</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Smaller Projects -->
-    <div class="cad-card">
-      <img src="pages/page-09.jpg" alt="Additional Smaller Projects" />
-      <div class="cad-card-body">
-        <h3>Additional Smaller Projects</h3>
-        <p>
-          <strong style="color:var(--text)">STILH Multi-Tool:</strong> Modular gardening device with dual shovel/rake, weed wacker, and robot lawn mower.<br><br>
-          <strong style="color:var(--text)">Radiation Detection System:</strong> Conceptual device to stop nuclear terrorism by detecting radioactive waves in shipping containers.<br><br>
-          <strong style="color:var(--text)">Desk Accessories:</strong> Fully 3D-modeled desk with custom phone &amp; AirPod holder and wire manager.<br><br>
-          <strong style="color:var(--text)">HESS Orthographic:</strong> 1:1 fully dimensioned HESS Truck drawing in AutoCAD.<br><br>
-          <strong style="color:var(--text)">Mouse Mobile:</strong> Fun project — a mouse-shaped, mouse car.
-        </p>
-        <div class="tag-list">
-          <span class="tag">AutoCAD</span>
-          <span class="tag">Onshape</span>
-          <span class="tag">3D Printing</span>
-          <span class="tag">Concept Design</span>
-        </div>
-      </div>
-    </div>
-
   </div>
+
+  <!-- ── 2. UNIVERSAL TOY ── -->
+  <div class="proj-entry flip" id="pe-toy">
+    <div class="proj-layout">
+      <div class="proj-viewer">
+        <span class="img-count" id="cnt-toy">1 / 4</span>
+        <img class="proj-main-img" id="main-toy"
+          src="images/img-013.jpg" alt="Universal Toy"
+          onclick="openLightbox(this.src)" />
+        <div class="proj-thumbs">
+          <img class="proj-thumb active" src="images/img-013.jpg" alt="Full render"      onclick="swapImg('toy',0,this)" title="Full Assembly Render" />
+          <img class="proj-thumb"        src="images/img-012.jpg" alt="Exploded view"    onclick="swapImg('toy',1,this)" title="Exploded Component View" />
+          <img class="proj-thumb"        src="images/img-014.jpg" alt="Arduino code"     onclick="swapImg('toy',2,this)" title="Arduino Code Description" />
+          <img class="proj-thumb"        src="images/img-015.jpg" alt="Circuit diagram"  onclick="swapImg('toy',3,this)" title="Group Project Wiring Diagram" />
+        </div>
+      </div>
+      <div class="proj-info">
+        <p class="proj-number">Project 02</p>
+        <h3>Universal Toy Design Project</h3>
+        <p>An in-class project applying Universal Design Principles and Manufacturing Process Principles. The concept: a servo-actuated 3D punching action figure.</p>
+        <p>Modeled in Onshape within strict size constraints to house all Arduino components. FDM printed using Bambu Studio with iterative fit-checks to tolerance. Programmed servos and buttons in Java with full wiring documentation.</p>
+        <div class="tag-list">
+          <span class="tag">Onshape</span><span class="tag">Arduino</span>
+          <span class="tag">Bambu Studio</span><span class="tag">FDM</span>
+          <span class="tag">Java</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 3. SATELLITE ── -->
+  <div class="proj-entry" id="pe-sat">
+    <div class="proj-layout">
+      <div class="proj-viewer">
+        <span class="img-count" id="cnt-sat">1 / 1</span>
+        <img class="proj-main-img dark-bg" id="main-sat"
+          src="images/img-022.jpg" alt="Satellite"
+          onclick="openLightbox(this.src)" />
+        <div class="proj-thumbs">
+          <img class="proj-thumb active" src="images/img-022.jpg" alt="Satellite render" onclick="swapImg('sat',0,this)" title="CAD Render" />
+        </div>
+      </div>
+      <div class="proj-info">
+        <p class="proj-number">Project 03</p>
+        <h3>Satellite Capstone Project</h3>
+        <p>Conceptual system designed to detect electromagnetic disturbances from solar activity and actively counteract them using destructive interference — generating opposing EM waves to protect satellite communications.</p>
+        <p>A customizable satellite-mounted design was built in Onshape featuring a multi-directional dish system providing 360° coverage for real-time response to varying solar wave frequencies. The concept also explores harvesting solar flare energy as a supplementary power source.</p>
+        <div class="tag-list">
+          <span class="tag">Onshape</span><span class="tag">Systems Design</span>
+          <span class="tag">Research</span><span class="tag">Conceptual Engineering</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 4. ICE ENGINE ── -->
+  <div class="proj-entry flip" id="pe-engine">
+    <div class="proj-layout">
+      <div class="proj-viewer">
+        <span class="img-count" id="cnt-engine">1 / 2</span>
+        <img class="proj-main-img" id="main-engine"
+          src="images/img-024.jpg" alt="ICE Engine"
+          style="background:#e8ecf0;"
+          onclick="openLightbox(this.src)" />
+        <div class="proj-thumbs">
+          <img class="proj-thumb active" src="images/img-024.jpg" alt="Isometric view" onclick="swapImg('engine',0,this)" title="Isometric View" style="background:#e8ecf0;" />
+          <img class="proj-thumb"        src="images/img-025.jpg" alt="Side profile"   onclick="swapImg('engine',1,this)" title="Side Profile — Valvetrain" style="background:#e8ecf0;" />
+        </div>
+      </div>
+      <div class="proj-info">
+        <p class="proj-number">Project 04</p>
+        <h3>Inline Four Internal Combustion Engine</h3>
+        <p>Fully articulated SolidWorks assembly demonstrating mechanical timing and complex motion across a multi-part structural housing.</p>
+        <p>Features a synchronized 180° crankshaft and overhead camshaft (OHC) linked via a front-end timing drive, modeled cam lobes and rockers that actuate with piston travel, an integrated cooling fan, deep-sump oil pan, and dipstick. Advanced mechanical mates simulate a realistic four-stroke cycle.</p>
+        <div class="tag-list">
+          <span class="tag">SolidWorks</span><span class="tag">Assembly</span>
+          <span class="tag">Mechanical Mates</span><span class="tag">Motion Study</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 5. STANDING DESK ── -->
+  <div class="proj-entry" id="pe-desk">
+    <div class="proj-layout">
+      <div class="proj-viewer">
+        <span class="img-count" id="cnt-desk">1 / 1</span>
+        <img class="proj-main-img dark-bg" id="main-desk"
+          src="pages/page-08.jpg" alt="Standing Desk"
+          onclick="openLightbox(this.src)" />
+        <div class="proj-thumbs">
+          <img class="proj-thumb active" src="pages/page-08.jpg" alt="Desk design" onclick="swapImg('desk',0,this)" title="Standing Desk Overview" />
+        </div>
+      </div>
+      <div class="proj-info">
+        <p class="proj-number">Project 05</p>
+        <h3>Standing Desk Design</h3>
+        <p>Multi-component SolidWorks furniture assembly with integrated mechanical adjustments and peripheral organization.</p>
+        <p>A worm gear and spur gear system (16DP, 24T) drives four internal shafts for precise vertical height adjustment. Includes a custom drawer assembly, headset holder, speaker mounts, a specialized wheel/casing for mobility, integrated wire management, and a multi-stage leg design for stability throughout the full range of motion.</p>
+        <div class="tag-list">
+          <span class="tag">SolidWorks</span><span class="tag">Gear Train</span>
+          <span class="tag">Furniture Design</span><span class="tag">Assembly</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 6. SMALLER PROJECTS ── -->
+  <div class="proj-entry flip" id="pe-small">
+    <div class="proj-layout">
+      <div class="proj-viewer">
+        <span class="img-count" id="cnt-small">1 / 2</span>
+        <img class="proj-main-img dark-bg" id="main-small"
+          src="pages/page-09.jpg" alt="Smaller Projects"
+          onclick="openLightbox(this.src)" />
+        <div class="proj-thumbs">
+          <img class="proj-thumb active" src="pages/page-09.jpg" alt="Multi-tool & Radiation" onclick="swapImg('small',0,this)" title="STILH Multi-Tool & Radiation Detector" />
+          <img class="proj-thumb"        src="pages/page-10.jpg" alt="Desk & HESS & Mouse" onclick="swapImg('small',1,this)" title="Desk Accessories, HESS & Mouse Mobile" />
+        </div>
+      </div>
+      <div class="proj-info">
+        <p class="proj-number">Project 06</p>
+        <h3>Additional Smaller Projects</h3>
+        <p><strong style="color:var(--text)">STILH Multi-Tool</strong> — Modular gardening device with a dual shovel/rake, weed wacker, and robot lawn mower.</p>
+        <p><strong style="color:var(--text)">Radiation Detection System</strong> — Conceptual device to detect radioactive waves in shipping containers to counter nuclear terrorism.</p>
+        <p><strong style="color:var(--text)">Desk Accessories</strong> — Fully 3D-modeled desk with custom phone &amp; AirPod holder and wire manager.</p>
+        <p><strong style="color:var(--text)">HESS Orthographic</strong> — 1:1 fully dimensioned HESS Truck technical drawing in AutoCAD.</p>
+        <p><strong style="color:var(--text)">Mouse Mobile</strong> — Fun concept: a mouse-shaped, mouse car.</p>
+        <div class="tag-list">
+          <span class="tag">AutoCAD</span><span class="tag">Onshape</span>
+          <span class="tag">3D Printing</span><span class="tag">Concept Design</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <!-- ══════════════════════════════ RESUME ══════════════════════════════ -->
@@ -774,11 +587,9 @@
     <h2>My <span>Resume</span></h2>
     <p>Education, experience, and skills at a glance.</p>
   </div>
-
   <div style="text-align:right; margin-bottom:1.5rem;">
     <a class="btn btn-outline" href="#">Download PDF</a>
   </div>
-
   <p class="section-label">Education</p>
   <div class="timeline">
     <div class="timeline-item">
@@ -790,7 +601,6 @@
       </div>
     </div>
   </div>
-
   <p class="section-label">Experience</p>
   <div class="timeline">
     <div class="timeline-item">
@@ -810,21 +620,11 @@
       </div>
     </div>
   </div>
-
   <p class="section-label">Skills</p>
   <div class="card-grid">
-    <div class="card">
-      <h3>CAD &amp; Design</h3>
-      <p>SolidWorks · Onshape · Fusion 360 · AutoCAD</p>
-    </div>
-    <div class="card">
-      <h3>Fabrication</h3>
-      <p>FDM 3D Printing (Bambu Studio) · Soldering · Prototyping</p>
-    </div>
-    <div class="card">
-      <h3>Engineering &amp; Programming</h3>
-      <p>Arduino (Java) · Wiring Diagrams · Technical Drawings · GD&amp;T</p>
-    </div>
+    <div class="card"><h3>CAD &amp; Design</h3><p>SolidWorks · Onshape · Fusion 360 · AutoCAD</p></div>
+    <div class="card"><h3>Fabrication</h3><p>FDM 3D Printing (Bambu Studio) · Soldering · Prototyping</p></div>
+    <div class="card"><h3>Engineering &amp; Programming</h3><p>Arduino (Java) · Wiring Diagrams · Technical Drawings · GD&amp;T</p></div>
   </div>
 </div>
 
@@ -834,38 +634,18 @@
     <h2>Get in <span>Touch</span></h2>
     <p>Have a question, opportunity, or just want to connect? I'd love to hear from you.</p>
   </div>
-
   <div class="contact-grid">
     <div class="contact-info">
       <h3>Let's Connect</h3>
       <p>Whether it's an internship, a project collaboration, or just saying hi — feel free to reach out.</p>
-      <a class="contact-link" href="mailto:aksharpat06@gmail.com">
-        <span class="icon">✉</span>
-        aksharpat06@gmail.com
-      </a>
-      <a class="contact-link" href="tel:+12017023944">
-        <span class="icon">☏</span>
-        +1 (201) 702-3944
-      </a>
-      <a class="contact-link" href="https://www.linkedin.com/in/aksharpat1" target="_blank" rel="noopener">
-        <span class="icon">in</span>
-        linkedin.com/in/aksharpat1
-      </a>
+      <a class="contact-link" href="mailto:aksharpat06@gmail.com"><span class="icon">✉</span>aksharpat06@gmail.com</a>
+      <a class="contact-link" href="tel:+12017023944"><span class="icon">☏</span>+1 (201) 702-3944</a>
+      <a class="contact-link" href="https://www.linkedin.com/in/aksharpat1" target="_blank" rel="noopener"><span class="icon">in</span>linkedin.com/in/aksharpat1</a>
     </div>
-
     <form onsubmit="return false;">
-      <div>
-        <label for="name">Name</label>
-        <input id="name" type="text" placeholder="Your name" />
-      </div>
-      <div>
-        <label for="email">Email</label>
-        <input id="email" type="email" placeholder="your@email.com" />
-      </div>
-      <div>
-        <label for="msg">Message</label>
-        <textarea id="msg" placeholder="What's on your mind?"></textarea>
-      </div>
+      <div><label for="name">Name</label><input id="name" type="text" placeholder="Your name" /></div>
+      <div><label for="email">Email</label><input id="email" type="email" placeholder="your@email.com" /></div>
+      <div><label for="msg">Message</label><textarea id="msg" placeholder="What's on your mind?"></textarea></div>
       <button class="btn btn-primary" type="submit">Send Message</button>
     </form>
   </div>
@@ -880,21 +660,53 @@
     if (link) link.classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
-
   function showTabByName(id) {
     const link = [...document.querySelectorAll('.nav-tabs a')]
       .find(a => a.getAttribute('onclick')?.includes(`'${id}'`));
     showTab(id, link);
   }
 
+  /* ── Project image viewer ── */
+  const projSrcs = {
+    drone:  ['images/img-000.jpg','images/img-002.jpg','images/img-007.jpg','images/img-010.jpg','images/img-006.jpg','images/img-008.jpg'],
+    toy:    ['images/img-013.jpg','images/img-012.jpg','images/img-014.jpg','images/img-015.jpg'],
+    sat:    ['images/img-022.jpg'],
+    engine: ['images/img-024.jpg','images/img-025.jpg'],
+    desk:   ['pages/page-08.jpg'],
+    small:  ['pages/page-09.jpg','pages/page-10.jpg']
+  };
+
+  function swapImg(id, idx, thumbEl) {
+    const main = document.getElementById('main-' + id);
+    const cnt  = document.getElementById('cnt-'  + id);
+    main.style.opacity = '0.4';
+    setTimeout(() => {
+      main.src = projSrcs[id][idx];
+      main.style.opacity = '1';
+    }, 150);
+    cnt.textContent = (idx + 1) + ' / ' + projSrcs[id].length;
+    document.querySelectorAll(`#pe-${id === 'sat' ? 'sat' : id === 'engine' ? 'engine' : id === 'desk' ? 'desk' : id === 'small' ? 'small' : id === 'toy' ? 'toy' : 'drone'} .proj-thumb`)
+      .forEach(t => t.classList.remove('active'));
+    thumbEl.classList.add('active');
+  }
+
+  /* ── Lightbox ── */
+  function openLightbox(src) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
   /* ── Carousel ── */
   const TOTAL = 5;
   let current = 0;
-
   const track = document.getElementById('carouselTrack');
   const dotsContainer = document.getElementById('carouselDots');
-
-  // Build dots
   for (let i = 0; i < TOTAL; i++) {
     const d = document.createElement('button');
     d.className = 'carousel-dot' + (i === 0 ? ' active' : '');
@@ -902,30 +714,18 @@
     d.addEventListener('click', () => goTo(i));
     dotsContainer.appendChild(d);
   }
-
   function goTo(n) {
     current = (n + TOTAL) % TOTAL;
     track.style.transform = `translateX(-${current * 100}%)`;
-    document.querySelectorAll('.carousel-dot').forEach((d, i) =>
-      d.classList.toggle('active', i === current));
+    document.querySelectorAll('.carousel-dot').forEach((d, i) => d.classList.toggle('active', i === current));
   }
-
   function carouselMove(dir) { goTo(current + dir); }
-
-  // Auto-advance every 5 s
   let autoTimer = setInterval(() => carouselMove(1), 5000);
   document.querySelector('.carousel-wrapper').addEventListener('mouseenter', () => clearInterval(autoTimer));
-  document.querySelector('.carousel-wrapper').addEventListener('mouseleave', () => {
-    autoTimer = setInterval(() => carouselMove(1), 5000);
-  });
-
-  // Touch / swipe support
+  document.querySelector('.carousel-wrapper').addEventListener('mouseleave', () => { autoTimer = setInterval(() => carouselMove(1), 5000); });
   let touchStartX = 0;
   track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
-  track.addEventListener('touchend', e => {
-    const dx = e.changedTouches[0].clientX - touchStartX;
-    if (Math.abs(dx) > 40) carouselMove(dx < 0 ? 1 : -1);
-  });
+  track.addEventListener('touchend', e => { const dx = e.changedTouches[0].clientX - touchStartX; if (Math.abs(dx) > 40) carouselMove(dx < 0 ? 1 : -1); });
 </script>
 </body>
 </html>
