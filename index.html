@@ -661,7 +661,7 @@
       <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; transition:border-color 0.2s, transform 0.2s;" onmouseover="this.style.borderColor='rgba(108,99,255,0.5)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform=''">
         <div style="height:220px; background:#0d0d14; overflow:hidden; position:relative;">
           <img src="images/reentry-pressure.png" alt="Hypersonic Re-Entry CFD" style="width:100%;height:100%;object-fit:contain;" />
-          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;">
+          <div style="position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;padding-bottom:0.75rem;pointer-events:none;">
             <span style="font-size:0.75rem;color:var(--muted);background:rgba(10,10,15,0.7);padding:0.3rem 0.7rem;border-radius:999px;border:1px solid var(--border);">Static Pressure Contour · Mach 5–25</span>
           </div>
         </div>
@@ -1089,52 +1089,61 @@
   })();
 
   /* ════════════════════════════════════════
-     PAGE-LOAD INTRO  — iris collapse, first visit only
+     PAGE-LOAD INTRO  — iris collapse on first open
   ════════════════════════════════════════ */
-  (function () {
-    const intro = document.getElementById('intro');
-    if (sessionStorage.getItem('introSeen')) {
-      // skip instantly — this is a return visit within the session
-      intro.classList.add('gone');
-    } else {
-      sessionStorage.setItem('introSeen', '1');
-      setTimeout(() => {
-        intro.classList.add('leave');
-        intro.addEventListener('transitionend', () => intro.classList.add('gone'), { once: true });
-      }, 2000);
-    }
-  })();
+  const intro = document.getElementById('intro');
+  function playIntro() {
+    intro.classList.remove('gone', 'leave');
+    intro.offsetHeight; // force reflow so transition re-fires
+    setTimeout(() => {
+      intro.classList.add('leave');
+      intro.addEventListener('transitionend', () => {
+        intro.classList.add('gone');
+        wiping = false;
+      }, { once: true });
+    }, 2000);
+  }
+  playIntro(); // always plays on page load (only index.html has this)
 
   /* ════════════════════════════════════════
-     TAB SWITCHING  — diagonal wipe sweep
+     TAB SWITCHING
+     • Home tab  → iris animation
+     • Other tabs → wipe sweep
+     • Same tab  → no-op
   ════════════════════════════════════════ */
   const wipe = document.getElementById('tab-wipe');
   let wiping = false;
 
   function showTab(id, link) {
     if (wiping) return;
+    // no-op if already on this tab
+    if (document.getElementById(id).classList.contains('active')) return;
     wiping = true;
 
-    // sweep in (dark panel slides from left to cover screen)
-    wipe.classList.remove('out');
-    wipe.classList.add('in');
-
-    setTimeout(() => {
-      // swap content at midpoint while screen is covered
+    // swap active section & nav link
+    function swapContent() {
       document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
       document.querySelectorAll('.nav-tabs a').forEach(a => a.classList.remove('active'));
       document.getElementById(id).classList.add('active');
       if (link) link.classList.add('active');
       window.scrollTo({ top: 0, behavior: 'instant' });
+    }
 
-      // sweep out (panel exits to the right)
-      wipe.classList.remove('in');
-      wipe.classList.add('out');
+    if (id === 'home') {
+      // iris reveal for home
+      swapContent();
+      playIntro();
+    } else {
+      // wipe sweep for all other tabs
+      wipe.classList.remove('out');
+      wipe.classList.add('in');
       setTimeout(() => {
-        wipe.classList.remove('out');
-        wiping = false;
-      }, 240);
-    }, 230);
+        swapContent();
+        wipe.classList.remove('in');
+        wipe.classList.add('out');
+        setTimeout(() => { wipe.classList.remove('out'); wiping = false; }, 240);
+      }, 230);
+    }
   }
   function navigateTo(url) {
     if (wiping) return;
