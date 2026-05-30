@@ -1137,6 +1137,15 @@
     showTab(id, link);
   }
 
+  /* ── SESSION TAB ROUTING (from reentry.html links) ── */
+  (function () {
+    const tab = sessionStorage.getItem('tab');
+    if (tab) {
+      sessionStorage.removeItem('tab');
+      showTabByName(tab);
+    }
+  })();
+
   /* ════════════════════════════════════════
      PROJECT IMAGE VIEWER
   ════════════════════════════════════════ */
