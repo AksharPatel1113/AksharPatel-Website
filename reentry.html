@@ -22,6 +22,16 @@
     html { scroll-behavior: smooth; }
     body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
+    #tab-wipe {
+      position: fixed; inset: 0; z-index: 500;
+      pointer-events: none;
+      background: var(--bg);
+      clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+      transition: clip-path 0.22s cubic-bezier(0.4, 0, 1, 1);
+    }
+    #tab-wipe.in  { clip-path: polygon(0 0, 105% 0, 105% 100%, 0 100%); }
+    #tab-wipe.out { clip-path: polygon(105% 0, 105% 0, 105% 100%, 105% 100%); transition-timing-function: cubic-bezier(0, 0, 0.6, 1); }
+
     #particle-canvas {
       position: fixed; inset: 0; z-index: 0;
       pointer-events: none; opacity: 0.45;
@@ -204,6 +214,7 @@
 <body>
 
 <canvas id="particle-canvas"></canvas>
+<div id="tab-wipe"></div>
 
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
   <button class="lightbox-close" onclick="closeLightbox()">✕</button>
@@ -213,11 +224,11 @@
 <nav>
   <div class="nav-logo">Akshar Patel</div>
   <ul class="nav-tabs">
-    <li><a href="index.html">Home</a></li>
+    <li><a href="#" onclick="navigateTo('index.html'); return false;">Home</a></li>
     <li><a href="reentry.html" class="active">Re-Entry CFD</a></li>
-    <li><a href="index.html#cad" onclick="sessionStorage.setItem('tab','cad')">Additional CAD Projects</a></li>
-    <li><a href="index.html#resume" onclick="sessionStorage.setItem('tab','resume')">Resume</a></li>
-    <li><a href="index.html#contact" onclick="sessionStorage.setItem('tab','contact')">Contact</a></li>
+    <li><a href="#" onclick="navigateTo('index.html','cad'); return false;">Additional CAD Projects</a></li>
+    <li><a href="#" onclick="navigateTo('index.html','resume'); return false;">Resume</a></li>
+    <li><a href="#" onclick="navigateTo('index.html','contact'); return false;">Contact</a></li>
   </ul>
 </nav>
 
@@ -311,9 +322,8 @@
     <h2>Visuals <span>Gallery</span></h2>
     <div class="gallery-grid">
 
-      <div class="gallery-item" onclick="openLightbox('images/reentry-pressure.jpg')">
-        <img src="images/reentry-pressure.jpg" alt="Static Pressure Contour"
-          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+      <div class="gallery-item" onclick="openLightbox('images/reentry-pressure.png')">
+        <img src="images/reentry-pressure.png" alt="Static Pressure Contour" />
         <div class="gallery-placeholder" style="display:none;">[ Static Pressure Contour ]</div>
         <div class="gallery-caption"><strong>Static Pressure Distribution</strong> — ANSYS Fluent contour plot showing bow shock and stagnation region on the Dragon capsule forebody at hypersonic conditions.</div>
       </div>
@@ -396,6 +406,26 @@
     }
     draw();
   })();
+
+  /* ── PAGE TRANSITION ── */
+  const wipe = document.getElementById('tab-wipe');
+  let wiping = false;
+
+  /* wipe-in on arrival */
+  wipe.classList.add('in');
+  setTimeout(() => { wipe.classList.remove('in'); wipe.classList.add('out'); }, 20);
+  setTimeout(() => { wipe.classList.remove('out'); wiping = false; }, 260);
+
+  function navigateTo(url, tab) {
+    if (wiping) return;
+    wiping = true;
+    wipe.classList.remove('out');
+    wipe.classList.add('in');
+    setTimeout(() => {
+      if (tab) sessionStorage.setItem('tab', tab);
+      window.location.href = url;
+    }, 230);
+  }
 
   /* ── LIGHTBOX ── */
   function openLightbox(src) {

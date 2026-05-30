@@ -532,7 +532,7 @@
   <div class="nav-logo">Akshar Patel</div>
   <ul class="nav-tabs">
     <li><a href="#" class="active" onclick="showTab('home', this); return false;">Home</a></li>
-    <li><a href="reentry.html">Re-Entry CFD</a></li>
+    <li><a href="#" onclick="navigateTo('reentry.html'); return false;">Re-Entry CFD</a></li>
     <li><a href="#" onclick="showTab('cad', this); return false;">Additional CAD Projects</a></li>
     <li><a href="#" onclick="showTab('resume', this); return false;">Resume</a></li>
     <li><a href="#" onclick="showTab('contact', this); return false;">Contact</a></li>
@@ -660,7 +660,7 @@
 
       <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; transition:border-color 0.2s, transform 0.2s;" onmouseover="this.style.borderColor='rgba(108,99,255,0.5)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform=''">
         <div style="height:220px; background:#0d0d14; overflow:hidden; position:relative;">
-          <img src="images/reentry-pressure.jpg" alt="Hypersonic Re-Entry CFD" style="width:100%;height:100%;object-fit:contain;" onerror="this.style.display='none'" />
+          <img src="images/reentry-pressure.png" alt="Hypersonic Re-Entry CFD" style="width:100%;height:100%;object-fit:contain;" />
           <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;">
             <span style="font-size:0.75rem;color:var(--muted);background:rgba(10,10,15,0.7);padding:0.3rem 0.7rem;border-radius:999px;border:1px solid var(--border);">Static Pressure Contour · Mach 5–25</span>
           </div>
@@ -1131,6 +1131,22 @@
       }, 240);
     }, 230);
   }
+  function navigateTo(url) {
+    if (wiping) return;
+    wiping = true;
+    wipe.classList.remove('out');
+    wipe.classList.add('in');
+    setTimeout(() => { window.location.href = url; }, 230);
+  }
+
+  /* wipe-out reveal on page arrival (e.g. back from reentry.html) */
+  if (document.referrer.includes('reentry.html')) {
+    wiping = true;
+    wipe.classList.add('in');
+    setTimeout(() => { wipe.classList.remove('in'); wipe.classList.add('out'); }, 20);
+    setTimeout(() => { wipe.classList.remove('out'); wiping = false; }, 260);
+  }
+
   function showTabByName(id) {
     const link = [...document.querySelectorAll('.nav-tabs a')]
       .find(a => a.getAttribute('onclick')?.includes(`'${id}'`));
