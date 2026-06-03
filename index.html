@@ -378,7 +378,6 @@
     .proj-layout {
       display: grid;
       grid-template-columns: 1fr 380px;
-      min-height: 380px;
     }
 
     /* flip layout for alternating entries */
@@ -403,23 +402,20 @@
 
     .proj-main-img {
       width: 100%;
-      flex: 1;
+      height: 320px;
       object-fit: contain;
       object-position: center;
       display: block;
       cursor: zoom-in;
-      min-height: 300px;
-      max-height: 420px;
       padding: 1rem;
       background: #0d0d14;
       transition: opacity 0.2s;
     }
 
-    /* dark-bg images: no padding, still contain so nothing is cut */
     .proj-main-img.dark-bg {
       object-fit: contain;
       padding: 0;
-      max-height: 420px;
+      height: 320px;
     }
 
     .proj-thumbs {
@@ -532,7 +528,7 @@
       .proj-layout, .proj-entry.flip .proj-layout { grid-template-columns: 1fr; }
       .proj-entry.flip .proj-viewer { order: 0; border-left: none; border-bottom: 1px solid var(--border); }
       .proj-viewer { border-right: none; border-bottom: 1px solid var(--border); }
-      .proj-main-img { max-height: 240px; }
+      .proj-main-img { height: 220px; }
       .carousel-slide img { height: 260px; }
     }
     @media (max-width: 640px) {
@@ -768,16 +764,17 @@
         </div>
       </div>
       <div class="proj-info">
-        <p class="proj-number">Project 01</p>
-        <h3>Drone Challenge</h3>
-        <p>Designed a custom drone to scale in Onshape to visualize custom onboard components. Underwent rapid prototyping across two iterations — 3D printing with Bambu Studio and soldering for full assembly.</p>
-        <p>Designed wiring diagrams to optimize power output and minimize electrical noise. Mapped flight controller I/O to onboard components accounting for voltage requirements, signal types, and grounding. Produced professional orthographic engineering drawings for all parts.</p>
-        <p style="color:var(--accent2); font-weight:700; font-size:0.88rem;">Earned 150 / 155 on documentation paperwork.</p>
-        <div class="tag-list">
-          <span class="tag">Onshape</span><span class="tag">3D Printing</span>
-          <span class="tag">Wiring Diagrams</span><span class="tag">Soldering</span>
-          <span class="tag">Orthographic Drawings</span>
+        <p class="proj-number">Project 01 &nbsp;·&nbsp; <span style="color:var(--muted);font-weight:600;font-size:0.72rem;letter-spacing:1px;">TSA State Conference · Team #2255-1</span></p>
+        <h3>Drone Challenge (UAV) — Carnival Games</h3>
+        <p>Built a fully functional FPV racing drone from scratch for the TSA UAV Carnival Games Challenge at TCNJ, NJ. Assembled a TBS Source One V5 5" carbon fiber frame with iFlight XING-E Pro 2207 motors, iFlight BLITZ Stack ESC (4-in-1 55A), and BLITZ Stack F7 V1.1 flight controller.</p>
+        <p>Integrated a Happymodel TCXO ExpressLRS 2.4GHz receiver, HGLRC M100 Mini GPS, Caddx Ratel 2 FPV camera, and SpeedyBee TX800 VTX. All soldering, wiring, and component mounting was done by hand. Designed the CAD model in Onshape and produced full orthographic engineering drawings.</p>
+        <p style="color:var(--accent2); font-weight:700; font-size:0.88rem;">Earned 150 / 155 on documentation.</p>
+        <div class="tag-list" style="margin-bottom:1rem;">
+          <span class="tag">Onshape</span><span class="tag">FPV / UAV</span>
+          <span class="tag">Soldering</span><span class="tag">Wiring Diagrams</span>
+          <span class="tag">Orthographic Drawings</span><span class="tag">TSA</span>
         </div>
+        <a href="Drone_Documentation.pdf" target="_blank" rel="noopener" class="btn btn-outline" style="font-size:0.85rem;padding:0.55rem 1.2rem;">View Full Documentation PDF &rarr;</a>
       </div>
     </div>
   </div>
@@ -798,15 +795,16 @@
         </div>
       </div>
       <div class="proj-info">
-        <p class="proj-number">Project 02</p>
+        <p class="proj-number">Project 02 &nbsp;·&nbsp; <span style="color:var(--muted);font-weight:600;font-size:0.72rem;letter-spacing:1px;">Group Project · Universal Design Principles</span></p>
         <h3>Universal Toy Design Project</h3>
-        <p>An in-class project applying Universal Design Principles and Manufacturing Process Principles. The concept: a servo-actuated 3D punching action figure.</p>
-        <p>Modeled in Onshape within strict size constraints to house all Arduino components. FDM printed using Bambu Studio with iterative fit-checks to tolerance. Programmed servos and buttons in Java with full wiring documentation.</p>
-        <div class="tag-list">
+        <p>Designed an inclusive servo-actuated punching action figure for children ages 3–9, with and without disabilities. Built to Universal Design Principles: large easy-to-press buttons, tactile grips requiring minimal force, and lightweight FDM-printed construction in a 4" × 4" × 6" form factor.</p>
+        <p>Modeled in Onshape with a hollow main frame to house all electronics. Two-pin Arduino setup runs separate servo and button programs — servo angles, true/false counter logic, and if-statement checking programmed from scratch. Full group wiring diagram and circuit work documented.</p>
+        <div class="tag-list" style="margin-bottom:1rem;">
           <span class="tag">Onshape</span><span class="tag">Arduino</span>
           <span class="tag">Bambu Studio</span><span class="tag">FDM</span>
-          <span class="tag">Java</span>
+          <span class="tag">Universal Design</span>
         </div>
+        <a href="UniversalToy_Presentation.pdf" target="_blank" rel="noopener" class="btn btn-outline" style="font-size:0.85rem;padding:0.55rem 1.2rem;">View Presentation PDF &rarr;</a>
       </div>
     </div>
   </div>
