@@ -131,6 +131,7 @@
       background: rgba(10,10,15,0.88); backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--border);
       display: flex; align-items: center; padding: 0 2rem; height: 64px;
+      position: sticky; /* ensures absolute children position relative to nav */
     }
     .nav-logo {
       font-size: 1.2rem; font-weight: 700; margin-right: auto; letter-spacing: 0.5px;
@@ -146,8 +147,43 @@
     .nav-tabs li a:hover { color: var(--text); background: var(--surface2); }
     .nav-tabs li a.active { color: var(--accent2); background: var(--surface2); }
 
+    .nav-burger {
+      display: none;
+      flex-direction: column; justify-content: center; align-items: center; gap: 5px;
+      width: 44px; height: 44px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      cursor: pointer; flex-shrink: 0;
+    }
+    .nav-burger span {
+      display: block; width: 20px; height: 2px;
+      background: var(--text); border-radius: 2px;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    .nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-burger.open span:nth-child(2) { opacity: 0; }
+    .nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    @media (max-width: 768px) {
+      .nav-burger { display: flex; }
+      .nav-tabs {
+        display: none;
+        position: absolute; top: 64px; left: 0; right: 0;
+        flex-direction: column; gap: 0;
+        background: rgba(10,10,15,0.97); backdrop-filter: blur(14px);
+        border-bottom: 1px solid var(--border);
+        padding: 0.5rem 1rem 1rem; z-index: 200;
+      }
+      .nav-tabs.open { display: flex; }
+      .nav-tabs li a { padding: 0.75rem 1rem; font-size: 1rem; border-radius: 8px; }
+    }
+
     /* ── SECTIONS ── */
     .section { display: none; min-height: calc(100vh - 64px); padding: 4rem 2rem; max-width: 1100px; margin: 0 auto; }
+    @media (max-width: 480px) {
+      .section { padding: 2rem 1rem; }
+      .page-header h2 { margin-bottom: 0.25rem; }
+      .carousel-slide img { height: 200px; }
+    }
     .section.active { display: block; }
 
     /* ── BUTTONS ── */
@@ -164,6 +200,7 @@
     /* ── HOME HERO ── */
     .hero { display: flex; flex-direction: column; justify-content: center; gap: 1.5rem; padding-bottom: 3rem; }
     .hero-tag { font-size: 0.85rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--accent2); }
+    @media (max-width: 600px) { .hero-tag { white-space: normal; } }
     .hero h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800; line-height: 1.1; }
     .hero h1 span { background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .hero > p { font-size: 1.15rem; color: var(--muted); max-width: 560px; line-height: 1.7; }
@@ -537,12 +574,15 @@
     <li><a href="#" onclick="showTab('resume', this); return false;">Resume</a></li>
     <li><a href="#" onclick="showTab('contact', this); return false;">Contact</a></li>
   </ul>
+  <button class="nav-burger" id="nav-burger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <!-- ══════════════════════════════ HOME ══════════════════════════════ -->
 <div id="home" class="section active">
   <div class="hero">
-    <p class="hero-tag" style="white-space:nowrap;">Aerospace Engineering · Thermal Design · Systems Engineering</p>
+    <p class="hero-tag">Aerospace Engineering · Thermal Design · Systems Engineering</p>
     <h1>Hi, I'm <span>Akshar Patel</span></h1>
     <p>Rutgers Aerospace Engineering student operating at the level the industry says comes later — concurrently inside real programs at Lockheed Martin RMS and Space Ocean Corp, with a DoD Secret clearance.</p>
     <div class="hero-btns">
@@ -675,7 +715,7 @@
             <span class="tag">Python</span>
             <span class="tag">Compressible CFD</span>
           </div>
-          <a href="reentry.html" class="btn btn-primary" style="font-size:0.88rem;padding:0.6rem 1.4rem;">View Project &rarr;</a>
+          <a href="#" onclick="navigateTo('reentry.html'); return false;" class="btn btn-primary" style="font-size:0.88rem;padding:0.6rem 1.4rem;">View Project &rarr;</a>
         </div>
       </div>
 
@@ -1245,6 +1285,20 @@
     requestAnimationFrame(tick);
   }
   requestAnimationFrame(tick);
+
+  /* ── HAMBURGER MENU ── */
+  const burger = document.getElementById('nav-burger');
+  const navTabs = document.querySelector('.nav-tabs');
+  burger.addEventListener('click', () => {
+    burger.classList.toggle('open');
+    navTabs.classList.toggle('open');
+  });
+  navTabs.addEventListener('click', e => {
+    if (e.target.tagName === 'A') {
+      burger.classList.remove('open');
+      navTabs.classList.remove('open');
+    }
+  });
 
   // Touch swipe
   let touchStartX = 0;

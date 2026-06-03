@@ -59,6 +59,36 @@
     .nav-tabs li a:hover { color: var(--text); background: var(--surface2); }
     .nav-tabs li a.active { color: var(--accent2); background: var(--surface2); }
 
+    .nav-burger {
+      display: none;
+      flex-direction: column; justify-content: center; align-items: center; gap: 5px;
+      width: 44px; height: 44px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      cursor: pointer; flex-shrink: 0;
+    }
+    .nav-burger span {
+      display: block; width: 20px; height: 2px;
+      background: var(--text); border-radius: 2px;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    .nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-burger.open span:nth-child(2) { opacity: 0; }
+    .nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    @media (max-width: 768px) {
+      .nav-burger { display: flex; }
+      .nav-tabs {
+        display: none;
+        position: absolute; top: 64px; left: 0; right: 0;
+        flex-direction: column; gap: 0;
+        background: rgba(10,10,15,0.97); backdrop-filter: blur(14px);
+        border-bottom: 1px solid var(--border);
+        padding: 0.5rem 1rem 1rem; z-index: 200;
+      }
+      .nav-tabs.open { display: flex; }
+      .nav-tabs li a { padding: 0.75rem 1rem; font-size: 1rem; border-radius: 8px; }
+    }
+
     /* ── LAYOUT ── */
     .page { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 4rem 2rem 6rem; }
 
@@ -230,6 +260,9 @@
     <li><a href="#" onclick="navigateTo('index.html','resume'); return false;">Resume</a></li>
     <li><a href="#" onclick="navigateTo('index.html','contact'); return false;">Contact</a></li>
   </ul>
+  <button class="nav-burger" id="nav-burger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <div class="page">
@@ -426,6 +459,20 @@
       window.location.href = url;
     }, 230);
   }
+
+  /* ── HAMBURGER MENU ── */
+  const burger = document.getElementById('nav-burger');
+  const navTabs = document.querySelector('.nav-tabs');
+  burger.addEventListener('click', () => {
+    burger.classList.toggle('open');
+    navTabs.classList.toggle('open');
+  });
+  navTabs.addEventListener('click', e => {
+    if (e.target.tagName === 'A') {
+      burger.classList.remove('open');
+      navTabs.classList.remove('open');
+    }
+  });
 
   /* ── LIGHTBOX ── */
   function openLightbox(src) {
