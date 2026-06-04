@@ -402,20 +402,24 @@
 
     .proj-main-img {
       width: 100%;
-      height: 320px;
+      flex: 1;
+      min-height: 0;
       object-fit: contain;
       object-position: center;
       display: block;
       cursor: zoom-in;
-      padding: 1rem;
       background: #0d0d14;
       transition: opacity 0.2s;
     }
 
+    /* white-background renders: show on a light backing so no dark border */
+    .proj-main-img.light-bg {
+      background: #e8ecf0;
+    }
+
+    /* already-dark images: no padding needed */
     .proj-main-img.dark-bg {
       object-fit: contain;
-      padding: 0;
-      height: 320px;
     }
 
     .proj-thumbs {
@@ -528,7 +532,7 @@
       .proj-layout, .proj-entry.flip .proj-layout { grid-template-columns: 1fr; }
       .proj-entry.flip .proj-viewer { order: 0; border-left: none; border-bottom: 1px solid var(--border); }
       .proj-viewer { border-right: none; border-bottom: 1px solid var(--border); }
-      .proj-main-img { height: 220px; }
+      .proj-main-img { max-height: 220px; }
       .carousel-slide img { height: 260px; }
     }
     @media (max-width: 640px) {
@@ -751,7 +755,7 @@
     <div class="proj-layout">
       <div class="proj-viewer">
         <span class="img-count" id="cnt-drone">1 / 6</span>
-        <img class="proj-main-img" id="main-drone"
+        <img class="proj-main-img light-bg" id="main-drone"
           src="images/img-000.jpg" alt="Drone"
           onclick="openLightbox(this.src)" />
         <div class="proj-thumbs">
@@ -766,8 +770,7 @@
       <div class="proj-info">
         <p class="proj-number">Project 01 &nbsp;·&nbsp; <span style="color:var(--muted);font-weight:600;font-size:0.72rem;letter-spacing:1px;">TSA State Conference · Team #2255-1</span></p>
         <h3>Drone Challenge (UAV) — Carnival Games</h3>
-        <p>Built a fully functional FPV racing drone from scratch for the TSA UAV Carnival Games Challenge at TCNJ, NJ. Assembled a TBS Source One V5 5" carbon fiber frame with iFlight XING-E Pro 2207 motors, iFlight BLITZ Stack ESC (4-in-1 55A), and BLITZ Stack F7 V1.1 flight controller.</p>
-        <p>Integrated a Happymodel TCXO ExpressLRS 2.4GHz receiver, HGLRC M100 Mini GPS, Caddx Ratel 2 FPV camera, and SpeedyBee TX800 VTX. All soldering, wiring, and component mounting was done by hand. Designed the CAD model in Onshape and produced full orthographic engineering drawings.</p>
+        <p>Built a fully functional FPV racing drone from scratch for the TSA UAV Carnival Games Challenge at TCNJ, NJ. TBS Source One V5 5" frame, iFlight XING-E Pro 2207 motors, BLITZ Stack F7 FC + 55A ESC, ExpressLRS receiver, HGLRC GPS, Caddx Ratel 2 FPV camera. All soldering, wiring, and mounting by hand. CAD modeled in Onshape with full orthographic engineering drawings and wiring diagrams.</p>
         <p style="color:var(--accent2); font-weight:700; font-size:0.88rem;">Earned 150 / 155 on documentation.</p>
         <div class="tag-list" style="margin-bottom:1rem;">
           <span class="tag">Onshape</span><span class="tag">FPV / UAV</span>
@@ -813,19 +816,14 @@
   <div class="proj-entry" id="pe-sat">
     <div class="proj-layout">
       <div class="proj-viewer">
-        <span class="img-count" id="cnt-sat">1 / 1</span>
         <img class="proj-main-img dark-bg" id="main-sat"
           src="images/img-022.jpg" alt="Satellite"
           onclick="openLightbox(this.src)" />
-        <div class="proj-thumbs">
-          <img class="proj-thumb active" src="images/img-022.jpg" alt="Satellite render" onclick="swapImg('sat',0,this)" title="CAD Render" />
-        </div>
       </div>
       <div class="proj-info">
         <p class="proj-number">Project 03 &nbsp;·&nbsp; <span style="color:var(--muted);font-weight:600;font-size:0.72rem;letter-spacing:1px;">Senior Year High School Capstone</span></p>
         <h3>Solar Flare Effects on Satellites</h3>
-        <p>Geomagnetic storms destroy satellites — the Feb 2022 Starlink launch lost 49 satellites and $50M in a single event. This capstone investigated the problem and proposed a hardware solution: a satellite-mounted EM countermeasure system that detects incoming solar wave frequencies and generates opposing waves via destructive interference to cancel them out.</p>
-        <p>Designed and modeled the solution in Onshape — a 4-dish array mounted on an existing satellite bus, providing 360° coverage to continuously emit counter-waves tuned to detected x-ray, radio, and gamma ray frequencies from solar activity. The design is mission-customizable and includes a solar flare energy harvesting concept as a supplementary power source.</p>
+        <p>Geomagnetic storms destroy satellites — Feb 2022 Starlink launch lost 49 satellites and $50M in one event. Proposed a satellite-mounted EM countermeasure: a 4-dish Onshape-modeled array providing 360° coverage that detects solar wave frequencies (x-ray, radio, gamma) and emits opposing waves via destructive interference to cancel them. Mission-customizable design with a solar flare energy harvesting concept as a supplementary power source.</p>
         <div class="tag-list" style="margin-bottom:1rem;">
           <span class="tag">Onshape</span><span class="tag">Systems Design</span>
           <span class="tag">EM Research</span><span class="tag">Conceptual Engineering</span>
