@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Akshar Patel | Aerospace & Defense Engineering</title>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'ops-bg':      '#07090f',
+            'ops-surface': '#0d1117',
+            'ops-panel':   '#111827',
+            'ops-border':  '#1e2a3a',
+            'ops-blue':    '#00d4ff',
+            'ops-blue2':   '#0099cc',
+            'ops-slate':   '#94a3b8',
+            'ops-dim':     '#475569',
+            'ops-text':    '#e2e8f0',
+          },
+          fontFamily: {
+            mono: ['"JetBrains Mono"', '"Fira Code"', 'monospace'],
+          },
+          backgroundImage: {
+            'grid-pattern': `linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+                             linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px)`,
+          },
+          backgroundSize: {
+            'grid': '40px 40px',
+          },
+          keyframes: {
+            pulse2: { '0%,100%': { opacity: 1 }, '50%': { opacity: 0.4 } },
+            slideUp: { from: { opacity: 0, transform: 'translateY(24px)' }, to: { opacity: 1, transform: 'translateY(0)' } },
+            fadeIn: { from: { opacity: 0 }, to: { opacity: 1 } },
+            scan: { '0%': { top: '-10%' }, '100%': { top: '110%' } },
+          },
+          animation: {
+            pulse2: 'pulse2 2s ease-in-out infinite',
+            slideUp: 'slideUp 0.7s ease forwards',
+            fadeIn: 'fadeIn 1s ease forwards',
+            scan: 'scan 3s linear infinite',
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- JetBrains Mono from Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── Global ─── */
+    body { background-color: #07090f; color: #e2e8f0; font-family: 'Segoe UI', system-ui, sans-serif; }
+
+    /* Grid background overlay */
+    .grid-bg {
+      background-image:
+        linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    /* Accent glow */
+    .glow { text-shadow: 0 0 20px rgba(0,212,255,0.6); }
+    .glow-border { box-shadow: 0 0 0 1px rgba(0,212,255,0.3), 0 0 16px rgba(0,212,255,0.08); }
+
+    /* Nav */
+    #nav { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+
+    /* Clearance badge */
+    .clearance-badge {
+      background: linear-gradient(135deg, rgba(0,212,255,0.15), rgba(0,153,204,0.08));
+      border: 1px solid rgba(0,212,255,0.4);
+      animation: pulse2 2.5s ease-in-out infinite;
+    }
+
+    /* Hero title gradient */
+    .hero-name {
+      background: linear-gradient(135deg, #e2e8f0 30%, #00d4ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Timeline connector */
+    .timeline-line {
+      background: linear-gradient(to bottom, #00d4ff, rgba(0,212,255,0.1));
+    }
+
+    /* Project cards */
+    .proj-card {
+      background: #0d1117;
+      border: 1px solid #1e2a3a;
+      transition: border-color 0.25s, box-shadow 0.25s, transform 0.2s;
+    }
+    .proj-card:hover {
+      border-color: rgba(0,212,255,0.4);
+      box-shadow: 0 0 24px rgba(0,212,255,0.08), 0 8px 32px rgba(0,0,0,0.4);
+      transform: translateY(-3px);
+    }
+
+    /* Skill pill */
+    .skill-pill {
+      background: rgba(0,212,255,0.06);
+      border: 1px solid rgba(0,212,255,0.2);
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .skill-pill:hover {
+      background: rgba(0,212,255,0.14);
+      border-color: rgba(0,212,255,0.5);
+    }
+
+    /* Section label */
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      color: #00d4ff;
+      text-transform: uppercase;
+    }
+
+    /* Stat counter */
+    .stat-card {
+      background: rgba(0,212,255,0.04);
+      border: 1px solid rgba(0,212,255,0.12);
+    }
+
+    /* Scan line on hero */
+    @keyframes scan {
+      0%   { top: -10%; }
+      100% { top: 110%; }
+    }
+    .scan-line {
+      position: absolute; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0,212,255,0.35), transparent);
+      animation: scan 4s linear infinite;
+      pointer-events: none;
+    }
+
+    /* Animate on scroll helper */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* Mobile nav drawer */
+    #mobile-nav { transition: max-height 0.35s ease, opacity 0.35s ease; max-height: 0; opacity: 0; overflow: hidden; }
+    #mobile-nav.open { max-height: 400px; opacity: 1; }
+
+    /* Project image */
+    .proj-img { width: 100%; height: 200px; object-fit: contain; background: #07090f; }
+    .proj-img.light { background: #dde3ea; object-fit: contain; }
+
+    /* Tag chip */
+    .tag { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; background: rgba(148,163,184,0.08); border: 1px solid rgba(148,163,184,0.18); border-radius: 4px; padding: 2px 8px; color: #94a3b8; }
+
+    /* Experience badge */
+    .exp-badge { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; }
+
+    /* Footer rule */
+    .footer-rule { background: linear-gradient(90deg, transparent, rgba(0,212,255,0.3), transparent); height: 1px; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #07090f; }
+    ::-webkit-scrollbar-thumb { background: #1e2a3a; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(0,212,255,0.3); }
+  </style>
+</head>
+<body class="antialiased">
+
+<!-- ══════════════════════════════════════════════
+     NAV
+══════════════════════════════════════════════ -->
+<nav id="nav" class="fixed top-0 left-0 right-0 z-50 bg-ops-bg/80 border-b border-ops-border">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="flex items-center justify-between h-14">
+
+      <!-- Logo -->
+      <a href="#hero" class="font-mono text-sm font-semibold text-ops-blue tracking-widest">
+        AP<span class="text-ops-slate">_ENG</span>
+      </a>
+
+      <!-- Desktop links -->
+      <div class="hidden md:flex items-center gap-6 text-sm text-ops-slate font-mono">
+        <a href="#about"      class="hover:text-ops-blue transition-colors">About</a>
+        <a href="#experience" class="hover:text-ops-blue transition-colors">Experience</a>
+        <a href="#projects"   class="hover:text-ops-blue transition-colors">Projects</a>
+        <a href="#skills"     class="hover:text-ops-blue transition-colors">Skills</a>
+        <a href="#contact"    class="hover:text-ops-blue transition-colors">Contact</a>
+        <a href="Akshar_Patel_Resume_Aug2026.pdf" target="_blank"
+           class="px-3 py-1.5 rounded border border-ops-blue text-ops-blue text-xs hover:bg-ops-blue/10 transition-colors">
+          Résumé ↗
+        </a>
+      </div>
+
+      <!-- Mobile hamburger -->
+      <button id="hamburger" class="md:hidden flex flex-col gap-1.5 p-2" aria-label="Menu">
+        <span class="w-5 h-0.5 bg-ops-slate block transition-all duration-300" id="h1"></span>
+        <span class="w-5 h-0.5 bg-ops-slate block transition-all duration-300" id="h2"></span>
+        <span class="w-5 h-0.5 bg-ops-slate block transition-all duration-300" id="h3"></span>
+      </button>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div id="mobile-nav" class="md:hidden border-t border-ops-border/50">
+      <div class="flex flex-col gap-1 py-3 font-mono text-sm text-ops-slate">
+        <a href="#about"      class="px-2 py-2 hover:text-ops-blue transition-colors" onclick="closeMobile()">About</a>
+        <a href="#experience" class="px-2 py-2 hover:text-ops-blue transition-colors" onclick="closeMobile()">Experience</a>
+        <a href="#projects"   class="px-2 py-2 hover:text-ops-blue transition-colors" onclick="closeMobile()">Projects</a>
+        <a href="#skills"     class="px-2 py-2 hover:text-ops-blue transition-colors" onclick="closeMobile()">Skills</a>
+        <a href="#contact"    class="px-2 py-2 hover:text-ops-blue transition-colors" onclick="closeMobile()">Contact</a>
+        <a href="Akshar_Patel_Resume_Aug2026.pdf" target="_blank"
+           class="px-2 py-2 text-ops-blue" onclick="closeMobile()">Résumé ↗</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+<!-- ══════════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════ -->
+<section id="hero" class="relative min-h-screen flex items-center justify-center grid-bg overflow-hidden pt-14">
+
+  <!-- Radial glow backdrop -->
+  <div class="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,212,255,0.06),transparent)]"></div>
+
+  <!-- Scan line -->
+  <div class="scan-line"></div>
+
+  <div class="relative z-10 max-w-4xl mx-auto px-6 text-center">
+    <!-- Status indicator -->
+    <div class="inline-flex items-center gap-2 mb-6">
+      <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse2"></span>
+      <span class="font-mono text-xs text-ops-slate tracking-widest">SYSTEM ONLINE · PORTFOLIO v2.0</span>
+    </div>
+
+    <!-- Name -->
+    <h1 class="hero-name text-5xl sm:text-7xl font-bold leading-tight mb-3 tracking-tight">
+      Akshar Patel
+    </h1>
+
+    <!-- Title -->
+    <p class="text-ops-blue font-mono text-lg sm:text-xl mb-2 tracking-wide">
+      Aerospace &amp; Systems Engineering
+    </p>
+    <p class="text-ops-slate text-sm sm:text-base mb-6 max-w-xl mx-auto leading-relaxed">
+      Rutgers University · BS Aerospace Engineering · Expected May 2028 · GPA 3.68
+    </p>
+
+    <!-- Clearance badge -->
+    <div class="inline-flex items-center gap-2 clearance-badge rounded px-4 py-2 mb-8 font-mono text-xs">
+      <svg class="w-3.5 h-3.5 text-ops-blue flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
+      </svg>
+      <span class="text-ops-blue tracking-widest">DOD SECRET CLEARANCE</span>
+    </div>
+
+    <!-- CTAs -->
+    <div class="flex flex-col sm:flex-row gap-3 justify-center mb-12">
+      <a href="#projects"
+         class="px-6 py-3 bg-ops-blue text-ops-bg font-semibold text-sm rounded font-mono tracking-wide hover:bg-ops-blue2 transition-colors">
+        VIEW PROJECTS
+      </a>
+      <a href="#experience"
+         class="px-6 py-3 border border-ops-border text-ops-text text-sm rounded font-mono tracking-wide hover:border-ops-blue/50 hover:text-ops-blue transition-colors">
+        EXPERIENCE
+      </a>
+      <a href="#contact"
+         class="px-6 py-3 border border-ops-border text-ops-slate text-sm rounded font-mono tracking-wide hover:border-ops-blue/50 hover:text-ops-blue transition-colors">
+        CONTACT
+      </a>
+    </div>
+
+    <!-- Quick tags -->
+    <div class="flex flex-wrap justify-center gap-2">
+      <span class="tag">ANSYS Fluent</span>
+      <span class="tag">Thermal Desktop</span>
+      <span class="tag">MBSE · Cameo</span>
+      <span class="tag">Python · MATLAB</span>
+      <span class="tag">SolidWorks</span>
+      <span class="tag">Lockheed Martin</span>
+      <span class="tag">NASA L'Space</span>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1">
+    <span class="font-mono text-ops-dim text-xs tracking-widest">SCROLL</span>
+    <div class="w-px h-8 bg-gradient-to-b from-ops-blue/50 to-transparent animate-pulse"></div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     STATS BAR
+══════════════════════════════════════════════ -->
+<section id="about" class="py-10 border-y border-ops-border bg-ops-surface">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="stat-card rounded-lg p-5 text-center reveal">
+        <div class="text-3xl font-bold text-ops-blue font-mono">3+</div>
+        <div class="text-ops-slate text-xs mt-1 font-mono tracking-wider">INDUSTRY ROLES</div>
+      </div>
+      <div class="stat-card rounded-lg p-5 text-center reveal">
+        <div class="text-3xl font-bold text-ops-blue font-mono">3.68</div>
+        <div class="text-ops-slate text-xs mt-1 font-mono tracking-wider">GPA · RUTGERS</div>
+      </div>
+      <div class="stat-card rounded-lg p-5 text-center reveal">
+        <div class="text-3xl font-bold text-ops-blue font-mono">8+</div>
+        <div class="text-ops-slate text-xs mt-1 font-mono tracking-wider">ENGINEERING PROJECTS</div>
+      </div>
+      <div class="stat-card rounded-lg p-5 text-center reveal">
+        <div class="text-3xl font-bold text-ops-blue font-mono">150<span class="text-lg text-ops-slate">/155</span></div>
+        <div class="text-ops-slate text-xs mt-1 font-mono tracking-wider">TSA DOC SCORE</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     ABOUT
+══════════════════════════════════════════════ -->
+<section class="py-20 max-w-6xl mx-auto px-6">
+  <div class="reveal">
+    <p class="section-label mb-2">// 01 · ABOUT</p>
+    <h2 class="text-2xl sm:text-3xl font-bold text-ops-text mb-8">Engineering Profile</h2>
+  </div>
+  <div class="grid md:grid-cols-2 gap-10 items-start">
+    <div class="space-y-4 text-ops-slate leading-relaxed reveal">
+      <p>
+        Aerospace Engineering student at Rutgers University with hands-on industry experience across
+        defense, space, and motorsport domains. Currently holding an active <span class="text-ops-text font-medium">DoD Secret Clearance</span>
+        through work as a Systems Engineering Apprentice at <span class="text-ops-text font-medium">Lockheed Martin RMS</span>.
+      </p>
+      <p>
+        My focus spans <span class="text-ops-text">computational fluid dynamics</span>, <span class="text-ops-text">thermal analysis</span>,
+        and <span class="text-ops-text">model-based systems engineering</span>. I've contributed to programs including the
+        Aegis Combat System, 6U CubeSat orbital thermal modeling, and NASA L'Space mission concept development.
+      </p>
+      <p>
+        Outside core engineering work, I build physical systems — FPV drones, servo-actuated mechanisms,
+        and electromechanical assemblies — bridging simulation and fabrication.
+      </p>
+      <p class="font-mono text-xs text-ops-blue border-l-2 border-ops-blue pl-3 py-1">
+        Specializations: CFD · Thermal Design · Systems Engineering · Structural Mechanics
+      </p>
+    </div>
+    <div class="space-y-3 reveal">
+      <div class="bg-ops-panel border border-ops-border rounded-lg p-5">
+        <p class="font-mono text-xs text-ops-blue mb-3 tracking-wider">EDUCATION</p>
+        <p class="font-semibold text-ops-text">B.S. Aerospace Engineering</p>
+        <p class="text-ops-slate text-sm">Rutgers University — School of Engineering</p>
+        <p class="text-ops-slate text-sm">Expected May 2028 · GPA 3.68</p>
+      </div>
+      <div class="bg-ops-panel border border-ops-border rounded-lg p-5">
+        <p class="font-mono text-xs text-ops-blue mb-3 tracking-wider">CLEARANCE STATUS</p>
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+          <span class="text-ops-text font-semibold text-sm">Active DoD Secret Clearance</span>
+        </div>
+        <p class="text-ops-dim text-xs mt-1 font-mono">Granted via Lockheed Martin RMS · 2025</p>
+      </div>
+      <div class="bg-ops-panel border border-ops-border rounded-lg p-5">
+        <p class="font-mono text-xs text-ops-blue mb-3 tracking-wider">CONTACT</p>
+        <div class="space-y-1 text-sm font-mono">
+          <p class="text-ops-slate">aksharpat06@gmail.com</p>
+          <p class="text-ops-slate">(201) 702-3944</p>
+          <a href="https://linkedin.com/in/aksharpat1" target="_blank" class="text-ops-blue hover:underline block">linkedin.com/in/aksharpat1</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     EXPERIENCE
+══════════════════════════════════════════════ -->
+<section id="experience" class="py-20 bg-ops-surface border-y border-ops-border">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="reveal mb-12">
+      <p class="section-label mb-2">// 02 · EXPERIENCE</p>
+      <h2 class="text-2xl sm:text-3xl font-bold text-ops-text">Industry Timeline</h2>
+    </div>
+
+    <div class="relative">
+      <!-- Timeline vertical line -->
+      <div class="absolute left-4 md:left-6 top-0 bottom-0 w-px timeline-line hidden sm:block"></div>
+
+      <div class="space-y-8">
+
+        <!-- ─── Lockheed Martin ─── -->
+        <div class="sm:pl-16 relative reveal">
+          <div class="absolute left-2.5 md:left-4.5 top-5 w-3 h-3 rounded-full bg-ops-blue border-2 border-ops-bg hidden sm:block"></div>
+          <div class="proj-card rounded-xl p-6">
+            <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+              <div>
+                <p class="text-ops-text font-semibold text-base">Systems Engineering Apprentice Sr.</p>
+                <p class="text-ops-blue font-mono text-sm">Lockheed Martin RMS</p>
+              </div>
+              <div class="text-right">
+                <span class="exp-badge px-2 py-1 rounded bg-ops-blue/10 border border-ops-blue/30 text-ops-blue">Jun 2025 – Present</span>
+              </div>
+            </div>
+            <ul class="space-y-1.5 text-ops-slate text-sm leading-relaxed mb-4">
+              <li class="flex gap-2"><span class="text-ops-blue mt-1 flex-shrink-0">›</span>Contributing to <span class="text-ops-text mx-1">Aegis Combat System</span> development under DoD Secret Clearance</li>
+              <li class="flex gap-2"><span class="text-ops-blue mt-1 flex-shrink-0">›</span>Authored ~30 system requirements and 10 Use Case/IBD diagrams in Cameo</li>
+              <li class="flex gap-2"><span class="text-ops-blue mt-1 flex-shrink-0">›</span>Implemented MBSE methodology; participated in Agile Scrum sprint cycles</li>
+            </ul>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="tag">MBSE</span><span class="tag">Cameo</span><span class="tag">SysML</span><span class="tag">Agile Scrum</span><span class="tag">Aegis</span><span class="tag">DoD Secret</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─── Space Ocean Corp ─── -->
+        <div class="sm:pl-16 relative reveal">
+          <div class="absolute left-2.5 md:left-4.5 top-5 w-3 h-3 rounded-full bg-ops-blue border-2 border-ops-bg hidden sm:block"></div>
+          <div class="proj-card rounded-xl p-6">
+            <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+              <div>
+                <p class="text-ops-text font-semibold text-base">Principal Thermal Engineer</p>
+                <p class="text-ops-blue font-mono text-sm">Space Ocean Corp</p>
+              </div>
+              <div class="text-right">
+                <span class="exp-badge px-2 py-1 rounded bg-ops-blue/10 border border-ops-blue/30 text-ops-blue">Jan 2026 – Present</span>
+              </div>
+            </div>
+            <ul class="space-y-1.5 text-ops-slate text-sm leading-relaxed mb-4">
+              <li class="flex gap-2"><span class="text-ops-blue mt-1 flex-shrink-0">›</span>Developed 6-node orbital thermal model in Python for 6U CubeSat mission</li>
+              <li class="flex gap-2"><span class="text-ops-blue mt-1 flex-shrink-0">›</span>Conducted LEO hot-case and cold-case thermal analysis for mission design</li>
+              <li class="flex gap-2"><span class="text-ops-blue mt-1 flex-shrink-0">›</span>Led thermal subsystem architecture decisions as principal engineer</li>
+            </ul>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="tag">Python</span><span class="tag">Orbital Mechanics</span><span class="tag">6U CubeSat</span><span class="tag">LEO Thermal</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─── NASA L'Space ─── -->
+        <div class="sm:pl-16 relative reveal">
+          <div class="absolute left-2.5 md:left-4.5 top-5 w-3 h-3 rounded-full bg-ops-blue border-2 border-ops-bg hidden sm:block"></div>
+          <div class="proj-card rounded-xl p-6">
+            <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+              <div>
+                <p class="text-ops-text font-semibold text-base">Thermal Engineer</p>
+                <p class="text-ops-blue font-mono text-sm">NASA L'Space Mission Concept Academy</p>
+              </div>
+              <div class="text-right">
+                <span class="exp-badge px-2 py-1 rounded bg-ops-blue/10 border border-ops-blue/30 text-ops-blue">May – Aug 2025</span>
+              </div>
+            </div>
+            <ul class="space-y-1.5 text-ops-slate text-sm leading-relaxed mb-4">
+              <li class="flex gap-2"><span class="text-ops-blue mt-1 flex-shrink-0">›</span>Defined 12 mission parameters and completed 5 trade studies for TCS design</li>
+              <li class="flex gap-2"><span class="text-ops-blue mt-1 flex-shrink-0">›</span>Developed Thermal Control Subsystem architecture for planetary mission concept</li>
+            </ul>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="tag">TCS Design</span><span class="tag">Trade Studies</span><span class="tag">Mission Concept</span><span class="tag">NASA</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─── Rutgers Formula Racing ─── -->
+        <div class="sm:pl-16 relative reveal">
+          <div class="absolute left-2.5 md:left-4.5 top-5 w-3 h-3 rounded-full bg-ops-blue border-2 border-ops-bg hidden sm:block"></div>
+          <div class="proj-card rounded-xl p-6">
+            <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+              <div>
+                <p class="text-ops-text font-semibold text-base">Aerodynamics Engineer</p>
+                <p class="text-ops-blue font-mono text-sm">Rutgers Formula Racing</p>
+              </div>
+              <div class="text-right">
+                <span class="exp-badge px-2 py-1 rounded bg-ops-blue/10 border border-ops-blue/30 text-ops-blue">Sep 2024 – May 2025</span>
+              </div>
+            </div>
+            <ul class="space-y-1.5 text-ops-slate text-sm leading-relaxed mb-4">
+              <li class="flex gap-2"><span class="text-ops-blue mt-1 flex-shrink-0">›</span>Performed aerodynamic analysis using SolidWorks and ANSYS CFD for race car bodywork</li>
+              <li class="flex gap-2"><span class="text-ops-blue mt-1 flex-shrink-0">›</span>Executed carbon fiber wet-layup and vacuum infusion composite fabrication</li>
+            </ul>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="tag">ANSYS CFD</span><span class="tag">SolidWorks</span><span class="tag">Carbon Fiber</span><span class="tag">Composites</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     PROJECTS
+══════════════════════════════════════════════ -->
+<section id="projects" class="py-20 max-w-6xl mx-auto px-6">
+  <div class="reveal mb-12">
+    <p class="section-label mb-2">// 03 · PROJECTS</p>
+    <h2 class="text-2xl sm:text-3xl font-bold text-ops-text mb-2">Engineering Work</h2>
+    <p class="text-ops-slate text-sm">Simulation · Fabrication · Analysis</p>
+  </div>
+
+  <!-- Featured Projects -->
+  <div class="grid md:grid-cols-2 gap-6 mb-6">
+
+    <!-- ─── Re-Entry CFD (Featured) ─── -->
+    <div class="proj-card rounded-xl overflow-hidden md:col-span-2 reveal">
+      <div class="md:flex">
+        <div class="md:w-80 flex-shrink-0 bg-ops-bg relative overflow-hidden">
+          <img src="images/reentry-pressure.png" alt="Hypersonic Re-Entry CFD — Static Pressure Contour"
+               class="w-full h-56 md:h-full object-contain p-2" />
+          <div class="absolute top-2 left-2 bg-ops-blue text-ops-bg text-xs font-mono font-bold px-2 py-0.5 rounded">FEATURED</div>
+        </div>
+        <div class="p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-start justify-between gap-3 mb-3">
+              <h3 class="text-ops-text font-semibold text-lg leading-snug">Hypersonic Re-Entry CFD &amp; Thermal Analysis</h3>
+              <span class="text-ops-dim font-mono text-xs whitespace-nowrap">May 2026 – Present</span>
+            </div>
+            <p class="text-ops-slate text-sm leading-relaxed mb-4">
+              ANSYS Fluent simulation of Dragon capsule hypersonic re-entry across Mach 5–25.
+              Benchmarked turbulence models, validated stagnation heat flux to within &lt;5% of Fay-Riddell
+              analytical solution, and coupled ANSYS Mechanical for transient TPS thermal analysis.
+            </p>
+            <div class="flex flex-wrap gap-1.5 mb-5">
+              <span class="tag">ANSYS Fluent</span><span class="tag">ANSYS Mechanical</span><span class="tag">CFD</span>
+              <span class="tag">Hypersonic</span><span class="tag">TPS Thermal</span><span class="tag">Fay-Riddell</span>
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <a href="reentry.html"
+               class="px-4 py-2 bg-ops-blue text-ops-bg text-xs font-mono font-semibold rounded hover:bg-ops-blue2 transition-colors">
+              VIEW ANALYSIS →
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── Composite Mechanics ─── -->
+    <div class="proj-card rounded-xl overflow-hidden reveal">
+      <div class="p-6">
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-8 h-8 rounded bg-ops-blue/10 border border-ops-blue/30 flex items-center justify-center flex-shrink-0">
+            <svg class="w-4 h-4 text-ops-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2h-4m-6 0V1m6 2V1M9 3h6"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-ops-text font-semibold text-sm leading-tight">Aerospace Composite Mechanics Suite</h3>
+            <span class="text-ops-dim font-mono text-xs">Jan – May 2026</span>
+          </div>
+        </div>
+        <p class="text-ops-slate text-sm leading-relaxed mb-4">
+          MATLAB toolset computing laminate stiffness matrices (A/B/D) and deformation fields for
+          aerospace composites. Validated within 10% of Kevlar experimental lab data.
+        </p>
+        <div class="flex flex-wrap gap-1.5">
+          <span class="tag">MATLAB</span><span class="tag">CLT</span><span class="tag">Composites</span><span class="tag">Kevlar</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── Drone / UAV ─── -->
+    <div class="proj-card rounded-xl overflow-hidden reveal">
+      <div class="p-1 pb-0 bg-[#dde3ea]">
+        <img src="images/img-000.jpg" alt="FPV Drone Build"
+             class="w-full h-40 object-contain" />
+      </div>
+      <div class="p-6">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <h3 class="text-ops-text font-semibold text-sm leading-tight">FPV Drone — TSA UAV Carnival Challenge</h3>
+          <span class="text-ops-dim font-mono text-xs whitespace-nowrap">150/155</span>
+        </div>
+        <p class="text-ops-slate text-sm leading-relaxed mb-4">
+          Built from scratch: TBS Source One V5 frame, iFlight XING-E motors, BLITZ FC/ESC stack,
+          ExpressLRS long-range RC, GPS, and Caddx FPV camera. Achieved 150/155 documentation score.
+        </p>
+        <div class="flex flex-wrap gap-1.5 mb-4">
+          <span class="tag">FPV</span><span class="tag">ExpressLRS</span><span class="tag">BLITZ FC</span><span class="tag">GPS</span>
+        </div>
+        <a href="Drone_Documentation.pdf" target="_blank"
+           class="text-ops-blue text-xs font-mono hover:underline">Documentation PDF ↗</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Secondary Projects Grid -->
+  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+    <!-- Universal Toy Design -->
+    <div class="proj-card rounded-xl overflow-hidden reveal">
+      <div class="p-1 pb-0 bg-[#dde3ea]">
+        <img src="images/img-022.jpg" alt="Universal Toy Design"
+             class="w-full h-36 object-contain" />
+      </div>
+      <div class="p-5">
+        <h3 class="text-ops-text font-semibold text-sm mb-1">Universal Toy Design</h3>
+        <p class="text-ops-slate text-xs leading-relaxed mb-3">
+          Servo-actuated punching action figure designed in Onshape. Arduino control, Universal Design
+          principles for ages 3–9.
+        </p>
+        <div class="flex flex-wrap gap-1 mb-3">
+          <span class="tag">Onshape</span><span class="tag">Arduino</span><span class="tag">Servo</span>
+        </div>
+        <a href="UniversalToy_Presentation.pdf" target="_blank"
+           class="text-ops-blue text-xs font-mono hover:underline">Presentation PDF ↗</a>
+      </div>
+    </div>
+
+    <!-- Satellite Capstone -->
+    <div class="proj-card rounded-xl overflow-hidden reveal">
+      <div class="p-1 pb-0 bg-[#dde3ea]">
+        <img src="images/img-012.jpg" alt="Satellite Capstone"
+             class="w-full h-36 object-contain" />
+      </div>
+      <div class="p-5">
+        <h3 class="text-ops-text font-semibold text-sm mb-1">Solar Flare Effects on Satellites</h3>
+        <p class="text-ops-slate text-xs leading-relaxed mb-3">
+          Senior HS capstone. Designed 4-dish EM countermeasure satellite in Onshape using destructive
+          interference concept to mitigate solar flare damage.
+        </p>
+        <div class="flex flex-wrap gap-1 mb-3">
+          <span class="tag">Onshape</span><span class="tag">EM Theory</span><span class="tag">Capstone</span>
+        </div>
+        <a href="Capstone_SolarFlare.pdf" target="_blank"
+           class="text-ops-blue text-xs font-mono hover:underline">Capstone Report ↗</a>
+      </div>
+    </div>
+
+    <!-- Inline Four ICE Engine -->
+    <div class="proj-card rounded-xl overflow-hidden reveal">
+      <div class="p-1 pb-0 bg-[#dde3ea]">
+        <img src="images/img-017.jpg" alt="Inline Four Engine"
+             class="w-full h-36 object-contain" />
+      </div>
+      <div class="p-5">
+        <h3 class="text-ops-text font-semibold text-sm mb-1">Inline-Four ICE Engine</h3>
+        <p class="text-ops-slate text-xs leading-relaxed mb-3">
+          Full SolidWorks assembly with synchronized crankshaft, OHC valvetrain, and
+          animated motion study.
+        </p>
+        <div class="flex flex-wrap gap-1">
+          <span class="tag">SolidWorks</span><span class="tag">Motion Study</span><span class="tag">CAD</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Standing Desk -->
+    <div class="proj-card rounded-xl overflow-hidden reveal">
+      <div class="p-5">
+        <div class="w-8 h-8 rounded bg-ops-blue/10 border border-ops-blue/30 flex items-center justify-center mb-3">
+          <svg class="w-4 h-4 text-ops-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7"/>
+          </svg>
+        </div>
+        <h3 class="text-ops-text font-semibold text-sm mb-1">Standing Desk Design</h3>
+        <p class="text-ops-slate text-xs leading-relaxed mb-3">
+          SolidWorks desk with 16DP worm/spur gear height-adjustment mechanism.
+          Full assembly with motion analysis.
+        </p>
+        <div class="flex flex-wrap gap-1">
+          <span class="tag">SolidWorks</span><span class="tag">Gear Train</span><span class="tag">Mechanism</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Additional CAD -->
+    <div class="proj-card rounded-xl overflow-hidden sm:col-span-2 lg:col-span-2 reveal">
+      <div class="p-5">
+        <h3 class="text-ops-text font-semibold text-sm mb-2">Additional CAD &amp; Design Projects</h3>
+        <p class="text-ops-slate text-xs leading-relaxed mb-4">
+          A collection of smaller engineering design projects spanning multiple CAD platforms
+          and domains.
+        </p>
+        <div class="grid sm:grid-cols-2 gap-3 text-xs text-ops-slate">
+          <div class="flex items-center gap-2"><span class="text-ops-blue">›</span> STILH Multi-Tool (SolidWorks)</div>
+          <div class="flex items-center gap-2"><span class="text-ops-blue">›</span> Radiation Detection System</div>
+          <div class="flex items-center gap-2"><span class="text-ops-blue">›</span> Desk Accessories Suite</div>
+          <div class="flex items-center gap-2"><span class="text-ops-blue">›</span> HESS Truck (AutoCAD)</div>
+          <div class="flex items-center gap-2"><span class="text-ops-blue">›</span> Mouse Mobile Design</div>
+          <div class="flex items-center gap-2"><span class="text-ops-blue">›</span> Mechanical assemblies / motion</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     SKILLS
+══════════════════════════════════════════════ -->
+<section id="skills" class="py-20 bg-ops-surface border-y border-ops-border">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="reveal mb-12">
+      <p class="section-label mb-2">// 04 · SKILLS</p>
+      <h2 class="text-2xl sm:text-3xl font-bold text-ops-text">Technical Stack</h2>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <div class="reveal">
+        <p class="font-mono text-xs text-ops-blue mb-3 tracking-wider">SIMULATION &amp; ANALYSIS</p>
+        <div class="flex flex-wrap gap-2">
+          <span class="skill-pill rounded px-3 py-1.5 text-xs font-mono text-ops-text">ANSYS Fluent</span>
+          <span class="skill-pill rounded px-3 py-1.5 text-xs font-mono text-ops-text">ANSYS Mechanical</span>
+          <span class="skill-pill rounded px-3 py-1.5 text-xs font-mono text-ops-text">Thermal Desktop</span>
+          <span class="skill-pill rounded px-3 py-1.5 text-xs font-mono text-ops-text">MATLAB</span>
+          <span class="skill-pill rounded px-3 py-1.5 text-xs font-mono text-ops-text">Python</span>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <p class="font-mono text-xs text-ops-blue mb-3 tracking-wider">CAD &amp; DESIGN</p>
+        <div class="flex flex-wrap gap-2">
+          <span class="skill-pill rounded px-3 py-1.5 text-xs font-mono text-ops-text">SolidWorks</span>
+          <span class="skill-pill rounded px-3 py-1.5 text-xs font-mono text-ops-text">PTC Creo</span>
+          <span class="skill-pill rounded px-3 py-1.5 text-xs font-mono text-ops-text">Siemens NX</span>
+          <span class="skill-pill rounded px-3 py-1.5 text-xs font-mono text-ops-text">Onshape</span>
+          <span class="skill-pill rounded px-3 py-1.5 text-xs font-mono text-ops-text">AutoCAD</span>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <p class="font-mono text-xs text-ops-blue mb-3 tracking-wider">SYSTEMS &amp; METHODS</p>
+        <div class="flex flex-wrap gap-2">
+          <span class="skill-pill rounded px-3 py-1.5 text-xs font-mono text-ops-text">Cameo (MBSE)</span>
+          <span class="skill-pill rounded px-3 py-1.5 text-xs font-mono text-ops-text">SysML</span>
+          <span class="skill-pill rounded px-3 py-1.5 text-xs font-mono text-ops-text">Agile Scrum</span>
+          <span class="skill-pill rounded px-3 py-1.5 text-xs font-mono text-ops-text">Confluence / Jira</span>
+          <span class="skill-pill rounded px-3 py-1.5 text-xs font-mono text-ops-text">Java</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     CONTACT
+══════════════════════════════════════════════ -->
+<section id="contact" class="py-20 max-w-6xl mx-auto px-6">
+  <div class="reveal text-center mb-10">
+    <p class="section-label mb-2">// 05 · CONTACT</p>
+    <h2 class="text-2xl sm:text-3xl font-bold text-ops-text mb-3">Get In Touch</h2>
+    <p class="text-ops-slate text-sm max-w-md mx-auto">
+      Open to internship opportunities in aerospace, defense, and systems engineering.
+      Active DoD Secret Clearance.
+    </p>
+  </div>
+
+  <div class="grid sm:grid-cols-3 gap-4 max-w-2xl mx-auto">
+    <a href="mailto:aksharpat06@gmail.com"
+       class="proj-card rounded-xl p-5 text-center group reveal">
+      <div class="w-10 h-10 rounded-full bg-ops-blue/10 border border-ops-blue/30 flex items-center justify-center mx-auto mb-3 group-hover:bg-ops-blue/20 transition-colors">
+        <svg class="w-4 h-4 text-ops-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/>
+        </svg>
+      </div>
+      <p class="text-ops-text text-xs font-mono">EMAIL</p>
+      <p class="text-ops-slate text-xs mt-1">aksharpat06@gmail.com</p>
+    </a>
+
+    <a href="https://linkedin.com/in/aksharpat1" target="_blank"
+       class="proj-card rounded-xl p-5 text-center group reveal">
+      <div class="w-10 h-10 rounded-full bg-ops-blue/10 border border-ops-blue/30 flex items-center justify-center mx-auto mb-3 group-hover:bg-ops-blue/20 transition-colors">
+        <svg class="w-4 h-4 text-ops-blue" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/>
+          <circle cx="4" cy="4" r="2"/>
+        </svg>
+      </div>
+      <p class="text-ops-text text-xs font-mono">LINKEDIN</p>
+      <p class="text-ops-slate text-xs mt-1">aksharpat1</p>
+    </a>
+
+    <a href="Akshar_Patel_Resume_Aug2026.pdf" target="_blank"
+       class="proj-card rounded-xl p-5 text-center group reveal">
+      <div class="w-10 h-10 rounded-full bg-ops-blue/10 border border-ops-blue/30 flex items-center justify-center mx-auto mb-3 group-hover:bg-ops-blue/20 transition-colors">
+        <svg class="w-4 h-4 text-ops-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m.75 12l3 3m0 0l3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/>
+        </svg>
+      </div>
+      <p class="text-ops-text text-xs font-mono">RÉSUMÉ</p>
+      <p class="text-ops-slate text-xs mt-1">Download PDF</p>
+    </a>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════════ -->
+<footer class="border-t border-ops-border bg-ops-surface py-8">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="footer-rule mb-6"></div>
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 text-ops-dim font-mono text-xs">
+      <span>© 2026 Akshar Patel — Aerospace &amp; Systems Engineering</span>
+      <span class="text-ops-blue/60">DoD Secret Clearance · Rutgers University</span>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ══════════════════════════════════════════════
+     JS
+══════════════════════════════════════════════ -->
+<script>
+  /* ── Hamburger ── */
+  const hamburger = document.getElementById('hamburger');
+  const mobileNav = document.getElementById('mobile-nav');
+  const h1 = document.getElementById('h1');
+  const h2 = document.getElementById('h2');
+  const h3 = document.getElementById('h3');
+  let menuOpen = false;
+
+  hamburger.addEventListener('click', () => {
+    menuOpen = !menuOpen;
+    mobileNav.classList.toggle('open', menuOpen);
+    if (menuOpen) {
+      h1.style.cssText = 'transform:rotate(45deg) translate(4px,4px); background:#00d4ff;';
+      h2.style.cssText = 'opacity:0;';
+      h3.style.cssText = 'transform:rotate(-45deg) translate(4px,-4px); background:#00d4ff;';
+    } else {
+      h1.style.cssText = '';
+      h2.style.cssText = '';
+      h3.style.cssText = '';
+    }
+  });
+
+  function closeMobile() {
+    menuOpen = false;
+    mobileNav.classList.remove('open');
+    h1.style.cssText = '';
+    h2.style.cssText = '';
+    h3.style.cssText = '';
+  }
+
+  /* ── Scroll reveal ── */
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => observer.observe(el));
+
+  /* ── Nav active indicator on scroll ── */
+  const sections = document.querySelectorAll('section[id], div[id="about"]');
+  const navLinks = document.querySelectorAll('#nav a[href^="#"]');
+
+  const scrollSpy = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(l => {
+          l.classList.toggle('text-ops-blue', l.getAttribute('href') === '#' + e.target.id);
+          l.classList.toggle('text-ops-slate', l.getAttribute('href') !== '#' + e.target.id);
+        });
+      }
+    });
+  }, { rootMargin: '-40% 0px -50% 0px' });
+
+  document.querySelectorAll('section[id]').forEach(s => scrollSpy.observe(s));
+
+  /* ── Canvas particle background (hero) ── */
+  (function () {
+    const hero = document.getElementById('hero');
+    const canvas = document.createElement('canvas');
+    canvas.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:0.5;';
+    hero.prepend(canvas);
+
+    const ctx = canvas.getContext('2d');
+    let W, H, nodes = [];
+
+    function resize() {
+      W = canvas.width  = hero.offsetWidth;
+      H = canvas.height = hero.offsetHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    for (let i = 0; i < 55; i++) {
+      nodes.push({
+        x: Math.random() * 1000, y: Math.random() * 600,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
+      });
+    }
+
+    function tick() {
+      ctx.clearRect(0, 0, W, H);
+      nodes.forEach(n => {
+        n.x += n.vx; n.y += n.vy;
+        if (n.x < 0 || n.x > W) n.vx *= -1;
+        if (n.y < 0 || n.y > H) n.vy *= -1;
+      });
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[i].x - nodes[j].x;
+          const dy = nodes[i].y - nodes[j].y;
+          const d  = Math.sqrt(dx * dx + dy * dy);
+          if (d < 130) {
+            ctx.beginPath();
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.strokeStyle = `rgba(0,212,255,${0.2 * (1 - d / 130)})`;
+            ctx.lineWidth = 0.7;
+            ctx.stroke();
+          }
+        }
+      }
+      nodes.forEach(n => {
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, 1.8, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(0,212,255,0.55)';
+        ctx.fill();
+      });
+      requestAnimationFrame(tick);
+    }
+    tick();
+  })();
+</script>
+
+</body>
+</html>
