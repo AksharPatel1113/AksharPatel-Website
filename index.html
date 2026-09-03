@@ -555,6 +555,14 @@
     <div id="intro-line"></div>
   </div>
 </div>
+<script>
+  /* Runs before the intro can paint. A 'tab' in sessionStorage means this
+     load came from a nav click on another page — not someone opening or
+     reloading Home — so the intro is hidden outright, with no flash. */
+  window.__pendingTab = sessionStorage.getItem('tab');
+  sessionStorage.removeItem('tab');
+  if (window.__pendingTab) document.getElementById('intro').classList.add('leave', 'gone');
+</script>
 
 <!-- TAB TRANSITION WIPE -->
 <div id="tab-wipe"></div>
@@ -1126,9 +1134,17 @@
   })();
 
   /* ════════════════════════════════════════
-     PAGE-LOAD INTRO  — iris collapse on first open
+     PAGE-LOAD INTRO  — iris collapse
+     Plays ONLY on a genuine load/reload of Home.
+     Never on tab clicks, and never when arriving
+     from another page via a nav link.
   ════════════════════════════════════════ */
   const intro = document.getElementById('intro');
+
+  // read and cleared by the inline script next to the intro markup, so the
+  // element could be hidden before its first paint
+  const pendingTab = window.__pendingTab;
+
   function playIntro() {
     intro.classList.remove('gone', 'leave');
     intro.offsetHeight; // force reflow so transition re-fires
@@ -1136,17 +1152,16 @@
       intro.classList.add('leave');
       intro.addEventListener('transitionend', () => {
         intro.classList.add('gone');
-        wiping = false;
       }, { once: true });
     }, 2000);
   }
-  playIntro(); // always plays on page load (only index.html has this)
+
+  if (!pendingTab) playIntro(); // already hidden inline when pendingTab is set
 
   /* ════════════════════════════════════════
      TAB SWITCHING
-     • Home tab  → iris animation
-     • Other tabs → wipe sweep
-     • Same tab  → no-op
+     • Any tab → wipe sweep
+     • Same tab → no-op
   ════════════════════════════════════════ */
   const wipe = document.getElementById('tab-wipe');
   let wiping = false;
@@ -1166,21 +1181,15 @@
       window.scrollTo({ top: 0, behavior: 'instant' });
     }
 
-    if (id === 'home') {
-      // iris reveal for home
+    // wipe sweep for every tab, Home included
+    wipe.classList.remove('out');
+    wipe.classList.add('in');
+    setTimeout(() => {
       swapContent();
-      playIntro();
-    } else {
-      // wipe sweep for all other tabs
-      wipe.classList.remove('out');
-      wipe.classList.add('in');
-      setTimeout(() => {
-        swapContent();
-        wipe.classList.remove('in');
-        wipe.classList.add('out');
-        setTimeout(() => { wipe.classList.remove('out'); wiping = false; }, 240);
-      }, 230);
-    }
+      wipe.classList.remove('in');
+      wipe.classList.add('out');
+      setTimeout(() => { wipe.classList.remove('out'); wiping = false; }, 240);
+    }, 230);
   }
   function navigateTo(url) {
     if (wiping) return;
@@ -1198,13 +1207,9 @@
   }
 
   /* ── SESSION TAB ROUTING (from reentry.html links) ── */
-  (function () {
-    const tab = sessionStorage.getItem('tab');
-    if (tab) {
-      sessionStorage.removeItem('tab');
-      showTabByName(tab);
-    }
-  })();
+  // pendingTab was read (and cleared) up by the intro so it could
+  // decide whether this load deserves the animation
+  if (pendingTab && pendingTab !== 'home') showTabByName(pendingTab);
 
   /* ════════════════════════════════════════
      PROJECT IMAGE VIEWER
