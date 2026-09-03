@@ -708,20 +708,35 @@
 
       <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; transition:border-color 0.2s, transform 0.2s;" onmouseover="this.style.borderColor='rgba(108,99,255,0.5)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform=''">
         <div style="height:220px; background:#0d0d14; overflow:hidden; position:relative;">
-          <img src="images/reentry-pressure.png" alt="Hypersonic Re-Entry CFD" style="width:100%;height:100%;object-fit:contain;" />
+          <img src="images/reentry/mach-contour-bowshock.png" alt="Mach number contour showing the detached bow shock ahead of the capsule" style="width:100%;height:100%;object-fit:contain;" />
           <div style="position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;padding-bottom:0.75rem;pointer-events:none;">
-            <span style="font-size:0.75rem;color:var(--muted);background:rgba(10,10,15,0.7);padding:0.3rem 0.7rem;border-radius:999px;border:1px solid var(--border);">Static Pressure Contour · Mach 5–25</span>
+            <span style="font-size:0.75rem;color:var(--muted);background:rgba(10,10,15,0.7);padding:0.3rem 0.7rem;border-radius:999px;border:1px solid var(--border);">Detached Bow Shock · Mach Contour</span>
           </div>
         </div>
         <div style="padding:1.5rem;">
           <p style="font-size:0.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">CFD &amp; THERMAL</p>
-          <h3 style="font-size:1.15rem;font-weight:800;margin-bottom:0.75rem;line-height:1.3;">Hypersonic Re-Entry CFD &amp; Thermal Analysis</h3>
-          <p style="font-size:0.88rem;color:var(--muted);line-height:1.7;margin-bottom:1rem;">Coupled aerodynamic and thermal analysis of a Dragon-style blunt-body capsule during atmospheric re-entry. Parametric Mach 5–25 sweep with turbulence model benchmarking and transient TPS thermal analysis.</p>
+          <h3 style="font-size:1.15rem;font-weight:800;margin-bottom:0.75rem;line-height:1.3;">Hypersonic Re-Entry Aero-Thermal Analysis</h3>
+          <p style="font-size:0.88rem;color:var(--muted);line-height:1.7;margin-bottom:1rem;">Coupled aerodynamic and thermal analysis of a Dragon-style blunt-body capsule. Density-based CFD validated against Rayleigh Pitot and Newtonian theory to within 3%, then coupled to a transient TPS conduction model over a full LEO return trajectory.</p>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem;margin-bottom:1.1rem;">
+            <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:0.55rem 0.4rem;text-align:center;">
+              <div style="font-size:1.05rem;font-weight:800;color:var(--accent2);line-height:1.1;">&lt;3%</div>
+              <div style="font-size:0.62rem;color:var(--muted);letter-spacing:0.04em;margin-top:0.15rem;">VS THEORY</div>
+            </div>
+            <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:0.55rem 0.4rem;text-align:center;">
+              <div style="font-size:1.05rem;font-weight:800;color:var(--accent2);line-height:1.1;">479k</div>
+              <div style="font-size:0.62rem;color:var(--muted);letter-spacing:0.04em;margin-top:0.15rem;">CELLS</div>
+            </div>
+            <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:0.55rem 0.4rem;text-align:center;">
+              <div style="font-size:1.05rem;font-weight:800;color:var(--accent2);line-height:1.1;">127</div>
+              <div style="font-size:0.62rem;color:var(--muted);letter-spacing:0.04em;margin-top:0.15rem;">W/cm² PEAK</div>
+            </div>
+          </div>
           <div class="tag-list" style="margin-bottom:1.25rem;">
             <span class="tag">ANSYS Fluent</span>
-            <span class="tag">ANSYS Mechanical</span>
+            <span class="tag">k-&omega; SST</span>
             <span class="tag">Python</span>
-            <span class="tag">Compressible CFD</span>
+            <span class="tag">Fay-Riddell</span>
+            <span class="tag">TPS Sizing</span>
           </div>
           <a href="#" onclick="navigateTo('reentry.html'); return false;" class="btn btn-primary" style="font-size:0.88rem;padding:0.6rem 1.4rem;">View Project &rarr;</a>
         </div>
@@ -998,7 +1013,7 @@
       <div class="timeline-body">
         <h4>SpaceX Dragon Capsule Aero-thermal Re-entry Analysis</h4>
         <div class="org">Independent Research</div>
-        <p>Performed CFD analysis of capsule re-entry in Ansys Fluent, validating heat flux within 5% of Fay-Riddell via Python. Coupled CFD-derived heat flux into transient thermal analysis comparing various materials using ANSYS Mechanical. Selected optimal turbulence closure for hypersonic re-entry by benchmarking 2 models, improving heat flux accuracy.</p>
+        <p>Ran density-based CFD of blunt-body capsule re-entry in Ansys Fluent (k-&omega; SST, 479k cells), validating peak wall pressure and C<sub>p</sub> against Rayleigh Pitot and modified Newtonian theory to within 3% across a Mach 5&ndash;10 sweep. Implemented Fay-Riddell stagnation heating in Python, cross-validated to 0.3% against Sutton-Graves, and drove a transient 1-D TPS conduction model that sized PICA, Avcoat, and silicone ablator thickness to a 523 K bondline limit over a full Allen-Eggers entry trajectory.</p>
       </div>
     </div>
 

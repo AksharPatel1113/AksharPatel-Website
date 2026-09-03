@@ -239,6 +239,72 @@
     @media (max-width: 768px) {
       .results-grid, .method-grid { grid-template-columns: 1fr; }
     }
+
+    /* ════════ TECHNICAL PAGE ADDITIONS ════════ */
+
+    /* Section heading */
+    .sec-head { display:flex; align-items:baseline; gap:.75rem; margin:0 0 .4rem; flex-wrap:wrap; }
+    .sec-num  { font-family:'Consolas','Monaco',monospace; font-size:.8rem; color:var(--accent2);
+                border:1px solid rgba(0,212,255,.35); border-radius:4px; padding:.12rem .45rem; flex-shrink:0; }
+    .sec-head h2 { font-size:1.5rem; letter-spacing:-.01em; }
+    .sec-sub  { color:var(--muted); font-size:.9rem; margin-bottom:1.5rem; max-width:70ch; line-height:1.6; }
+
+    /* Data tables */
+    .table-wrap { overflow-x:auto; border:1px solid var(--border); border-radius:var(--radius);
+                  background:var(--surface); margin:1.25rem 0; -webkit-overflow-scrolling:touch; }
+    table.dtable { width:100%; border-collapse:collapse; font-size:.85rem; min-width:460px; }
+    table.dtable caption { caption-side:top; text-align:left; padding:.85rem 1rem .1rem;
+                  font-size:.78rem; letter-spacing:.06em; text-transform:uppercase; color:var(--accent2); }
+    table.dtable th { text-align:left; font-weight:600; color:var(--text); background:var(--surface2);
+                  padding:.6rem .85rem; border-bottom:1px solid var(--border); white-space:nowrap; }
+    table.dtable td { padding:.55rem .85rem; border-bottom:1px solid rgba(42,42,58,.5); color:var(--muted); }
+    table.dtable tbody tr:last-child td { border-bottom:none; }
+    table.dtable tbody tr:hover td { background:rgba(108,99,255,.04); }
+    table.dtable td strong, table.dtable td b { color:var(--text); font-weight:600; }
+    .num { font-family:'Consolas','Monaco',monospace; font-variant-numeric:tabular-nums; white-space:nowrap; }
+    .ok  { color:#4ade80; font-weight:600; }
+    .warn{ color:#fbbf24; font-weight:600; }
+    .bad { color:#f87171; font-weight:600; }
+
+    /* Spec grid */
+    .spec-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:.7rem; margin:1.25rem 0; }
+    .spec-item { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:.8rem .9rem; }
+    .spec-item .k { display:block; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-bottom:.3rem; }
+    .spec-item .v { display:block; font-size:1rem; color:var(--text); font-weight:600;
+                    font-family:'Consolas','Monaco',monospace; word-break:break-word; }
+
+    /* Figures */
+    .figure { margin:1.5rem 0; }
+    .figure img { display:block; width:100%; height:auto; border:1px solid var(--border);
+                  border-radius:var(--radius); background:#fff; cursor:zoom-in;
+                  transition:border-color .2s, transform .2s; }
+    .figure img.dark-shot { background:#0d0d14; }
+    .figure img:hover { border-color:rgba(0,212,255,.45); }
+    .figcap { margin-top:.6rem; font-size:.8rem; color:var(--muted); line-height:1.55; }
+    .figcap b { color:var(--text); font-weight:600; }
+    .fig-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.1rem; margin:1.5rem 0; }
+    .fig-row .figure { margin:0; }
+    .fig-row.two { grid-template-columns:repeat(auto-fit,minmax(380px,1fr)); }
+
+    /* Callout */
+    .note { border-left:3px solid var(--accent2); background:rgba(0,212,255,.05);
+            border-radius:0 8px 8px 0; padding:.85rem 1rem; margin:1.25rem 0;
+            font-size:.87rem; line-height:1.65; color:var(--muted); }
+    .note b, .note strong { color:var(--text); }
+    .note.amber { border-left-color:#fbbf24; background:rgba(251,191,36,.05); }
+
+    /* Limitation cards */
+    .limit-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1rem; margin:1.25rem 0; }
+    .limit-card { background:var(--surface); border:1px solid var(--border);
+                  border-left:3px solid #fbbf24; border-radius:0 var(--radius) var(--radius) 0; padding:1rem 1.1rem; }
+    .limit-card h4 { font-size:.92rem; color:var(--text); margin-bottom:.4rem; }
+    .limit-card p  { font-size:.83rem; color:var(--muted); line-height:1.6; }
+
+    @media (max-width:768px) {
+      .sec-head h2 { font-size:1.25rem; }
+      table.dtable { font-size:.78rem; }
+      table.dtable th, table.dtable td { padding:.5rem .6rem; }
+    }
   </style>
 </head>
 <body>
@@ -266,124 +332,621 @@
 </nav>
 
 <div class="page">
-
   <!-- ══ HERO ══ -->
   <div class="proj-hero">
-    <p class="sec-label">CFD &amp; Thermal · Independent Research · May 2026 – Present</p>
-    <h1>Hypersonic Re-Entry<br /><span>CFD &amp; Thermal Analysis</span></h1>
-    <p class="subtitle">Coupled aerodynamic and thermal analysis of a Dragon-style blunt-body capsule during atmospheric re-entry. Parametric Mach 5–25 sweep with turbulence model benchmarking and transient TPS thermal analysis — validated against Fay-Riddell analytical solutions.</p>
+    <p class="sec-label">CFD &amp; Aerothermal Analysis · Independent Research · Complete</p>
+    <h1>Hypersonic Re-Entry<br><span>Aero-Thermal Analysis</span></h1>
+    <p class="subtitle">
+      Coupled aerodynamic and thermal analysis of a Dragon-style blunt-body capsule during atmospheric
+      re-entry. CFD surface pressure validated against analytical theory across a Mach sweep, then coupled
+      to a transient thermal protection system model over a representative LEO return trajectory.
+    </p>
     <div class="tag-row">
-      <span class="tag">ANSYS Fluent</span>
-      <span class="tag">ANSYS Mechanical</span>
-      <span class="tag">Python</span>
-      <span class="tag">Compressible CFD</span>
-      <span class="tag">Hypersonics</span>
-      <span class="tag">Thermal Protection Systems</span>
+      <span class="tag">ANSYS Fluent 2026 R1</span>
+      <span class="tag">SpaceClaim</span>
+      <span class="tag">ANSYS Meshing</span>
+      <span class="tag">k-ω SST</span>
+      <span class="tag">Density-Based Solver</span>
+      <span class="tag">Fay-Riddell</span>
+      <span class="tag">Python 3</span>
+      <span class="tag">TPS Sizing</span>
+    </div>
+    <div class="figure" style="margin-top:2.5rem;">
+      <img src="images/reentry/mach-contour-bowshock.png" alt="Mach number contour showing the detached bow shock ahead of the capsule heat shield"
+           onclick="openLightbox(this.src)" />
+      <p class="figcap"><b>Detached bow shock, Mach 7.5.</b> Mach-number contours on the symmetry plane. Flow
+        decelerates from Mach 7.5 to subsonic across the shock, forming the high-pressure, high-temperature
+        shock layer that drives heat-shield sizing.</p>
     </div>
   </div>
 
   <!-- ══ KEY RESULTS ══ -->
-  <p class="sec-label" style="margin-bottom:1rem;">Key Results</p>
+  <p class="sec-label" style="margin-bottom:1rem;">Headline Results</p>
   <div class="results-grid">
     <div class="result-card">
-      <div class="metric">&lt;5%</div>
-      <h4>Heat Flux Validation</h4>
-      <p>CFD-derived stagnation heat flux validated within 5% of the Fay-Riddell analytical benchmark across the Mach 5–25 sweep using Python post-processing.</p>
+      <div class="metric">&lt;3%</div>
+      <h4>CFD vs Analytical Theory</h4>
+      <p>Peak wall pressure agrees with Rayleigh Pitot theory to within 0.58–2.81% across three converged
+         Mach cases. Peak C<sub>p</sub> matches modified Newtonian to 2.85%.</p>
     </div>
     <div class="result-card">
-      <div class="metric">Mach 5–25</div>
-      <h4>Parametric Mach Sweep</h4>
-      <p>Full parametric simulation campaign covering re-entry corridor conditions, capturing shock stand-off distance, pressure distributions, and wall temperature evolution.</p>
+      <div class="metric">0.3%</div>
+      <h4>Independent Heating Cross-Check</h4>
+      <p>Fay-Riddell stagnation heating agrees with the Sutton-Graves correlation to 0.3% at Mach 10 —
+         two independent formulations validating the implementation.</p>
     </div>
     <div class="result-card">
-      <div class="metric">2 Models</div>
-      <h4>Turbulence Benchmarking</h4>
-      <p>Benchmarked two turbulence closure models for hypersonic flow, selecting the optimal closure that improved heat flux prediction accuracy for the re-entry environment.</p>
+      <div class="metric">127</div>
+      <h4>Peak Heat Flux, W/cm²</h4>
+      <p>Stagnation-point convective heating peaks 106 s after entry interface at 44 km altitude and
+         Mach 20.1, integrating to roughly 62 MJ/m² over the entry.</p>
+    </div>
+    <div class="result-card">
+      <div class="metric">479k</div>
+      <h4>Cells, Grid Converged</h4>
+      <p>Mesh independence established at Mach 5 against the 512,000-cell ANSYS Student ceiling;
+         stagnation pressure within 3.1% of isentropic theory.</p>
+    </div>
+    <div class="result-card">
+      <div class="metric">4.0 cm</div>
+      <h4>PICA Thickness Sized</h4>
+      <p>Transient 1-D conduction sizing holds the bondline below 523 K at 10.8 kg/m² areal mass —
+         the lowest-mass option of three ablators evaluated.</p>
+    </div>
+    <div class="result-card">
+      <div class="metric">6</div>
+      <h4>Errors Found &amp; Corrected</h4>
+      <p>Including a reversed flow direction that would have inverted the entire pressure field, and
+         a silent Boolean subtract that left the domain unmodified.</p>
     </div>
   </div>
 
-  <!-- ══ PROBLEM STATEMENT ══ -->
+  <!-- ══ OBJECTIVE ══ -->
   <div class="prose-section">
-    <h2>Problem <span>Statement</span></h2>
-    <p>Atmospheric re-entry represents one of the most thermally severe environments in aerospace engineering. A Dragon-style blunt-body capsule experiences stagnation temperatures exceeding 1,600 K during peak heating, with heat flux rates that can ablate unprotected surfaces in seconds.</p>
-    <p>The challenge: accurately predict the coupled aerodynamic heating and structural thermal response across the full re-entry corridor — from hypersonic cruise at Mach 25 down through the subsonic deceleration phase — using <strong>ANSYS Fluent</strong> for the flow field and <strong>ANSYS Mechanical</strong> for transient structural thermal analysis, with results validated against the Fay-Riddell stagnation point heating correlation.</p>
-    <p>An additional objective was to quantify the sensitivity of heat flux predictions to turbulence model selection — a critical modeling decision for flows with strong compressibility effects, shock-boundary layer interaction, and high-temperature gas dynamics.</p>
+    <div class="sec-head"><span class="sec-num">00</span><h2><span>Objective</span></h2></div>
+    <p>
+      A re-entering capsule dissipates its orbital kinetic energy into a shock layer that can exceed
+      10,000 K. Sizing the thermal protection system that survives it requires two things: a trustworthy
+      picture of the pressure field, and a heating history along the actual trajectory.
+    </p>
+    <p>
+      This project builds both. <strong>Phase 1</strong> runs steady density-based CFD over a Mach sweep and
+      validates the result against normal-shock and Newtonian theory rather than assuming the solver is right.
+      <strong>Phase 2</strong> takes stagnation heating from the Fay-Riddell correlation — anchored to the
+      CFD-validated range — pushes it along an Allen-Eggers ballistic entry, and drives a transient conduction
+      model to size ablator thickness against a bondline temperature limit.
+    </p>
+    <div class="note">
+      <b>Why validate against theory at all?</b> A blunt-body stagnation region is one of the few
+      hypersonic problems with reliable closed-form answers. Rayleigh Pitot and modified Newtonian theory give an
+      independent check the CFD must pass before any of its output is used downstream. Passing that check is
+      what makes the heating and TPS results worth reporting.
+    </div>
   </div>
 
-  <!-- ══ METHODOLOGY ══ -->
+  <!-- ══ 01 GEOMETRY ══ -->
   <div class="prose-section">
-    <h2>Methodology</h2>
+    <div class="sec-head"><span class="sec-num">01</span><h2><span>Geometry &amp; Domain</span></h2></div>
+    <p class="sec-sub">Dragon-style blunt-body capsule, 3.6 m diameter, in a spherical far-field domain
+      roughly 20 body diameters across.</p>
+
+    <div class="fig-row two">
+      <div class="figure">
+        <img src="images/reentry/geometry-capsule.png" class="dark-shot" alt="Dragon-style capsule CAD geometry in SpaceClaim"
+             onclick="openLightbox(this.src)" />
+        <p class="figcap"><b>Imported capsule geometry.</b> STEP import into SpaceClaim preserved solid
+          topology. The heat shield faces −Y; freestream flows along +Y.</p>
+      </div>
+      <div>
+        <div class="spec-grid" style="margin-top:0;">
+          <div class="spec-item"><span class="k">Capsule diameter</span><span class="v">3.6 m</span></div>
+          <div class="spec-item"><span class="k">Fitted nose radius R<sub>n</sub></span><span class="v">3.248 m</span></div>
+          <div class="spec-item"><span class="k">Domain radius</span><span class="v">≈ 35.6 m</span></div>
+          <div class="spec-item"><span class="k">Domain cushion</span><span class="v">700 %</span></div>
+          <div class="spec-item"><span class="k">Freestream direction</span><span class="v">+Y (0, 1, 0)</span></div>
+          <div class="spec-item"><span class="k">Fluid volume</span><span class="v">1.893 × 10¹⁴ mm³</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="note amber">
+      <b>Two import failures worth recording.</b> SLDPRT import failed outright; STEP succeeded and avoided
+      facet-to-solid conversion entirely. Then manual Boolean subtract failed <em>silently</em> — the imported
+      capsule sat off-origin, so the sphere and capsule never intersected and <code>Combine</code> returned the
+      target unchanged with no error. It was caught only because the domain volume exactly matched a bare sphere.
+      The <b>Enclosure</b> tool creates the domain and subtracts the body in one operation regardless of body
+      position, and resolved it.
+    </div>
+  </div>
+
+  <!-- ══ 02 MESH ══ -->
+  <div class="prose-section">
+    <div class="sec-head"><span class="sec-num">02</span><h2><span>Mesh &amp; Grid Convergence</span></h2></div>
+    <p class="sec-sub">479,475 cells, sized deliberately against the 512,000-cell ANSYS Student ceiling.</p>
+
+    <div class="spec-grid">
+      <div class="spec-item"><span class="k">Element size</span><span class="v">6.5 m</span></div>
+      <div class="spec-item"><span class="k">Max size</span><span class="v">8.5 m</span></div>
+      <div class="spec-item"><span class="k">Curvature normal angle</span><span class="v">10°</span></div>
+      <div class="spec-item"><span class="k">Cell count</span><span class="v">479,475</span></div>
+      <div class="spec-item"><span class="k">Inflation layers</span><span class="v">None</span></div>
+      <div class="spec-item"><span class="k">Student cell cap</span><span class="v">512,000</span></div>
+    </div>
+
+    <div class="figure">
+      <img src="images/reentry/plot-mesh-independence.png" alt="Mesh independence study: stagnation point total pressure vs cell count"
+           onclick="openLightbox(this.src)" />
+      <p class="figcap"><b>Grid convergence at Mach 5.</b> The coarse 272k grid diverged outright. The medium
+        358k grid under-predicted stagnation pressure by half. The fine 479k grid lands within 3.1% of
+        isentropic theory (147,135 Pa vs 151,849 Pa) — inside the ±5% band, so the solution is grid independent.</p>
+    </div>
+
+    <div class="note">
+      Element size had to be re-tuned from 3.5 m to 6.5 m after the domain was enlarged to 20× diameter —
+      at constant element size the larger domain produced <b>949,913 cells</b>, well past the Student cap.
+    </div>
+  </div>
+
+  <!-- ══ 03 SOLVER ══ -->
+  <div class="prose-section">
+    <div class="sec-head"><span class="sec-num">03</span><h2><span>Solver Configuration</span></h2></div>
+    <p class="sec-sub">Density-based steady solver with k-ω SST turbulence, ideal gas, and Sutherland viscosity.</p>
+
+    <div class="spec-grid">
+      <div class="spec-item"><span class="k">Solver</span><span class="v">Density-based, steady</span></div>
+      <div class="spec-item"><span class="k">Turbulence</span><span class="v">k-ω SST</span></div>
+      <div class="spec-item"><span class="k">Density</span><span class="v">Ideal gas</span></div>
+      <div class="spec-item"><span class="k">Viscosity</span><span class="v">Sutherland (3-coef)</span></div>
+      <div class="spec-item"><span class="k">Flux type</span><span class="v">Roe-FDS</span></div>
+      <div class="spec-item"><span class="k">Discretisation</span><span class="v">First-order upwind</span></div>
+      <div class="spec-item"><span class="k">Wall BC</span><span class="v">No-slip, isothermal 300 K</span></div>
+      <div class="spec-item"><span class="k">Initialisation</span><span class="v">Hybrid</span></div>
+      <div class="spec-item"><span class="k">Residual criteria</span><span class="v">1 × 10⁻⁴</span></div>
+    </div>
+
+    <p>Courant number was ramped down as Mach increased — 0.5 at Mach 5, 0.3 at Mach 7.5, 0.2 at Mach 10 —
+      with each case restarted from the previous converged solution. Second-order upwind was attempted and
+      destabilised the solution; first order was retained throughout.</p>
+
+    <div class="table-wrap">
+      <table class="dtable">
+        <caption>Freestream conditions</caption>
+        <thead><tr><th>Case</th><th>Alt (km)</th><th>Mach</th><th>P∞ (Pa)</th><th>T∞ (K)</th><th>ρ∞ (kg/m³)</th><th>V∞ (m/s)</th><th>q∞ (Pa)</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1</strong></td><td class="num">40</td><td class="num"><strong>5.0</strong></td><td class="num">287.14</td><td class="num">250.35</td><td class="num">3.996 × 10⁻³</td><td class="num">1586</td><td class="num">5025</td></tr>
+          <tr><td><strong>2</strong></td><td class="num">45</td><td class="num"><strong>7.5</strong></td><td class="num">149.10</td><td class="num">264.16</td><td class="num">1.966 × 10⁻³</td><td class="num">2444</td><td class="num">5871</td></tr>
+          <tr><td><strong>3</strong></td><td class="num">50</td><td class="num"><strong>10.0</strong></td><td class="num">79.78</td><td class="num">270.65</td><td class="num">1.027 × 10⁻³</td><td class="num">3298</td><td class="num">5585</td></tr>
+          <tr><td>—</td><td class="num">60</td><td class="num">15.0</td><td class="num">21.96</td><td class="num">247.02</td><td class="num">3.097 × 10⁻⁴</td><td class="num">4726</td><td class="num">3459</td></tr>
+          <tr><td>—</td><td class="num">70</td><td class="num">20.0</td><td class="num">5.221</td><td class="num">219.59</td><td class="num">8.283 × 10⁻⁵</td><td class="num">5941</td><td class="num">1462</td></tr>
+          <tr><td>—</td><td class="num">75</td><td class="num">25.0</td><td class="num">2.388</td><td class="num">208.40</td><td class="num">3.992 × 10⁻⁵</td><td class="num">7235</td><td class="num">1045</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:.83rem;">Cases 1–3 were run in CFD. Mach 15–25 are covered analytically — see
+      <a href="#limits" style="color:var(--accent2);">limitations</a>.</p>
+  </div>
+
+  <!-- ══ 04 VALIDATION ══ -->
+  <div class="prose-section">
+    <div class="sec-head"><span class="sec-num">04</span><h2><span>CFD Validation Against Theory</span></h2></div>
+    <p class="sec-sub">Three independent checks: peak wall static pressure against Rayleigh Pitot, peak
+      pressure coefficient against modified Newtonian, and freestream total pressure against isentropic theory.</p>
+
+    <div class="figure">
+      <img src="images/reentry/plot-validation-sweep.png" alt="Three-panel CFD validation against analytical theory across the Mach sweep"
+           onclick="openLightbox(this.src)" />
+      <p class="figcap"><b>All three checks pass across the Mach sweep.</b> CFD points sit on the analytical
+        curves at every Mach number, with maximum error 2.85%.</p>
+    </div>
+
+    <div class="table-wrap">
+      <table class="dtable">
+        <caption>Peak wall static pressure vs Rayleigh Pitot</caption>
+        <thead><tr><th>Mach</th><th>CFD (Pa)</th><th>Theory (Pa)</th><th>Error</th></tr></thead>
+        <tbody>
+          <tr><td><strong>5.0</strong></td><td class="num">9,262.0</td><td class="num">9,376.1</td><td class="num ok">1.22 %</td></tr>
+          <tr><td><strong>7.5</strong></td><td class="num">11,172.6</td><td class="num">10,867.5</td><td class="num warn">2.81 %</td></tr>
+          <tr><td><strong>10.0</strong></td><td class="num">10,248.8</td><td class="num">10,308.9</td><td class="num ok">0.58 %</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-wrap">
+      <table class="dtable">
+        <caption>Peak pressure coefficient vs modified Newtonian</caption>
+        <thead><tr><th>Mach</th><th>CFD C<sub>p</sub></th><th>Theory C<sub>p</sub></th><th>Error</th></tr></thead>
+        <tbody>
+          <tr><td><strong>5.0</strong></td><td class="num">1.786</td><td class="num">1.809</td><td class="num ok">1.26 %</td></tr>
+          <tr><td><strong>7.5</strong></td><td class="num">1.878</td><td class="num">1.826</td><td class="num warn">2.85 %</td></tr>
+          <tr><td><strong>10.0</strong></td><td class="num">1.821</td><td class="num">1.832</td><td class="num ok">0.59 %</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-wrap">
+      <table class="dtable">
+        <caption>Freestream total pressure vs isentropic — boundary-condition validation</caption>
+        <thead><tr><th>Mach</th><th>CFD (Pa)</th><th>Theory (Pa)</th><th>Error</th></tr></thead>
+        <tbody>
+          <tr><td><strong>5.0</strong></td><td class="num">152,514</td><td class="num">151,923</td><td class="num ok">0.39 %</td></tr>
+          <tr><td><strong>7.5</strong></td><td class="num">966,595</td><td class="num">959,299</td><td class="num ok">0.76 %</td></tr>
+          <tr><td><strong>10.0</strong></td><td class="num">3,421,984</td><td class="num">3,385,802</td><td class="num ok">1.07 %</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="figure">
+      <img src="images/reentry/plot-cp-3mach.png" alt="Surface pressure coefficient distribution across three Mach numbers vs Newtonian theory"
+           onclick="openLightbox(this.src)" />
+      <p class="figcap"><b>C<sub>p</sub> is nearly Mach-independent on the heat shield.</b> Theory predicts
+        1.809 at Mach 5 and 1.832 at Mach 10 — under 2% apart across a doubling of speed — and the CFD
+        reproduces that collapse. The sharp drop near Y ≈ 0.4 m is the shoulder expansion, where flow
+        accelerates around the heat-shield edge and pressure falls to freestream.</p>
+    </div>
+
+    <h3 style="font-size:1.05rem;margin:2rem 0 .5rem;">Three observations worth stating plainly</h3>
+    <p><strong>The Mach 7.5 C<sub>p</sub> exceeds its own theoretical bound.</strong> At 1.878 it sits above
+      the Newtonian limit of 1.826, which is not physically possible for a steady stagnation point. The cause
+      is a single-facet pressure spike from shock smearing on a coarse grid — a numerical artifact of taking a
+      facet maximum, not a real overshoot. Area-weighted averaging is the appropriate cross-check.</p>
+    <p><strong>Total pressure loss across the bow shock is severe.</strong> At Mach 5, freestream P₀ of
+      152,514 Pa arrives at the wall as 9,262 Pa — a <b>93.9% loss</b>, consistent with strong normal-shock
+      behaviour and a useful sanity check on the shock capture.</p>
+    <p><strong>Boundary conditions are validated separately from the solution.</strong> Checking freestream
+      P₀ against isentropic theory confirms the inlet is delivering the conditions intended, which is a
+      different question from whether the flow field is right.</p>
+  </div>
+
+  <!-- ══ 05 FLOW FIELD ══ -->
+  <div class="prose-section">
+    <div class="sec-head"><span class="sec-num">05</span><h2><span>Flow Field</span></h2></div>
+    <p class="sec-sub">Shock structure and surface pressure distribution from the converged solutions.</p>
+
+    <div class="fig-row two">
+      <div class="figure">
+        <img src="images/reentry/pressure-bowshock.png" alt="Static pressure contours showing the detached bow shock"
+             onclick="openLightbox(this.src)" />
+        <p class="figcap"><b>Bow shock standoff.</b> Static pressure contours resolve the detached shock
+          sitting ahead of the heat shield, with the highest pressure concentrated along the stagnation region.</p>
+      </div>
+      <div class="figure">
+        <img src="images/reentry/wall-pressure-shaded.png" alt="Wall static pressure contour on the capsule surface"
+             onclick="openLightbox(this.src)" />
+        <p class="figcap"><b>Orientation verification.</b> Peak wall pressure lands squarely on the heat
+          shield, not the nose — the check that caught the reversed flow-direction error.</p>
+      </div>
+      <div class="figure">
+        <img src="images/reentry/wall-pressure-contours.png" alt="Banded pressure contours on the capsule heat shield"
+             onclick="openLightbox(this.src)" />
+        <p class="figcap"><b>Banded surface contours.</b> Pressure falls monotonically from the stagnation
+          point outward, collapsing sharply at the shoulder.</p>
+      </div>
+      <div class="figure">
+        <img src="images/reentry/wall-pressure-leeside.png" alt="Low-pressure leeside of the capsule"
+             onclick="openLightbox(this.src)" />
+        <p class="figcap"><b>Leeside.</b> The aft body sits in the wake at near-freestream pressure —
+          two to three orders of magnitude below the stagnation region.</p>
+      </div>
+    </div>
+
+    <div class="fig-row two">
+      <div class="figure">
+        <img src="images/reentry/cp-fluent-native.png" alt="Native Fluent pressure coefficient plots"
+             onclick="openLightbox(this.src)" />
+        <p class="figcap"><b>Native Fluent C<sub>p</sub> export, Mach 5.</b> Stagnation plateau, shoulder
+          expansion, and the Newtonian bound overlaid.</p>
+      </div>
+      <div class="figure">
+        <img src="images/reentry/pressure-vs-position.png" alt="Static pressure versus position along the flow axis"
+             onclick="openLightbox(this.src)" />
+        <p class="figcap"><b>Static pressure along the flow axis.</b> Every surface facet plotted — the
+          spread reflects circumferential variation over the full 3-D body.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 06 CONVERGENCE ══ -->
+  <div class="prose-section">
+    <div class="sec-head"><span class="sec-num">06</span><h2><span>Convergence Behaviour</span></h2></div>
+    <p class="sec-sub">What converged, what did not, and what the residual histories show.</p>
+
+    <div class="fig-row two">
+      <div class="figure">
+        <img src="images/reentry/residuals-mach5.png" alt="Mach 5 residual history converging over 2500 iterations"
+             onclick="openLightbox(this.src)" />
+        <p class="figcap"><b>Mach 5 — converged.</b> All residuals fall steadily to the 10⁻³–10⁻⁴ range
+          over 2,500 iterations at Courant 0.5.</p>
+      </div>
+      <div class="figure">
+        <img src="images/reentry/residuals-mach75.png" alt="Mach 7.5 residual history, cleanest convergence"
+             onclick="openLightbox(this.src)" />
+        <p class="figcap"><b>Mach 7.5 — cleanest of the three.</b> Near-monotonic decay with no stalling,
+          the best-behaved case in the sweep.</p>
+      </div>
+      <div class="figure">
+        <img src="images/reentry/stagmon-mach75.png" alt="Mach 7.5 stagnation pressure monitor settling at 11150 Pa"
+             onclick="openLightbox(this.src)" />
+        <p class="figcap"><b>Mach 7.5 stagnation monitor.</b> Overshoots to 19 kPa during startup transients,
+          then settles flat at 11,150 Pa from iteration 1,400 — a physical quantity converging, not just residuals.</p>
+      </div>
+      <div class="figure">
+        <img src="images/reentry/residuals-mach10-ramped.png" alt="Mach 10 ramped residual history with a boundary condition change at iteration 2500"
+             onclick="openLightbox(this.src)" />
+        <p class="figcap"><b>Mach 10 — ramped, disturbed, recovered.</b> Boundary conditions were stepped up
+          at iteration 2,500 from the converged Mach 7.5 solution. Residuals spike two orders of magnitude,
+          then recover through 4,500 iterations.</p>
+      </div>
+    </div>
+
+    <div class="note amber">
+      <b>Mach 15 did not converge, and the reason is instructive.</b> Two attempts, both documented below.
+      Shock thickness scales inversely with Mach number, so a shock marginally resolved at Mach 5 is
+      badly under-resolved at Mach 15 — and the 512k cell cap prevents the refinement that would fix it.
+      Ramping from the converged Mach 5 solution also failed. Mach 15 and above are therefore covered
+      analytically rather than being reported as CFD results.
+    </div>
+
+    <div class="fig-row two">
+      <div class="figure">
+        <img src="images/reentry/residuals-mach15-diverged.png" alt="Mach 15 residuals diverging to 1e+8"
+             onclick="openLightbox(this.src)" />
+        <p class="figcap"><b>Attempt 1 — cold start, Courant 0.25.</b> Residuals idle near 10⁻¹ for 750
+          iterations, then blow up to 10⁺⁸ at iteration 860.</p>
+      </div>
+      <div class="figure">
+        <img src="images/reentry/stagmon-mach15-diverged.png" alt="Mach 15 stagnation pressure monitor reaching 350 MPa"
+             onclick="openLightbox(this.src)" />
+        <p class="figcap"><b>Attempt 1 stagnation monitor.</b> Pressure runs away to <b>350 MPa</b> against a
+          theoretical 6.4 kPa — unambiguously divergence, not a marginal solution.</p>
+      </div>
+      <div class="figure">
+        <img src="images/reentry/residuals-mach15-courant005.png" alt="Mach 15 residuals at Courant 0.05 bottoming then climbing"
+             onclick="openLightbox(this.src)" />
+        <p class="figcap"><b>Attempt 2 — Courant 0.05.</b> No blowup, but residuals bottom out around
+          iteration 350 and climb thereafter. Stable is not the same as converged.</p>
+      </div>
+      <div class="figure">
+        <img src="images/reentry/stagmon-mach15-courant005.png" alt="Mach 15 stagnation pressure settling 14 percent below theory"
+             onclick="openLightbox(this.src)" />
+        <p class="figcap"><b>Attempt 2 stagnation monitor.</b> Settles at 5,510 Pa against 6,399 Pa theory —
+          <b>14% low</b>. Flat, but wrong, so it was not reported as a result.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 07 HEATING ══ -->
+  <div class="prose-section">
+    <div class="sec-head"><span class="sec-num">07</span><h2><span>Stagnation-Point Heating</span></h2></div>
+    <p class="sec-sub">Fay-Riddell convective heating across Mach 5–25, cross-checked against Sutton-Graves.</p>
+
+    <p>Implemented per Fay &amp; Riddell (1958) for an equilibrium boundary layer, using the CFD-fitted nose
+      radius R<sub>n</sub> = 3.248 m, a 300 K wall, and Sutherland viscosity:</p>
+
+    <div class="note" style="font-family:'Consolas','Monaco',monospace;font-size:.82rem;">
+      q<sub>w</sub> = 0.763 · Pr<sup>−0.6</sup> · (ρ<sub>e</sub>μ<sub>e</sub>)<sup>0.4</sup> ·
+      (ρ<sub>w</sub>μ<sub>w</sub>)<sup>0.1</sup> · √(du<sub>e</sub>/dx) · (h<sub>0e</sub> − h<sub>w</sub>)<br>
+      du<sub>e</sub>/dx = (1/R<sub>n</sub>) · √(2(P<sub>e</sub> − P∞)/ρ<sub>e</sub>)
+    </div>
+
+    <div class="table-wrap">
+      <table class="dtable">
+        <caption>Fay-Riddell vs Sutton-Graves stagnation heating</caption>
+        <thead><tr><th>Mach</th><th>Alt (km)</th><th>V (m/s)</th><th>T₀ (K)</th><th>Fay-Riddell</th><th>Sutton-Graves</th><th>Δ</th></tr></thead>
+        <tbody>
+          <tr><td><strong>5.0</strong></td><td class="num">40</td><td class="num">1,586</td><td class="num">1,502</td><td class="num">2.15 W/cm²</td><td class="num">2.44 W/cm²</td><td class="num warn">11.8 %</td></tr>
+          <tr><td><strong>7.5</strong></td><td class="num">45</td><td class="num">2,444</td><td class="num">3,236</td><td class="num">5.98</td><td class="num">6.25</td><td class="num ok">4.3 %</td></tr>
+          <tr><td><strong>10.0</strong></td><td class="num">50</td><td class="num">3,298</td><td class="num">5,684</td><td class="num">11.07</td><td class="num">11.11</td><td class="num ok"><b>0.3 %</b></td></tr>
+          <tr><td>15.0</td><td class="num">60</td><td class="num">4,726</td><td class="num">11,363</td><td class="num">18.61</td><td class="num">17.95</td><td class="num ok">3.7 %</td></tr>
+          <tr><td>20.0</td><td class="num">70</td><td class="num">5,941</td><td class="num">17,787</td><td class="num">19.59</td><td class="num">18.44</td><td class="num warn">6.2 %</td></tr>
+          <tr><td>25.0</td><td class="num">75</td><td class="num">7,235</td><td class="num">26,258</td><td class="num">25.09</td><td class="num">23.12</td><td class="num warn">8.5 %</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="figure">
+      <img src="images/reentry/plot-fay-riddell.png" alt="Stagnation heating and shock-layer temperature versus Mach number"
+           onclick="openLightbox(this.src)" />
+      <p class="figcap"><b>Heating and shock-layer temperature, Mach 5–25.</b> The shaded band marks the
+        CFD-validated range. Two independent correlations agreeing to 0.3% at Mach 10 is what validates the
+        implementation — a single correlation agreeing with itself would prove nothing.</p>
+    </div>
+
+    <div class="note">
+      <b>Why a correlation instead of CFD wall heat flux?</b> Inflation layers could not be generated on this
+      geometry, so the near-wall boundary layer is unresolved and solver wall heat flux is not trustworthy.
+      Surface <em>pressure</em> is driven by the inviscid outer flow and remains valid — which is why pressure
+      is taken from CFD and heating is computed analytically. Anchoring a cheap correlation to high-fidelity
+      data where high-fidelity is affordable, then extrapolating with the correlation, is standard
+      preliminary-design practice.
+    </div>
+  </div>
+
+  <!-- ══ 08 TRAJECTORY ══ -->
+  <div class="prose-section">
+    <div class="sec-head"><span class="sec-num">08</span><h2><span>Entry Trajectory</span></h2></div>
+    <p class="sec-sub">Allen-Eggers ballistic entry through an exponential atmosphere, giving a continuous
+      heat-flux history rather than discrete Mach points.</p>
+
+    <div class="spec-grid">
+      <div class="spec-item"><span class="k">Entry velocity</span><span class="v">7,600 m/s</span></div>
+      <div class="spec-item"><span class="k">Flight path angle</span><span class="v">−5.5°</span></div>
+      <div class="spec-item"><span class="k">Vehicle mass</span><span class="v">9,500 kg</span></div>
+      <div class="spec-item"><span class="k">Drag coefficient</span><span class="v">1.4</span></div>
+      <div class="spec-item"><span class="k">Reference area</span><span class="v">10.18 m²</span></div>
+      <div class="spec-item"><span class="k">Ballistic coefficient β</span><span class="v">667 kg/m²</span></div>
+      <div class="spec-item"><span class="k">Peak Mach</span><span class="v">27.7</span></div>
+      <div class="spec-item"><span class="k">Entry to 20 km</span><span class="v">354 s</span></div>
+    </div>
+  </div>
+
+  <!-- ══ 09 TPS ══ -->
+  <div class="prose-section">
+    <div class="sec-head"><span class="sec-num">09</span><h2><span>TPS Thermal Sizing</span></h2></div>
+    <p class="sec-sub">1-D transient conduction, implicit backward Euler, 120 nodes — thickness sized to hold
+      the bondline below 523 K.</p>
+
+    <p>The front face receives net flux <code>q<sub>conv</sub> − εσ(T⁴ − T∞⁴)</code>, with surface temperature
+      capped at the material ablation temperature and excess flux booked as absorbed by ablation. The back
+      face is adiabatic — conservative, since it allows no heat rejection into the structure.</p>
+
+    <div class="table-wrap">
+      <table class="dtable">
+        <caption>Material properties — representative open-literature values</caption>
+        <thead><tr><th>Material</th><th>ρ (kg/m³)</th><th>k (W/m·K)</th><th>c<sub>p</sub> (J/kg·K)</th><th>T<sub>abl</sub> (K)</th><th>ε</th></tr></thead>
+        <tbody>
+          <tr><td><strong>PICA</strong></td><td class="num">270</td><td class="num">0.35</td><td class="num">1,590</td><td class="num">2,900</td><td class="num">0.90</td></tr>
+          <tr><td><strong>Avcoat</strong></td><td class="num">512</td><td class="num">0.35</td><td class="num">1,465</td><td class="num">2,200</td><td class="num">0.85</td></tr>
+          <tr><td><strong>Generic ablator</strong></td><td class="num">264</td><td class="num">0.213</td><td class="num">1,255</td><td class="num">1,700</td><td class="num">0.85</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-wrap">
+      <table class="dtable">
+        <caption>Sizing results — bondline limit 523 K</caption>
+        <thead><tr><th>Material</th><th>Thickness</th><th>Peak surface T</th><th>Peak bondline T</th><th>Areal mass</th><th>Integrated load</th></tr></thead>
+        <tbody>
+          <tr><td><strong>PICA</strong></td><td class="num">4.0 cm</td><td class="num">2,203 K</td><td class="num ok">458 K</td><td class="num"><b>10.8 kg/m²</b></td><td class="num">61.6 MJ/m²</td></tr>
+          <tr><td><strong>Avcoat</strong></td><td class="num">3.0 cm</td><td class="num">2,200 K</td><td class="num ok">462 K</td><td class="num">15.4 kg/m²</td><td class="num">61.5 MJ/m²</td></tr>
+          <tr><td><strong>Generic ablator</strong></td><td class="num">3.5 cm</td><td class="num">1,700 K</td><td class="num ok">455 K</td><td class="num">9.2 kg/m²</td><td class="num">63.0 MJ/m²</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="figure">
+      <img src="images/reentry/plot-tps-thermal.png" alt="Four-panel transient TPS thermal analysis: trajectory, heat flux, temperature response, through-thickness profile"
+           onclick="openLightbox(this.src)" />
+      <p class="figcap"><b>Full transient TPS response.</b> Left to right, top to bottom — Allen-Eggers velocity
+        and altitude history; Fay-Riddell heat flux peaking at <b>127.1 W/cm²</b> at t = 106 s, 44 km, Mach 20.1;
+        surface and bondline temperature response at sized thickness; and the through-thickness temperature
+        profile at end of entry.</p>
+    </div>
+
+    <h3 style="font-size:1.05rem;margin:2rem 0 .5rem;">Why Avcoat needs less thickness but weighs more</h3>
+    <p>Avcoat sizes thinner than PICA — 3.0 cm against 4.0 cm — because its lower ablation temperature caps
+      surface temperature sooner, reducing the gradient that drives heat inward. But at 512 kg/m³ it is nearly
+      twice as dense, so it still carries a <strong>43% areal-mass penalty</strong>. That trade is precisely
+      why low-density ablators displaced Avcoat-class materials on modern vehicles.</p>
+    <p>The generic silicone ablator shows the lowest areal mass of the three, but its 1,700 K ablation limit
+      means it would recede fastest in service. Since the model does not track surface recession, that
+      comparison understates its true thickness requirement.</p>
+
+    <div class="note amber">
+      <b>These thicknesses are preliminary sizing, not design values.</b> They under-predict flight hardware
+      by roughly a factor of two — actual PICA-X on Dragon is substantially thicker than the 4.0 cm computed
+      here. The model captures the correct physics and the correct relative ranking between materials, and
+      should be read on that basis. No design margins have been applied.
+    </div>
+  </div>
+
+  <!-- ══ 10 DEBUG LOG ══ -->
+  <div class="prose-section">
+    <div class="sec-head"><span class="sec-num">10</span><h2><span>Errors Found &amp; Corrected</span></h2></div>
+    <p class="sec-sub">Six defects caught during the build. Most were silent — they produced plausible-looking
+      output rather than an error message.</p>
+
+    <div class="table-wrap">
+      <table class="dtable">
+        <caption>Debugging log</caption>
+        <thead><tr><th>#</th><th>Issue</th><th>How it was detected</th><th>Resolution</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1</strong></td><td>Vehicle flying nose-first instead of heat-shield-first</td><td>Compared expected stagnation location against geometry</td><td>Flow direction set to (0, 1, 0)</td></tr>
+          <tr><td><strong>2</strong></td><td>Reference values left at solver defaults (ρ = 1.225, V = 1)</td><td>Exported C<sub>p</sub> read 77–15,121 against a physical max of ≈ 1.8</td><td>Compute-from set to far-field zone; earlier data rescaled analytically</td></tr>
+          <tr><td><strong>3</strong></td><td>Boolean subtract silently returned a no-op</td><td>Domain volume exactly matched a bare sphere</td><td>Switched to the Enclosure tool</td></tr>
+          <tr><td><strong>4</strong></td><td>Capsule retained as a solid cell zone</td><td>Cell Zone Conditions listed fluid + solid, shadow walls, contact interfaces</td><td>Suppressed the capsule body for physics</td></tr>
+          <tr><td><strong>5</strong></td><td>Node-based rather than cell-based C<sub>p</sub> export</td><td>Mach 10 peak C<sub>p</sub> read 1.611 against 1.821 from the facet maximum</td><td>Specified cell-centred export</td></tr>
+          <tr><td><strong>6</strong></td><td>Mesh exceeded the Student cell cap</td><td>949,913 cells at 4 m element size</td><td>Element size tuned to 6.5 m → 479,475 cells</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note">
+      <b>Item 1 was the consequential one.</b> Stagnation heat flux scales as 1/√R<sub>n</sub>, so flying the
+      low-radius nose into the flow rather than the large-radius heat shield would have substantially
+      over-predicted heating and inverted the entire pressure distribution — while still converging cleanly
+      and producing contours that looked entirely reasonable.
+    </div>
+  </div>
+
+  <!-- ══ 11 LIMITATIONS ══ -->
+  <div class="prose-section" id="limits">
+    <div class="sec-head"><span class="sec-num">11</span><h2><span>Limitations</span></h2></div>
+    <p class="sec-sub">Stated in full, because results are only usable if their boundaries are known.</p>
+
+    <div class="limit-grid">
+      <div class="limit-card">
+        <h4>No inflation layers</h4>
+        <p>Inflation generated inverted cells across multiple attempts; the root cause is complex imported
+          surface topology. The near-wall boundary layer is therefore unresolved and <b>CFD wall heat flux is
+          not used anywhere in this work</b>. Surface pressure, driven by the inviscid outer flow, remains valid.</p>
+      </div>
+      <div class="limit-card">
+        <h4>Mach 15 did not converge</h4>
+        <p>Two attempts, both documented in section 06. Shock thickness scales inversely with Mach, so a shock
+          marginally resolved at Mach 5 is under-resolved at Mach 15. The 512k cell cap prevents the refinement
+          that would fix it. Mach 15–25 are covered analytically.</p>
+      </div>
+      <div class="limit-card">
+        <h4>Calorically perfect gas</h4>
+        <p>γ = 1.4 throughout. Above roughly Mach 12, O₂ and N₂ dissociation becomes significant and effective
+          γ falls well below 1.4. Perfect-gas theory predicts T₀ = 26,258 K at Mach 25; real shock-layer
+          temperature would be nearer 8,000–10,000 K. <b>This is why CFD above Mach 12 was not attempted.</b></p>
+      </div>
+      <div class="limit-card">
+        <h4>First-order discretisation</h4>
+        <p>Second-order upwind destabilised the solution with a residual spike at iteration 3,000 on the
+          Mach 5 case. First order was retained, at the cost of additional numerical diffusion and a
+          slightly smeared shock.</p>
+      </div>
+      <div class="limit-card">
+        <h4>Simplified ablation</h4>
+        <p>Ablation is modelled as a temperature cap with energy bookkeeping, not a mass-loss-coupled model.
+          <b>No surface recession is tracked.</b> Properties are constant — no temperature dependence,
+          pyrolysis, or char-layer formation.</p>
+      </div>
+      <div class="limit-card">
+        <h4>Stagnation point only</h4>
+        <p>Heating is evaluated at the stagnation point; the remainder of the heat shield sees lower flux.
+          Radiative heating is omitted — defensible at 7.6 km/s, though not negligible. No design margins
+          are applied.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ TOOLS ══ -->
+  <div class="prose-section">
+    <div class="sec-head"><span class="sec-num">12</span><h2><span>Tools &amp; Deliverables</span></h2></div>
     <div class="method-grid">
       <div class="method-card">
-        <div class="icon">🔬</div>
-        <h4>CFD Setup</h4>
-        <p>ANSYS Fluent density-based solver with ideal gas and Sutherland viscosity. Pressure far-field boundary conditions set for each Mach number in the sweep.</p>
-        <ul>
-          <li>Density-based compressible solver</li>
-          <li>Mach 5 → 25 parametric sweep</li>
-          <li>Two turbulence closure models benchmarked</li>
-          <li>Wall heat flux extraction for validation</li>
-        </ul>
+        <div class="icon">🔧</div>
+        <h3 style="font-size:1rem;margin-bottom:.5rem;">Simulation</h3>
+        <p style="font-size:.85rem;color:var(--muted);line-height:1.65;">ANSYS SpaceClaim for geometry and
+          domain, ANSYS Meshing for the grid, ANSYS Fluent 2026 R1 density-based solver for three converged
+          Mach cases.</p>
       </div>
       <div class="method-card">
-        <div class="icon">⬡</div>
-        <h4>Mesh &amp; Validation</h4>
-        <p>Structured mesh with boundary layer refinement to capture the thermal gradient near the ablative heat shield surface. Y+ targeting for each turbulence model.</p>
-        <ul>
-          <li>Structured boundary layer mesh</li>
-          <li>Shock-capturing refinement zone</li>
-          <li>Python post-processing pipeline</li>
-          <li>&lt;5% error vs. Fay-Riddell correlation</li>
-        </ul>
+        <div class="icon">📐</div>
+        <h3 style="font-size:1rem;margin-bottom:.5rem;">Analysis</h3>
+        <p style="font-size:.85rem;color:var(--muted);line-height:1.65;">Python 3 implementations of
+          Fay-Riddell and Sutton-Graves heating, Allen-Eggers trajectory integration, and an implicit 1-D
+          transient conduction solver.</p>
       </div>
       <div class="method-card">
-        <div class="icon">🌡</div>
-        <h4>Thermal Coupling</h4>
-        <p>CFD-derived heat flux mapped to ANSYS Mechanical as a transient thermal load. TPS material comparison conducted to evaluate time-to-critical-temperature across re-entry phases.</p>
-        <ul>
-          <li>CFD → Mechanical heat flux mapping</li>
-          <li>Transient thermal FEA</li>
-          <li>Multiple TPS material comparison</li>
-          <li>Peak temperature tracking vs. time</li>
-        </ul>
+        <div class="icon">📊</div>
+        <h3 style="font-size:1rem;margin-bottom:.5rem;">Validation</h3>
+        <p style="font-size:.85rem;color:var(--muted);line-height:1.65;">Rayleigh Pitot, modified Newtonian,
+          and isentropic theory as independent checks, plus a grid convergence study and a correlation
+          cross-check.</p>
       </div>
     </div>
   </div>
-
-  <!-- ══ VISUALS GALLERY ══ -->
-  <div class="prose-section">
-    <h2>Visuals <span>Gallery</span></h2>
-    <div class="gallery-grid">
-
-      <div class="gallery-item" onclick="openLightbox('images/reentry-pressure.png')">
-        <img src="images/reentry-pressure.png" alt="Static Pressure Contour" />
-        <div class="gallery-placeholder" style="display:none;">[ Static Pressure Contour ]</div>
-        <div class="gallery-caption"><strong>Static Pressure Distribution</strong> — ANSYS Fluent contour plot showing bow shock and stagnation region on the Dragon capsule forebody at hypersonic conditions.</div>
-      </div>
-
-      <div class="gallery-item">
-        <div class="gallery-placeholder">[ Mach Contour — Coming Soon ]</div>
-        <div class="gallery-caption"><strong>Mach Number Contour</strong> — Flow field showing shock stand-off distance and expansion fan behavior across the forebody at Mach 15.</div>
-      </div>
-
-      <div class="gallery-item">
-        <div class="gallery-placeholder">[ Wall Heat Flux Plot — Coming Soon ]</div>
-        <div class="gallery-caption"><strong>Wall Heat Flux vs. Mach</strong> — Stagnation point heat flux across the Mach 5–25 sweep overlaid with Fay-Riddell analytical predictions.</div>
-      </div>
-
-      <div class="gallery-item">
-        <div class="gallery-placeholder">[ Transient Thermal Response — Coming Soon ]</div>
-        <div class="gallery-caption"><strong>Transient TPS Temperature</strong> — ANSYS Mechanical temperature evolution through the heat shield cross-section during peak heating phase.</div>
-      </div>
-
-    </div>
-  </div>
-
   <!-- ══ GITHUB CTA ══ -->
   <div class="github-cta">
-    <h3>View the Full Analysis</h3>
-    <p>CFD setup files, Python post-processing scripts, and mesh configurations are available on GitHub.</p>
-    <a href="https://github.com/aksharpatel1113" target="_blank" rel="noopener" class="btn btn-primary">View on GitHub &rarr;</a>
+    <h3>Full Technical Record</h3>
+    <p>Complete project documentation — solver setup, every result table, the debugging log, and all
+      limitations — plus the Python source for the heating, trajectory, and TPS conduction models.</p>
+    <a href="reentry-project/PROJECT_STATUS.md" class="btn btn-primary">Read the Technical Report &rarr;</a>
+    <a href="https://github.com/aksharpatel1113" target="_blank" rel="noopener" class="btn btn-outline" style="margin-left:.6rem;">GitHub</a>
   </div>
 
 </div>

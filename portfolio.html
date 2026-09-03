@@ -512,7 +512,7 @@
     <div class="proj-card rounded-xl overflow-hidden md:col-span-2 reveal">
       <div class="md:flex">
         <div class="md:w-80 flex-shrink-0 bg-ops-bg relative overflow-hidden">
-          <img src="images/reentry-pressure.png" alt="Hypersonic Re-Entry CFD — Static Pressure Contour"
+          <img src="images/reentry/mach-contour-bowshock.png" alt="Hypersonic Re-Entry CFD — Mach contour showing the detached bow shock"
                class="w-full h-56 md:h-full object-contain p-2" />
           <div class="absolute top-2 left-2 bg-ops-blue text-ops-bg text-xs font-mono font-bold px-2 py-0.5 rounded">FEATURED</div>
         </div>
@@ -523,12 +523,13 @@
               <span class="text-ops-dim font-mono text-xs whitespace-nowrap">May 2026 – Present</span>
             </div>
             <p class="text-ops-slate text-sm leading-relaxed mb-4">
-              ANSYS Fluent simulation of Dragon capsule hypersonic re-entry across Mach 5–25.
-              Benchmarked turbulence models, validated stagnation heat flux to within &lt;5% of Fay-Riddell
-              analytical solution, and coupled ANSYS Mechanical for transient TPS thermal analysis.
+              Density-based ANSYS Fluent simulation of a Dragon-style capsule, validated against Rayleigh
+              Pitot and modified Newtonian theory to within 3% across a Mach 5–10 sweep. Fay-Riddell heating
+              (cross-checked to 0.3% against Sutton-Graves) drives a transient 1-D TPS conduction model that
+              sizes ablator thickness to a 523 K bondline limit.
             </p>
             <div class="flex flex-wrap gap-1.5 mb-5">
-              <span class="tag">ANSYS Fluent</span><span class="tag">ANSYS Mechanical</span><span class="tag">CFD</span>
+              <span class="tag">ANSYS Fluent</span><span class="tag">k-ω SST</span><span class="tag">Python</span>
               <span class="tag">Hypersonic</span><span class="tag">TPS Thermal</span><span class="tag">Fay-Riddell</span>
             </div>
           </div>
@@ -710,7 +711,6 @@
         <p class="font-mono text-xs text-ops-blue mb-3 tracking-wider">SIMULATION &amp; ANALYSIS</p>
         <div class="flex flex-wrap gap-2">
           <span class="skill-pill rounded px-3 py-1.5 text-xs font-mono text-ops-text">ANSYS Fluent</span>
-          <span class="skill-pill rounded px-3 py-1.5 text-xs font-mono text-ops-text">ANSYS Mechanical</span>
           <span class="skill-pill rounded px-3 py-1.5 text-xs font-mono text-ops-text">Thermal Desktop</span>
           <span class="skill-pill rounded px-3 py-1.5 text-xs font-mono text-ops-text">MATLAB</span>
           <span class="skill-pill rounded px-3 py-1.5 text-xs font-mono text-ops-text">Python</span>
