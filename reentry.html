@@ -267,7 +267,7 @@
     .bad { color:#f87171; font-weight:600; }
 
     /* Spec grid */
-    .spec-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:.7rem; margin:1.25rem 0; }
+    .spec-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(190px,100%),1fr)); gap:.7rem; margin:1.25rem 0; }
     .spec-item { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:.8rem .9rem; }
     .spec-item .k { display:block; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-bottom:.3rem; }
     .spec-item .v { display:block; font-size:1rem; color:var(--text); font-weight:600;
@@ -282,9 +282,9 @@
     .figure img:hover { border-color:rgba(0,212,255,.45); }
     .figcap { margin-top:.6rem; font-size:.8rem; color:var(--muted); line-height:1.55; }
     .figcap b { color:var(--text); font-weight:600; }
-    .fig-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.1rem; margin:1.5rem 0; }
+    .fig-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr)); gap:1.1rem; margin:1.5rem 0; }
     .fig-row .figure { margin:0; }
-    .fig-row.two { grid-template-columns:repeat(auto-fit,minmax(380px,1fr)); }
+    .fig-row.two { grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr)); }
 
     /* Callout */
     .note { border-left:3px solid var(--accent2); background:rgba(0,212,255,.05);
@@ -294,7 +294,7 @@
     .note.amber { border-left-color:#fbbf24; background:rgba(251,191,36,.05); }
 
     /* Limitation cards */
-    .limit-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1rem; margin:1.25rem 0; }
+    .limit-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr)); gap:1rem; margin:1.25rem 0; }
     .limit-card { background:var(--surface); border:1px solid var(--border);
                   border-left:3px solid #fbbf24; border-radius:0 var(--radius) var(--radius) 0; padding:1rem 1.1rem; }
     .limit-card h4 { font-size:.92rem; color:var(--text); margin-bottom:.4rem; }
@@ -322,6 +322,7 @@
   <ul class="nav-tabs">
     <li><a href="#" onclick="navigateTo('index.html','home'); return false;">Home</a></li>
     <li><a href="reentry.html" class="active">Re-Entry CFD</a></li>
+    <li><a href="#" onclick="navigateTo('enclosure.html'); return false;">UAS Enclosure</a></li>
     <li><a href="#" onclick="navigateTo('index.html','cad'); return false;">Additional CAD Projects</a></li>
     <li><a href="#" onclick="navigateTo('index.html','resume'); return false;">Resume</a></li>
     <li><a href="#" onclick="navigateTo('index.html','contact'); return false;">Contact</a></li>

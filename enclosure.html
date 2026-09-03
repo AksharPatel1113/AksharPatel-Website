@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UAS Avionics Enclosure | Akshar Patel</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --surface2: #1c1c28;
+      --accent: #6c63ff;
+      --accent2: #00d4ff;
+      --text: #e8e8f0;
+      --muted: #888899;
+      --border: #2a2a3a;
+      --radius: 12px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    #tab-wipe {
+      position: fixed; inset: 0; z-index: 500;
+      pointer-events: none;
+      background: var(--bg);
+      clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+      transition: clip-path 0.22s cubic-bezier(0.4, 0, 1, 1);
+    }
+    #tab-wipe.in  { clip-path: polygon(0 0, 105% 0, 105% 100%, 0 100%); }
+    #tab-wipe.out { clip-path: polygon(105% 0, 105% 0, 105% 100%, 105% 100%); transition-timing-function: cubic-bezier(0, 0, 0.6, 1); }
+
+    #particle-canvas {
+      position: fixed; inset: 0; z-index: 0;
+      pointer-events: none; opacity: 0.45;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10,10,15,0.88); backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; padding: 0 2rem; height: 64px;
+    }
+    .nav-logo {
+      font-size: 1.2rem; font-weight: 700; margin-right: auto; letter-spacing: 0.5px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      text-decoration: none;
+    }
+    .nav-tabs { display: flex; gap: 0.25rem; list-style: none; }
+    .nav-tabs li a {
+      display: block; padding: 0.5rem 1rem; color: var(--muted);
+      text-decoration: none; font-size: 0.9rem; font-weight: 500;
+      border-radius: 8px; transition: color 0.2s, background 0.2s;
+    }
+    .nav-tabs li a:hover { color: var(--text); background: var(--surface2); }
+    .nav-tabs li a.active { color: var(--accent2); background: var(--surface2); }
+
+    .nav-burger {
+      display: none;
+      flex-direction: column; justify-content: center; align-items: center; gap: 5px;
+      width: 44px; height: 44px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      cursor: pointer; flex-shrink: 0;
+    }
+    .nav-burger span {
+      display: block; width: 20px; height: 2px;
+      background: var(--text); border-radius: 2px;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    .nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-burger.open span:nth-child(2) { opacity: 0; }
+    .nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    @media (max-width: 768px) {
+      .nav-burger { display: flex; }
+      .nav-tabs {
+        display: none;
+        position: absolute; top: 64px; left: 0; right: 0;
+        flex-direction: column; gap: 0;
+        background: rgba(10,10,15,0.97); backdrop-filter: blur(14px);
+        border-bottom: 1px solid var(--border);
+        padding: 0.5rem 1rem 1rem; z-index: 200;
+      }
+      .nav-tabs.open { display: flex; }
+      .nav-tabs li a { padding: 0.75rem 1rem; font-size: 1rem; border-radius: 8px; }
+    }
+
+    /* ── LAYOUT ── */
+    .page { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 4rem 2rem 6rem; }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-block; padding: 0.75rem 1.75rem; border-radius: 8px;
+      font-size: 0.95rem; font-weight: 600; text-decoration: none; cursor: pointer;
+      border: none; transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s; font-family: inherit;
+    }
+    .btn:hover { transform: translateY(-2px); opacity: 0.9; }
+    .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; box-shadow: 0 4px 20px rgba(108,99,255,0.35); }
+    .btn-outline { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
+    .btn-outline:hover { border-color: var(--accent); }
+
+    /* ── SECTION LABEL ── */
+    .sec-label {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+
+    /* ── HERO ── */
+    .proj-hero { padding-bottom: 3rem; border-bottom: 1px solid var(--border); margin-bottom: 4rem; }
+    .proj-hero .sec-label { color: var(--accent2); }
+    .proj-hero h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800; line-height: 1.15; margin: 0.5rem 0 1rem;
+    }
+    .proj-hero h1 span {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .proj-hero .subtitle { font-size: 1.1rem; color: var(--muted); line-height: 1.7; max-width: 680px; margin-bottom: 1.5rem; }
+    .tag-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .tag {
+      background: var(--surface2); border: 1px solid var(--border);
+      color: var(--accent2); font-size: 0.75rem; font-weight: 600;
+      padding: 0.25rem 0.65rem; border-radius: 999px;
+    }
+
+    /* ── KEY RESULTS ── */
+    .results-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 4rem; }
+    .result-card {
+      background: linear-gradient(135deg, rgba(108,99,255,0.08), rgba(0,212,255,0.05));
+      border: 1px solid rgba(108,99,255,0.25);
+      border-radius: var(--radius); padding: 1.75rem 1.5rem;
+      position: relative; overflow: hidden;
+    }
+    .result-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+    }
+    .result-card .metric {
+      font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 900;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      line-height: 1; margin-bottom: 0.5rem;
+    }
+    .result-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .result-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
+
+    /* ── PROSE SECTIONS ── */
+    .prose-section { margin-bottom: 4rem; }
+    .prose-section h2 {
+      font-size: 1.6rem; font-weight: 800; margin-bottom: 1rem;
+    }
+    .prose-section h2 span {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .prose-section p { color: var(--muted); font-size: 0.95rem; line-height: 1.8; max-width: 780px; margin-bottom: 0.85rem; }
+    .prose-section p strong { color: var(--text); }
+
+    /* ── METHOD CARDS ── */
+    .method-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 1.25rem; margin-top: 1.5rem; }
+    .method-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.5rem;
+      transition: border-color 0.2s;
+    }
+    .method-card:hover { border-color: rgba(108,99,255,0.4); }
+    .method-card .icon { font-size: 1.6rem; margin-bottom: 0.75rem; }
+    .method-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .method-card p { font-size: 0.87rem; color: var(--muted); line-height: 1.7; }
+    .method-card ul { list-style: none; margin-top: 0.5rem; }
+    .method-card ul li { font-size: 0.84rem; color: var(--muted); padding: 0.2rem 0; }
+    .method-card ul li::before { content: '›  '; color: var(--accent2); font-weight: 700; }
+
+    /* ── GALLERY ── */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+    }
+    @media (max-width: 640px) { .gallery-grid { grid-template-columns: 1fr; } }
+    .gallery-item {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+      transition: border-color 0.2s;
+      cursor: zoom-in;
+    }
+    .gallery-item:hover { border-color: rgba(108,99,255,0.4); }
+    .gallery-item img {
+      width: 100%; height: 240px;
+      object-fit: contain; background: #0d0d14;
+      display: block;
+    }
+    .gallery-placeholder {
+      width: 100%; height: 240px; background: #0d0d14;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted); font-size: 0.85rem; border-bottom: 1px solid var(--border);
+    }
+    .gallery-caption {
+      padding: 0.75rem 1rem;
+      font-size: 0.82rem; color: var(--muted); line-height: 1.5;
+    }
+    .gallery-caption strong { color: var(--text); font-weight: 600; }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      display: none; position: fixed; inset: 0; z-index: 999;
+      background: rgba(0,0,0,0.92); align-items: center; justify-content: center;
+      cursor: zoom-out;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img { max-width: 90vw; max-height: 90vh; object-fit: contain; border-radius: 8px; }
+    .lightbox-close {
+      position: absolute; top: 1.5rem; right: 1.5rem;
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--text); width: 40px; height: 40px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 1.1rem; z-index: 10;
+    }
+
+    /* ── GITHUB CTA ── */
+    .github-cta {
+      text-align: center;
+      padding: 3rem 2rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-top: 1rem;
+    }
+    .github-cta h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .github-cta p { color: var(--muted); font-size: 0.92rem; margin-bottom: 1.5rem; }
+
+    @media (max-width: 768px) {
+      .results-grid, .method-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ════════ TECHNICAL PAGE ADDITIONS ════════ */
+
+    /* Section heading */
+    .sec-head { display:flex; align-items:baseline; gap:.75rem; margin:0 0 .4rem; flex-wrap:wrap; }
+    .sec-num  { font-family:'Consolas','Monaco',monospace; font-size:.8rem; color:var(--accent2);
+                border:1px solid rgba(0,212,255,.35); border-radius:4px; padding:.12rem .45rem; flex-shrink:0; }
+    .sec-head h2 { font-size:1.5rem; letter-spacing:-.01em; }
+    .sec-sub  { color:var(--muted); font-size:.9rem; margin-bottom:1.5rem; max-width:70ch; line-height:1.6; }
+
+    /* Data tables */
+    .table-wrap { overflow-x:auto; border:1px solid var(--border); border-radius:var(--radius);
+                  background:var(--surface); margin:1.25rem 0; -webkit-overflow-scrolling:touch; }
+    table.dtable { width:100%; border-collapse:collapse; font-size:.85rem; min-width:460px; }
+    table.dtable caption { caption-side:top; text-align:left; padding:.85rem 1rem .1rem;
+                  font-size:.78rem; letter-spacing:.06em; text-transform:uppercase; color:var(--accent2); }
+    table.dtable th { text-align:left; font-weight:600; color:var(--text); background:var(--surface2);
+                  padding:.6rem .85rem; border-bottom:1px solid var(--border); white-space:nowrap; }
+    table.dtable td { padding:.55rem .85rem; border-bottom:1px solid rgba(42,42,58,.5); color:var(--muted); }
+    table.dtable tbody tr:last-child td { border-bottom:none; }
+    table.dtable tbody tr:hover td { background:rgba(108,99,255,.04); }
+    table.dtable td strong, table.dtable td b { color:var(--text); font-weight:600; }
+    .num { font-family:'Consolas','Monaco',monospace; font-variant-numeric:tabular-nums; white-space:nowrap; }
+    .ok  { color:#4ade80; font-weight:600; }
+    .warn{ color:#fbbf24; font-weight:600; }
+    .bad { color:#f87171; font-weight:600; }
+
+    /* Spec grid */
+    .spec-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(190px,100%),1fr)); gap:.7rem; margin:1.25rem 0; }
+    .spec-item { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:.8rem .9rem; }
+    .spec-item .k { display:block; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-bottom:.3rem; }
+    .spec-item .v { display:block; font-size:1rem; color:var(--text); font-weight:600;
+                    font-family:'Consolas','Monaco',monospace; word-break:break-word; }
+
+    /* Figures */
+    .figure { margin:1.5rem 0; }
+    .figure img { display:block; width:100%; height:auto; border:1px solid var(--border);
+                  border-radius:var(--radius); background:#fff; cursor:zoom-in;
+                  transition:border-color .2s, transform .2s; }
+    .figure img.dark-shot { background:#0d0d14; }
+    .figure img:hover { border-color:rgba(0,212,255,.45); }
+    .figcap { margin-top:.6rem; font-size:.8rem; color:var(--muted); line-height:1.55; }
+    .figcap b { color:var(--text); font-weight:600; }
+    .fig-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr)); gap:1.1rem; margin:1.5rem 0; }
+    .fig-row .figure { margin:0; }
+    .fig-row.two { grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr)); }
+
+    /* Callout */
+    .note { border-left:3px solid var(--accent2); background:rgba(0,212,255,.05);
+            border-radius:0 8px 8px 0; padding:.85rem 1rem; margin:1.25rem 0;
+            font-size:.87rem; line-height:1.65; color:var(--muted); }
+    .note b, .note strong { color:var(--text); }
+    .note.amber { border-left-color:#fbbf24; background:rgba(251,191,36,.05); }
+
+    /* Limitation cards */
+    .limit-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr)); gap:1rem; margin:1.25rem 0; }
+    .limit-card { background:var(--surface); border:1px solid var(--border);
+                  border-left:3px solid #fbbf24; border-radius:0 var(--radius) var(--radius) 0; padding:1rem 1.1rem; }
+    .limit-card h4 { font-size:.92rem; color:var(--text); margin-bottom:.4rem; }
+    .limit-card p  { font-size:.83rem; color:var(--muted); line-height:1.6; }
+
+    @media (max-width:768px) {
+      .sec-head h2 { font-size:1.25rem; }
+      table.dtable { font-size:.78rem; }
+      table.dtable th, table.dtable td { padding:.5rem .6rem; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="particle-canvas"></canvas>
+<div id="tab-wipe"></div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="" />
+</div>
+
+<nav>
+  <div class="nav-logo">Akshar Patel</div>
+  <ul class="nav-tabs">
+    <li><a href="#" onclick="navigateTo('index.html','home'); return false;">Home</a></li>
+    <li><a href="#" onclick="navigateTo('reentry.html'); return false;">Re-Entry CFD</a></li>
+    <li><a href="enclosure.html" class="active">UAS Enclosure</a></li>
+    <li><a href="#" onclick="navigateTo('index.html','cad'); return false;">Additional CAD Projects</a></li>
+    <li><a href="#" onclick="navigateTo('index.html','resume'); return false;">Resume</a></li>
+    <li><a href="#" onclick="navigateTo('index.html','contact'); return false;">Contact</a></li>
+  </ul>
+  <button class="nav-burger" id="nav-burger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="page">
+
+  <!-- ══ HERO ══ -->
+  <div class="proj-hero">
+    <p class="sec-label" style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;">
+      Structural &amp; Thermal Qualification · Independent Research
+      <span style="display:inline-flex;align-items:center;gap:.4rem;color:#fbbf24;border:1px solid rgba(251,191,36,.45);background:rgba(251,191,36,.08);padding:.15rem .55rem;border-radius:999px;letter-spacing:.1em;">
+        <span style="width:6px;height:6px;border-radius:50%;background:#fbbf24;display:inline-block;"></span>In Progress
+      </span>
+    </p>
+    <h1>UAS Avionics Enclosure<br><span>Structural &amp; Thermal Qualification</span></h1>
+    <p class="subtitle">
+      Virtual environmental qualification of a machined avionics enclosure for a 7&quot; class long-range
+      multirotor. Requirements traced to manufacturer datasheets, modal FEA against a prop-passing
+      excitation band, and a preliminary thermal hand calculation that rules the sealed architecture out
+      before any FEA was built.
+    </p>
+    <div class="tag-row">
+      <span class="tag">Fusion 360</span>
+      <span class="tag">Nastran Modal FEA</span>
+      <span class="tag">Python</span>
+      <span class="tag">6061-T6</span>
+      <span class="tag">MIL-STD-810H</span>
+      <span class="tag">Requirements Engineering</span>
+      <span class="tag">Trade Study</span>
+    </div>
+    <div class="fig-row two" style="margin-top:2.5rem;">
+      <div class="figure">
+        <img src="images/uav/enclosure-assembly.png" alt="Isometric render of the closed 6061-T6 avionics enclosure with lid, four mounting tabs and an antenna penetration" onclick="openLightbox(this.src)" />
+        <p class="figcap"><b>Closed assembly.</b> 93 &times; 63 &times; 33 mm body, 79 mm across the mounting
+          tabs. Six-fastener lid, four mounting tabs, and a side antenna penetration.</p>
+      </div>
+      <div class="figure">
+        <img src="images/uav/enclosure-internal.png" alt="Enclosure with the lid removed showing internal mounting bosses and a divider rib" onclick="openLightbox(this.src)" />
+        <p class="figcap"><b>Lid removed.</b> Internal mounting bosses on the 30.5 &times; 30.5 mm stack
+          pattern, a divider rib separating the stack bay from the capacitor and VTX bay.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ STATUS ══ -->
+  <div class="note amber" style="margin-bottom:3rem;">
+    <b>Project status — phases 1 to 4 complete, phase 5 in work.</b> Requirements, trade study, CAD, and
+    modal FEA are done. The thermal figures below are a <b>lumped-parameter hand calculation</b>, not FEA —
+    thermal FEA is outstanding. <b>No CFD has been run</b> on this project. Random vibration, the MIL-STD-810H
+    PSD profile, and the phase 5 redesign remain open.
+  </div>
+
+  <!-- ══ KEY RESULTS ══ -->
+  <p class="sec-label" style="margin-bottom:1rem;">Headline Results</p>
+  <div class="results-grid">
+    <div class="result-card">
+      <div class="metric">+0.16</div>
+      <h4>Modal Margin — PASS</h4>
+      <p>First mode at 3,984 Hz against a 3,440 Hz requirement. No mode falls inside the
+         87–2,293 Hz prop-passing excitation band.</p>
+    </div>
+    <div class="result-card">
+      <div class="metric">9.2&times;</div>
+      <h4>Thermal Area Shortfall</h4>
+      <p>The sealed enclosure needs 9.2 times its current external area to hold 40 °C at hover.
+         It fails REQ-THM-001 in all four evaluated cases.</p>
+    </div>
+    <div class="result-card">
+      <div class="metric">15</div>
+      <h4>Requirements Defined</h4>
+      <p>Across structural, thermal, mass, and envelope — each traced to a datasheet limit,
+         a published standard, or a platform-derived condition.</p>
+    </div>
+    <div class="result-card">
+      <div class="metric">22</div>
+      <h4>Driving Parameters</h4>
+      <p>A 10-body parametric model where every dimension is parameter-driven, so a redesign
+         is a parameter edit rather than a remodel.</p>
+    </div>
+    <div class="result-card">
+      <div class="metric">137 g</div>
+      <h4>Assembly Mass</h4>
+      <p>Machined 6061-T6 enclosure carrying a 43.2 g avionics stack dissipating roughly 11 W.</p>
+    </div>
+    <div class="result-card">
+      <div class="metric">2.5&times;</div>
+      <h4>After Relocating the VTX</h4>
+      <p>Moving the 7.9 W video transmitter outside drops the area requirement from 9.2× to 2.5×,
+         which is achievable. This is what drives the next iteration.</p>
+    </div>
+  </div>
+
+  <!-- ══ 01 REQUIREMENTS ══ -->
+  <div class="prose-section">
+    <div class="sec-head"><span class="sec-num">01</span><h2><span>Requirements Baseline</span></h2></div>
+    <p class="sec-sub">Verification is by analysis only — no physical test article. Every requirement traces
+      to a manufacturer-published limit, a military standard, or a platform-derived excitation condition.</p>
+
+    <h3 style="font-size:1.05rem;margin:1.5rem 0 .5rem;">Component selection by weighted trade study</h3>
+    <p>Six component categories were scored against parameters that drive <em>enclosure</em> design —
+      dissipation, mass, envelope, and temperature limit — rather than flight performance. Each parameter
+      is normalised 0–10 across the candidate set and combined with per-category weights.</p>
+
+    <div class="table-wrap">
+      <table class="dtable">
+        <caption>Selected baseline stack</caption>
+        <thead><tr><th>Category</th><th>Selected</th><th>Score</th><th>Mass (g)</th><th>Dissipation (W)</th><th>Max temp (°C)</th></tr></thead>
+        <tbody>
+          <tr><td>Flight controller</td><td><strong>Matek H743-SLIM</strong></td><td class="num">10.00</td><td class="num">7.0</td><td class="num">2.00</td><td class="num warn">40 amb</td></tr>
+          <tr><td>4-in-1 ESC</td><td><strong>Holybro Tekko32 F4 65A</strong></td><td class="num">9.06</td><td class="num">15.8</td><td class="num">0.90</td><td class="num">150</td></tr>
+          <tr><td>Video transmitter</td><td><strong>RushFPV Tank Ultimate 1.6 W</strong></td><td class="num">10.00</td><td class="num">12.0</td><td class="num bad">7.90</td><td class="num">90</td></tr>
+          <tr><td>GPS / compass</td><td><strong>Matek M10Q-5883</strong></td><td class="num">9.21</td><td class="num">8.0</td><td class="num">0.07</td><td class="num">80</td></tr>
+          <tr><td>RC receiver</td><td><strong>Happymodel EP2 ELRS</strong></td><td class="num">9.88</td><td class="num">0.4</td><td class="num">0.20</td><td class="num">80</td></tr>
+          <tr><td colspan="3"><strong>Stack total</strong></td><td class="num"><b>43.2</b></td><td class="num"><b>11.07</b></td><td class="num">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note">
+      <b>One component sets the thermal problem.</b> The video transmitter dissipates 7.9 W — more than the
+      rest of the stack combined. Dissipation is DC input power minus RF output power, so a 1.6 W transmitter
+      drawing 9.5 W turns 7.9 W into localised heat. Every alternative evaluated was worse: the DJI O3 and
+      O4 Air Units dissipate 11 W and 12.5 W and both require forced air.
+    </div>
+
+    <div class="note amber">
+      <b>Design finding — the enclosure is a Faraday cage.</b> An aluminium box attenuates the signals of any
+      component with an integrated antenna. The GPS module and RC receiver were therefore relocated externally
+      rather than packaged inside. This came out of the requirements work, before any geometry existed.
+    </div>
+
+    <h3 style="font-size:1.05rem;margin:2rem 0 .5rem;">Excitation band from the propulsion system</h3>
+    <p>The motor/prop combination does not sit inside the enclosure — it is selected because it defines the
+      vibration environment. Prop passing frequency is <span class="num">f = (RPM / 60) × N<sub>blades</sub></span>,
+      evaluated across four harmonics for the selected T-Motor F90 2806.5 running a 7&quot; bi-blade at
+      2,600–17,200 RPM.</p>
+
+    <div class="table-wrap">
+      <table class="dtable">
+        <caption>Prop passing frequency — T-Motor F90 2806.5, 7&quot; bi-blade</caption>
+        <thead><tr><th>Harmonic</th><th>At idle (2,600 RPM)</th><th>At max (17,200 RPM)</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1×</strong></td><td class="num">87 Hz</td><td class="num">573 Hz</td></tr>
+          <tr><td><strong>2×</strong></td><td class="num">173 Hz</td><td class="num">1,147 Hz</td></tr>
+          <tr><td><strong>3×</strong></td><td class="num">260 Hz</td><td class="num">1,720 Hz</td></tr>
+          <tr><td><strong>4×</strong></td><td class="num">347 Hz</td><td class="num">2,293 Hz</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="spec-grid">
+      <div class="spec-item"><span class="k">Excitation band</span><span class="v">87 – 2,293 Hz</span></div>
+      <div class="spec-item"><span class="k">Separation factor</span><span class="v">1.5×</span></div>
+      <div class="spec-item"><span class="k">REQ-STR-001 target</span><span class="v">&gt; 3,440 Hz</span></div>
+      <div class="spec-item"><span class="k">Binding ambient limit</span><span class="v">40 °C</span></div>
+    </div>
+    <p style="font-size:.85rem;">The 3,440 Hz requirement is 1.5× the highest excitation frequency —
+      a common preliminary separation rule. The binding thermal allowable is the flight controller's
+      40 °C <em>ambient</em> rating, which is a distinct and far more restrictive number than its
+      ~100 °C component rating. Inside a sealed box, the ambient limit governs.</p>
+  </div>
+
+  <!-- ══ 02 DESIGN ══ -->
+  <div class="prose-section">
+    <div class="sec-head"><span class="sec-num">02</span><h2><span>Parametric Design</span></h2></div>
+    <p class="sec-sub">A 10-body Fusion 360 model in which 22 user parameters drive every dimension.</p>
+
+    <div class="spec-grid">
+      <div class="spec-item"><span class="k">Body envelope</span><span class="v">93 × 63 × 33 mm</span></div>
+      <div class="spec-item"><span class="k">Across tabs</span><span class="v">79 mm</span></div>
+      <div class="spec-item"><span class="k">Assembly mass</span><span class="v">137 g</span></div>
+      <div class="spec-item"><span class="k">Material</span><span class="v">6061-T6, CNC</span></div>
+      <div class="spec-item"><span class="k">Bodies</span><span class="v">10</span></div>
+      <div class="spec-item"><span class="k">User parameters</span><span class="v">22</span></div>
+    </div>
+
+    <div class="figure">
+      <img src="images/uav/enclosure-cutaway.png" alt="Cutaway view of the enclosure showing the internal bay layout" onclick="openLightbox(this.src)" />
+      <p class="figcap"><b>Cutaway.</b> The stack bay carries the 30.5 × 30.5 mm mounting pattern shared by
+        the flight controller and ESC; a divider rib separates it from the bay holding the video transmitter
+        and the 6S bulk capacitor.</p>
+    </div>
+
+    <div class="note">
+      <b>Why full parameterisation matters here.</b> The thermal result below forces an architectural
+      redesign. Because all 22 dimensions are parameter-driven rather than hard-modelled, that redesign is a
+      parameter edit and a rebuild — not a remodel from scratch. The decision to parameterise was made before
+      the result that justified it.
+    </div>
+  </div>
+
+  <!-- ══ 03 MODAL ══ -->
+  <div class="prose-section">
+    <div class="sec-head"><span class="sec-num">03</span><h2><span>Modal FEA</span></h2></div>
+    <p class="sec-sub">10 modes extracted in Fusion 360 (Nastran), bonded contacts throughout, fixed on the
+      four mounting tab underside faces.</p>
+
+    <div class="table-wrap">
+      <table class="dtable">
+        <caption>REQ-STR-001 / REQ-STR-002 verification</caption>
+        <thead><tr><th>Requirement</th><th>Predicted</th><th>Allowable</th><th>Margin</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td><strong>REQ-STR-001</strong> — first mode above 3,440 Hz</td><td class="num">3,984 Hz</td><td class="num">3,440 Hz</td><td class="num ok">+0.16</td><td class="ok">PASS</td></tr>
+          <tr><td><strong>REQ-STR-002</strong> — no mode in excitation band</td><td class="num">3,984 Hz (f₁)</td><td class="num">87–2,293 Hz</td><td class="ok">No mode in band</td><td class="ok">PASS</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>The first mode is lid drumming — a first bending shape with a central antinode on the lid. Higher
+      modes progress from lid deformation, through bending of the internal stack about each axis, to coupled
+      modes where the capacitor and video transmitter drive wall deformation. The lid is the softest element
+      in the assembly, which is what makes the contact treatment at the lid interface consequential.</p>
+
+    <h3 style="font-size:1.05rem;margin:2rem 0 .5rem;">Mesh convergence — and where it did not converge</h3>
+    <p>Three meshes were run at 10%, 7%, and 5% element size. The result is worth stating precisely rather
+      than summarising as &ldquo;converged&rdquo;:</p>
+
+    <div class="table-wrap">
+      <table class="dtable">
+        <caption>Three-mesh convergence study</caption>
+        <thead><tr><th>Mode</th><th>Change 10% → 7%</th><th>Change 7% → 5%</th><th>Assessment</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Mode 1</strong></td><td class="num warn">3.2 %</td><td class="num warn">4.0 %</td><td class="warn">Not converged — change grew</td></tr>
+          <tr><td><strong>Mode 3</strong></td><td class="num">—</td><td class="num ok">0.8 %</td><td class="ok">Converged</td></tr>
+          <tr><td><strong>Mode 4</strong></td><td class="num">—</td><td class="num ok">0.2 %</td><td class="ok">Converged</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note amber">
+      <b>Mode 1 did not converge, and the other modes localise the cause.</b> A refinement that reduces error
+      should make successive changes smaller; here mode 1 moved 3.2% then 4.0% — it got worse. Modes 3 and 4
+      converged cleanly at 0.8% and 0.2% on the same meshes, so the mesh itself is adequate. What separates
+      mode 1 is that it is a lid-dominated shape, and the lid is where the bonded contact discretisation
+      lives. The convergence failure is therefore attributed to contact discretisation at the lid interface,
+      not to global mesh density. <b>The +0.16 margin should be read with that caveat attached.</b>
+    </div>
+  </div>
+
+  <!-- ══ 04 THERMAL ══ -->
+  <div class="prose-section">
+    <div class="sec-head"><span class="sec-num">04</span><h2><span>Thermal Scoping</span></h2></div>
+    <p class="sec-sub">A lumped-parameter hand calculation in Python, built deliberately <em>before</em> any
+      FEA — to establish an expected answer to check the FEA against.</p>
+
+    <div class="note">
+      <b>What this calculation is.</b> Churchill-Chu natural convection, flat-plate laminar forced convection,
+      and linearised radiation, solved by fixed-point iteration for a single isothermal surface temperature.
+      It does <b>not</b> resolve internal gradients, component hot spots, or conduction through mounts — those
+      need the thermal FEA, which has not yet been run. This is <b>not CFD</b>, and no CFD has been performed
+      on this project. Because the enclosure is treated as isothermal, internal air will run hotter than these
+      numbers: <b>treat them as optimistic</b>.
+    </div>
+
+    <div class="table-wrap">
+      <table class="dtable">
+        <caption>Sealed enclosure — 10.8 W modelled load, 35 °C ambient, 40 °C allowable</caption>
+        <thead><tr><th>Case</th><th>h<sub>conv</sub></th><th>h<sub>rad</sub></th><th>ΔT</th><th>T<sub>surface</sub></th><th>Margin</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Hover, bare Al</strong></td><td class="num">8.7</td><td class="num">0.8</td><td class="num">51.0 °C</td><td class="num bad">86.0 °C</td><td class="num bad">−0.53</td><td class="bad">FAIL</td></tr>
+          <tr><td><strong>Hover, anodised</strong></td><td class="num">8.0</td><td class="num">6.3</td><td class="num">34.3 °C</td><td class="num bad">69.4 °C</td><td class="num bad">−0.42</td><td class="bad">FAIL</td></tr>
+          <tr><td><strong>Cruise, bare Al</strong></td><td class="num">54.6</td><td class="num">0.7</td><td class="num">8.8 °C</td><td class="num bad">43.8 °C</td><td class="num bad">−0.09</td><td class="bad">FAIL</td></tr>
+          <tr><td><strong>Cruise, anodised</strong></td><td class="num">54.6</td><td class="num">5.5</td><td class="num">8.1 °C</td><td class="num bad">43.1 °C</td><td class="num bad">−0.07</td><td class="bad">FAIL</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:.85rem;">h in W/m²·K. External area 0.0221 m². Cruise Reynolds number 93,095 —
+      laminar, so the flat-plate laminar correlation is appropriate.</p>
+
+    <p><strong>The sealed architecture fails REQ-THM-001 in every case.</strong> Hover is the binding
+      condition: it has the worst heat rejection despite the lowest ESC load. Anodising helps materially at
+      hover — radiation carries 6.3 of the 14.3 W/m²·K total against 0.8 for bare aluminium — which makes
+      surface finish a first-order design variable rather than a detail. It is not close to enough.</p>
+
+    <h3 style="font-size:1.05rem;margin:2rem 0 .5rem;">Ruling out the obvious fix</h3>
+    <p>Closing a 34 °C rise against a 5 °C allowable requires <strong>9.2× the current external area</strong>.
+      The obvious response is fins, so fins were sized rather than assumed:</p>
+
+    <div class="table-wrap">
+      <table class="dtable">
+        <caption>Can fins close the gap?</caption>
+        <thead><tr><th>Approach</th><th>Area achieved</th><th>Area required</th><th>Mass added</th><th>Verdict</th></tr></thead>
+        <tbody>
+          <tr><td>Densely finned long walls</td><td class="num warn">3.4×</td><td class="num">9.2×</td><td class="num bad">+101 g</td><td class="bad">Insufficient</td></tr>
+          <tr><td>Relocate the 7.9 W VTX externally</td><td class="num">—</td><td class="num ok">2.5×</td><td class="num ok">−12 g</td><td class="ok">Achievable</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note">
+      <b>Fins reach 3.4× while adding 101 g — nearly doubling the assembly mass — and still fall short of
+      9.2×.</b> That result is what redirects the redesign from incremental surface area to architecture.
+      Moving the video transmitter outside removes 7.9 W of the roughly 11 W load and drops the requirement
+      to 2.5×, which fins <em>can</em> deliver. The redesign target changed because the arithmetic ruled out
+      the alternative, not because the alternative looked unattractive.
+    </div>
+  </div>
+
+  <!-- ══ 05 NEXT ══ -->
+  <div class="prose-section">
+    <div class="sec-head"><span class="sec-num">05</span><h2><span>Outstanding Work</span></h2></div>
+    <p class="sec-sub">What phases 5 and 6 cover.</p>
+    <div class="limit-grid">
+      <div class="limit-card">
+        <h4>Thermal FEA</h4>
+        <p>Resolve internal gradients and component hot spots that the lumped model cannot see. If the FEA
+          disagrees with the hand calculation by more than ~30%, that gap needs explaining before either
+          result is trusted.</p>
+      </div>
+      <div class="limit-card">
+        <h4>Random vibration</h4>
+        <p>Miles' equation for 3-sigma response, then static FEA to verify positive margin against 6061-T6
+          yield. REQ-STR-003 is currently open.</p>
+      </div>
+      <div class="limit-card">
+        <h4>MIL-STD-810H profile</h4>
+        <p>Extract and justify the Method 514.8 PSD profile for a small multirotor. The excitation band is
+          currently platform-derived only.</p>
+      </div>
+      <div class="limit-card">
+        <h4>Phase 5 redesign</h4>
+        <p>Relocate the video transmitter, add fins to the 2.5× target, and re-run modal — with the lid
+          contact treatment revisited so mode 1 converges.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ CTA ══ -->
+  <div class="github-cta">
+    <h3>Project Files</h3>
+    <p>Requirements document with the full margin table and assumptions log, the weighted trade study
+      workbook, the thermal scoping script, and the CAD in STEP.</p>
+    <a href="uav-project/requirements.md" class="btn btn-primary">Requirements &amp; Margins &rarr;</a>
+    <a href="uav-project/trade_study.xlsx" class="btn btn-outline" style="margin-left:.6rem;">Trade Study</a>
+    <a href="uav-project/thermal_scoping.py" class="btn btn-outline" style="margin-left:.6rem;">Thermal Script</a>
+  </div>
+
+</div>
+
+<script>
+  /* ── PARTICLE BACKGROUND ── */
+  (function () {
+    const canvas = document.getElementById('particle-canvas');
+    const ctx    = canvas.getContext('2d');
+    const ACCENT  = { r:108, g:99,  b:255 };
+    const ACCENT2 = { r:0,   g:212, b:255 };
+    const COUNT   = 80;
+    const MAX_DIST = 140;
+    let W, H, particles = [];
+
+    function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resize);
+    resize();
+    function lerp(a, b, t) { return a + (b - a) * t; }
+    function Particle() {
+      this.x = Math.random() * W; this.y = Math.random() * H;
+      this.vx = (Math.random() - 0.5) * 0.4; this.vy = (Math.random() - 0.5) * 0.4;
+      this.r = Math.random() * 1.8 + 0.8; this.t = Math.random() * Math.PI * 2;
+    }
+    for (let i = 0; i < COUNT; i++) particles.push(new Particle());
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      const now = Date.now() * 0.001;
+      for (const p of particles) {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+        if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+        const pulse = 0.5 + 0.5 * Math.sin(now * 1.2 + p.t);
+        const r = Math.round(lerp(ACCENT.r, ACCENT2.r, pulse));
+        const g = Math.round(lerp(ACCENT.g, ACCENT2.g, pulse));
+        const b = Math.round(lerp(ACCENT.b, ACCENT2.b, pulse));
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${r},${g},${b},0.7)`; ctx.fill();
+      }
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const a = particles[i], b = particles[j];
+          const dx = a.x - b.x, dy = a.y - b.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < MAX_DIST) {
+            const alpha = (1 - dist / MAX_DIST) * 0.25;
+            ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
+            ctx.strokeStyle = `rgba(108,99,255,${alpha})`; ctx.lineWidth = 0.8; ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+    draw();
+  })();
+
+  /* ── PAGE TRANSITION ── */
+  const wipe = document.getElementById('tab-wipe');
+  let wiping = false;
+
+  /* wipe-in on arrival */
+  wipe.classList.add('in');
+  setTimeout(() => { wipe.classList.remove('in'); wipe.classList.add('out'); }, 20);
+  setTimeout(() => { wipe.classList.remove('out'); wiping = false; }, 260);
+
+  function navigateTo(url, tab) {
+    if (wiping) return;
+    wiping = true;
+    wipe.classList.remove('out');
+    wipe.classList.add('in');
+    setTimeout(() => {
+      if (tab) sessionStorage.setItem('tab', tab);
+      window.location.href = url;
+    }, 230);
+  }
+
+  /* ── HAMBURGER MENU ── */
+  const burger = document.getElementById('nav-burger');
+  const navTabs = document.querySelector('.nav-tabs');
+  burger.addEventListener('click', () => {
+    burger.classList.toggle('open');
+    navTabs.classList.toggle('open');
+  });
+  navTabs.addEventListener('click', e => {
+    if (e.target.tagName === 'A') {
+      burger.classList.remove('open');
+      navTabs.classList.remove('open');
+    }
+  });
+
+  /* ── LIGHTBOX ── */
+  function openLightbox(src) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+</script>
+</body>
+</html>
