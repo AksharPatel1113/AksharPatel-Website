@@ -341,13 +341,14 @@
       <span style="display:inline-flex;align-items:center;gap:.4rem;color:#fbbf24;border:1px solid rgba(251,191,36,.45);background:rgba(251,191,36,.08);padding:.15rem .55rem;border-radius:999px;letter-spacing:.1em;">
         <span style="width:6px;height:6px;border-radius:50%;background:#fbbf24;display:inline-block;"></span>In Progress
       </span>
+      <span style="color:var(--muted);letter-spacing:.1em;">Rev C</span>
     </p>
     <h1>UAS Avionics Enclosure<br><span>Structural &amp; Thermal Qualification</span></h1>
     <p class="subtitle">
-      Virtual environmental qualification of a machined avionics enclosure for a 7&quot; class long-range
-      multirotor. Requirements traced to manufacturer datasheets, modal FEA against a prop-passing
-      excitation band, and a preliminary thermal hand calculation that rules the sealed architecture out
-      before any FEA was built.
+      Virtual environmental qualification of a machined avionics enclosure for a 7&nbsp;in class long-range
+      multirotor. Every requirement traces to a manufacturer-published limit, a military standard, or a
+      platform-derived excitation condition. Verification is by analysis only — no physical test article
+      is produced.
     </p>
     <div class="tag-row">
       <span class="tag">Fusion 360</span>
@@ -360,24 +361,27 @@
     </div>
     <div class="fig-row two" style="margin-top:2.5rem;">
       <div class="figure">
-        <img src="images/uav/enclosure-assembly.png" alt="Isometric render of the closed 6061-T6 avionics enclosure with lid, four mounting tabs and an antenna penetration" onclick="openLightbox(this.src)" />
+        <img src="images/uav/enclosure-assembly.png" alt="Isometric render of the closed 6061-T6 avionics enclosure with lid, four mounting tabs and a cable penetration" onclick="openLightbox(this.src)" />
         <p class="figcap"><b>Closed assembly.</b> 93 &times; 63 &times; 33 mm body, 79 mm across the mounting
-          tabs. Six-fastener lid, four mounting tabs, and a side antenna penetration.</p>
+          tabs. Six-fastener lid, four mounting tabs, and a side cable penetration for the external
+          GPS and receiver harness.</p>
       </div>
       <div class="figure">
         <img src="images/uav/enclosure-internal.png" alt="Enclosure with the lid removed showing internal mounting bosses and a divider rib" onclick="openLightbox(this.src)" />
-        <p class="figcap"><b>Lid removed.</b> Internal mounting bosses on the 30.5 &times; 30.5 mm stack
-          pattern, a divider rib separating the stack bay from the capacitor and VTX bay.</p>
+        <p class="figcap"><b>Lid removed.</b> Standoffs on the 30.5 &times; 30.5 mm stack pattern, and a
+          divider rib separating the board stack from the bay holding the video transmitter and the
+          upright 6S bulk capacitor.</p>
       </div>
     </div>
   </div>
 
   <!-- ══ STATUS ══ -->
   <div class="note amber" style="margin-bottom:3rem;">
-    <b>Project status — phases 1 to 4 complete, phase 5 in work.</b> Requirements, trade study, CAD, and
-    modal FEA are done. The thermal figures below are a <b>lumped-parameter hand calculation</b>, not FEA —
-    thermal FEA is outstanding. <b>No CFD has been run</b> on this project. Random vibration, the MIL-STD-810H
-    PSD profile, and the phase 5 redesign remain open.
+    <b>Status — structural analysis complete, thermal redesign open.</b> Modal FEA is done and both
+    structural frequency requirements pass. The thermal figures below come from a
+    <b>lumped-parameter hand calculation</b>, not FEA — thermal FEA has not been run, and
+    <b>no CFD has been performed on this project</b>. Random vibration, the MIL-STD-810H PSD profile,
+    fatigue, and the Phase 5 thermal redesign all remain open.
   </div>
 
   <!-- ══ KEY RESULTS ══ -->
@@ -386,31 +390,32 @@
     <div class="result-card">
       <div class="metric">+0.16</div>
       <h4>Modal Margin — PASS</h4>
-      <p>First mode at 3,984 Hz against a 3,440 Hz requirement. No mode falls inside the
-         87–2,293 Hz prop-passing excitation band.</p>
+      <p>First mode at 3,984 Hz against a 3,440 Hz requirement, clearing the fourth prop harmonic at
+         maximum RPM by a factor of 1.74. No mode falls inside the 87–2,293 Hz band.</p>
     </div>
     <div class="result-card">
       <div class="metric">9.2&times;</div>
       <h4>Thermal Area Shortfall</h4>
-      <p>The sealed enclosure needs 9.2 times its current external area to hold 40 °C at hover.
-         It fails REQ-THM-001 in all four evaluated cases.</p>
+      <p>The sealed enclosure needs 9.2 times its external area to hold 40 °C at hover.
+         REQ-THM-001 fails in all four evaluated cases.</p>
     </div>
     <div class="result-card">
-      <div class="metric">15</div>
-      <h4>Requirements Defined</h4>
-      <p>Across structural, thermal, mass, and envelope — each traced to a datasheet limit,
+      <div class="metric">13</div>
+      <h4>Requirements Traced</h4>
+      <p>Four structural, five thermal, and four mass and envelope — each traced to a datasheet limit,
          a published standard, or a platform-derived condition.</p>
     </div>
     <div class="result-card">
-      <div class="metric">22</div>
-      <h4>Driving Parameters</h4>
-      <p>A 10-body parametric model where every dimension is parameter-driven, so a redesign
-         is a parameter edit rather than a remodel.</p>
+      <div class="metric">10.8 W</div>
+      <h4>Internal Heat Load</h4>
+      <p>Flight controller, ESC, and video transmitter. The GPS and receiver sit outside the box and
+         are excluded from the internal thermal model.</p>
     </div>
     <div class="result-card">
-      <div class="metric">137 g</div>
-      <h4>Assembly Mass</h4>
-      <p>Machined 6061-T6 enclosure carrying a 43.2 g avionics stack dissipating roughly 11 W.</p>
+      <div class="metric">7</div>
+      <h4>Logged Assumptions</h4>
+      <p>Each recorded with its justification and its direction of conservatism — including two
+         that are explicitly non-conservative.</p>
     </div>
     <div class="result-card">
       <div class="metric">2.5&times;</div>
@@ -420,177 +425,278 @@
     </div>
   </div>
 
-  <!-- ══ 01 REQUIREMENTS ══ -->
+  <!-- ══ 01 STACK ══ -->
   <div class="prose-section">
-    <div class="sec-head"><span class="sec-num">01</span><h2><span>Requirements Baseline</span></h2></div>
-    <p class="sec-sub">Verification is by analysis only — no physical test article. Every requirement traces
-      to a manufacturer-published limit, a military standard, or a platform-derived excitation condition.</p>
-
-    <h3 style="font-size:1.05rem;margin:1.5rem 0 .5rem;">Component selection by weighted trade study</h3>
-    <p>Six component categories were scored against parameters that drive <em>enclosure</em> design —
-      dissipation, mass, envelope, and temperature limit — rather than flight performance. Each parameter
-      is normalised 0–10 across the candidate set and combined with per-category weights.</p>
+    <div class="sec-head"><span class="sec-num">01</span><h2><span>Component Stack</span></h2></div>
+    <p class="sec-sub">Baseline selected by weighted trade study, scored against the parameters that drive
+      enclosure design — dissipation, mass, envelope, and temperature limit — rather than flight performance.</p>
 
     <div class="table-wrap">
       <table class="dtable">
         <caption>Selected baseline stack</caption>
-        <thead><tr><th>Category</th><th>Selected</th><th>Score</th><th>Mass (g)</th><th>Dissipation (W)</th><th>Max temp (°C)</th></tr></thead>
+        <thead><tr><th>ID</th><th>Component</th><th>Part</th><th>Mass (g)</th><th>Footprint (mm)</th><th>Height (mm)</th><th>Diss. (W)</th><th>Location</th></tr></thead>
         <tbody>
-          <tr><td>Flight controller</td><td><strong>Matek H743-SLIM</strong></td><td class="num">10.00</td><td class="num">7.0</td><td class="num">2.00</td><td class="num warn">40 amb</td></tr>
-          <tr><td>4-in-1 ESC</td><td><strong>Holybro Tekko32 F4 65A</strong></td><td class="num">9.06</td><td class="num">15.8</td><td class="num">0.90</td><td class="num">150</td></tr>
-          <tr><td>Video transmitter</td><td><strong>RushFPV Tank Ultimate 1.6 W</strong></td><td class="num">10.00</td><td class="num">12.0</td><td class="num bad">7.90</td><td class="num">90</td></tr>
-          <tr><td>GPS / compass</td><td><strong>Matek M10Q-5883</strong></td><td class="num">9.21</td><td class="num">8.0</td><td class="num">0.07</td><td class="num">80</td></tr>
-          <tr><td>RC receiver</td><td><strong>Happymodel EP2 ELRS</strong></td><td class="num">9.88</td><td class="num">0.4</td><td class="num">0.20</td><td class="num">80</td></tr>
-          <tr><td colspan="3"><strong>Stack total</strong></td><td class="num"><b>43.2</b></td><td class="num"><b>11.07</b></td><td class="num">—</td></tr>
+          <tr><td><strong>C1</strong></td><td>Flight controller</td><td>Matek H743-SLIM</td><td class="num">7.0</td><td class="num">36 × 36</td><td class="num">5.0</td><td class="num">2.00</td><td class="ok">Internal</td></tr>
+          <tr><td><strong>C2</strong></td><td>4-in-1 ESC</td><td>Holybro Tekko32 F4 65A</td><td class="num">15.8</td><td class="num">46 × 44</td><td class="num">6.0</td><td class="num">0.90</td><td class="ok">Internal</td></tr>
+          <tr><td><strong>C3</strong></td><td>Video transmitter</td><td>RushFPV Tank Ultimate</td><td class="num">12.0</td><td class="num">37 × 24</td><td class="num">6.7</td><td class="num bad">7.90</td><td class="ok">Internal</td></tr>
+          <tr><td><strong>C4</strong></td><td>GPS / compass</td><td>Matek M10Q-5883</td><td class="num">8.0</td><td class="num">20 × 20</td><td class="num">12.4</td><td class="num">0.07</td><td class="warn">External</td></tr>
+          <tr><td><strong>C5</strong></td><td>RC receiver</td><td>Happymodel EP2 ELRS</td><td class="num">0.4</td><td class="num">10 × 10</td><td class="num">6.0</td><td class="num">0.20</td><td class="warn">External</td></tr>
+          <tr><td><strong>C6</strong></td><td>Bulk capacitor</td><td>35PK1000MEFCT810X20</td><td class="num">2.75</td><td class="num">⌀ 11.25</td><td class="num">25.0</td><td class="num">negligible</td><td class="ok">Internal</td></tr>
+          <tr><td colspan="6"><strong>Internal heat load (C1 + C2 + C3)</strong></td><td class="num"><b>10.80</b></td><td>—</td></tr>
         </tbody>
       </table>
     </div>
 
-    <div class="note">
-      <b>One component sets the thermal problem.</b> The video transmitter dissipates 7.9 W — more than the
-      rest of the stack combined. Dissipation is DC input power minus RF output power, so a 1.6 W transmitter
-      drawing 9.5 W turns 7.9 W into localised heat. Every alternative evaluated was worse: the DJI O3 and
-      O4 Air Units dissipate 11 W and 12.5 W and both require forced air.
-    </div>
-
     <div class="note amber">
-      <b>Design finding — the enclosure is a Faraday cage.</b> An aluminium box attenuates the signals of any
-      component with an integrated antenna. The GPS module and RC receiver were therefore relocated externally
-      rather than packaged inside. This came out of the requirements work, before any geometry existed.
+      <b>Design finding — the enclosure is a Faraday cage.</b> The GPS module uses an internal patch
+      antenna and the receiver an integrated SMD ceramic antenna. Neither would acquire signal inside an
+      aluminium box, so both are mounted externally and excluded from the internal thermal model. Two
+      thermal requirements were deleted as a direct consequence. This came out of the requirements work,
+      before any geometry existed.
     </div>
 
-    <h3 style="font-size:1.05rem;margin:2rem 0 .5rem;">Excitation band from the propulsion system</h3>
-    <p>The motor/prop combination does not sit inside the enclosure — it is selected because it defines the
-      vibration environment. Prop passing frequency is <span class="num">f = (RPM / 60) × N<sub>blades</sub></span>,
-      evaluated across four harmonics for the selected T-Motor F90 2806.5 running a 7&quot; bi-blade at
-      2,600–17,200 RPM.</p>
+    <div class="note">
+      <b>Two temperature limits that must not be conflated.</b> The flight controller carries a
+      <b>40 °C maximum ambient</b> rating alongside a ~100 °C component rating. Inside a sealed enclosure
+      the ambient limit is the one that governs internal air, and it is far more restrictive. The binding
+      <em>component</em> allowable is 90 °C, set by the video transmitter case.
+    </div>
+
+    <p style="font-size:.88rem;">The ESC has no output BEC, so all 5 V loads draw from the flight
+      controller's onboard regulator and the conversion losses dissipate on C1 — which is why its
+      dissipation is booked at 2.00 W rather than its published 1.0 W static figure. The ESC's larger
+      46 × 44 mm outline, not the flight controller, sets the minimum internal footprint.</p>
+  </div>
+
+  <!-- ══ 02 ENVIRONMENTS ══ -->
+  <div class="prose-section">
+    <div class="sec-head"><span class="sec-num">02</span><h2><span>Environments</span></h2></div>
+    <p class="sec-sub">The propulsion system does not sit inside the enclosure. It is specified because it
+      defines the vibration environment.</p>
+
+    <div class="spec-grid">
+      <div class="spec-item"><span class="k">Motor</span><span class="v">T-Motor F90 2806.5</span></div>
+      <div class="spec-item"><span class="k">KV</span><span class="v">1500 KV</span></div>
+      <div class="spec-item"><span class="k">Propeller</span><span class="v">7 in, 2 blades</span></div>
+      <div class="spec-item"><span class="k">RPM range</span><span class="v">2,600 – 17,200</span></div>
+    </div>
 
     <div class="table-wrap">
       <table class="dtable">
-        <caption>Prop passing frequency — T-Motor F90 2806.5, 7&quot; bi-blade</caption>
+        <caption>Prop passing frequency — f = (RPM / 60) × N<sub>blades</sub></caption>
         <thead><tr><th>Harmonic</th><th>At idle (2,600 RPM)</th><th>At max (17,200 RPM)</th></tr></thead>
         <tbody>
           <tr><td><strong>1×</strong></td><td class="num">87 Hz</td><td class="num">573 Hz</td></tr>
           <tr><td><strong>2×</strong></td><td class="num">173 Hz</td><td class="num">1,147 Hz</td></tr>
           <tr><td><strong>3×</strong></td><td class="num">260 Hz</td><td class="num">1,720 Hz</td></tr>
-          <tr><td><strong>4×</strong></td><td class="num">347 Hz</td><td class="num">2,293 Hz</td></tr>
+          <tr><td><strong>4×</strong></td><td class="num">347 Hz</td><td class="num"><b>2,293 Hz</b></td></tr>
         </tbody>
       </table>
-    </div>
-
-    <div class="spec-grid">
-      <div class="spec-item"><span class="k">Excitation band</span><span class="v">87 – 2,293 Hz</span></div>
-      <div class="spec-item"><span class="k">Separation factor</span><span class="v">1.5×</span></div>
-      <div class="spec-item"><span class="k">REQ-STR-001 target</span><span class="v">&gt; 3,440 Hz</span></div>
-      <div class="spec-item"><span class="k">Binding ambient limit</span><span class="v">40 °C</span></div>
-    </div>
-    <p style="font-size:.85rem;">The 3,440 Hz requirement is 1.5× the highest excitation frequency —
-      a common preliminary separation rule. The binding thermal allowable is the flight controller's
-      40 °C <em>ambient</em> rating, which is a distinct and far more restrictive number than its
-      ~100 °C component rating. Inside a sealed box, the ambient limit governs.</p>
-  </div>
-
-  <!-- ══ 02 DESIGN ══ -->
-  <div class="prose-section">
-    <div class="sec-head"><span class="sec-num">02</span><h2><span>Parametric Design</span></h2></div>
-    <p class="sec-sub">A 10-body Fusion 360 model in which 22 user parameters drive every dimension.</p>
-
-    <div class="spec-grid">
-      <div class="spec-item"><span class="k">Body envelope</span><span class="v">93 × 63 × 33 mm</span></div>
-      <div class="spec-item"><span class="k">Across tabs</span><span class="v">79 mm</span></div>
-      <div class="spec-item"><span class="k">Assembly mass</span><span class="v">137 g</span></div>
-      <div class="spec-item"><span class="k">Material</span><span class="v">6061-T6, CNC</span></div>
-      <div class="spec-item"><span class="k">Bodies</span><span class="v">10</span></div>
-      <div class="spec-item"><span class="k">User parameters</span><span class="v">22</span></div>
-    </div>
-
-    <div class="figure">
-      <img src="images/uav/enclosure-cutaway.png" alt="Cutaway view of the enclosure showing the internal bay layout" onclick="openLightbox(this.src)" />
-      <p class="figcap"><b>Cutaway.</b> The stack bay carries the 30.5 × 30.5 mm mounting pattern shared by
-        the flight controller and ESC; a divider rib separates it from the bay holding the video transmitter
-        and the 6S bulk capacitor.</p>
     </div>
 
     <div class="note">
-      <b>Why full parameterisation matters here.</b> The thermal result below forces an architectural
-      redesign. Because all 22 dimensions are parameter-driven rather than hard-modelled, that redesign is a
-      parameter edit and a rebuild — not a remodel from scratch. The decision to parameterise was made before
-      the result that justified it.
+      <b>The separation factor is a judgement call, and it is stated as one.</b> A 1.5× factor on the
+      fourth harmonic at maximum RPM gives the 3,440 Hz target — a common preliminary-design rule for
+      avionics mounting structure. A 2.0× factor would raise the target to <b>4,587 Hz and the design
+      would not close</b>. That is recorded as a sensitivity rather than a failure, because the
+      bonded-contact assumption already over-predicts stiffness; tightening one while leaving the other
+      optimistic would not be a meaningful test.
     </div>
-  </div>
-
-  <!-- ══ 03 MODAL ══ -->
-  <div class="prose-section">
-    <div class="sec-head"><span class="sec-num">03</span><h2><span>Modal FEA</span></h2></div>
-    <p class="sec-sub">10 modes extracted in Fusion 360 (Nastran), bonded contacts throughout, fixed on the
-      four mounting tab underside faces.</p>
 
     <div class="table-wrap">
       <table class="dtable">
-        <caption>REQ-STR-001 / REQ-STR-002 verification</caption>
-        <thead><tr><th>Requirement</th><th>Predicted</th><th>Allowable</th><th>Margin</th><th>Status</th></tr></thead>
+        <caption>Thermal conditions — both cases must be evaluated</caption>
+        <thead><tr><th>Case</th><th>Freestream</th><th>Ambient</th><th>Notes</th></tr></thead>
         <tbody>
-          <tr><td><strong>REQ-STR-001</strong> — first mode above 3,440 Hz</td><td class="num">3,984 Hz</td><td class="num">3,440 Hz</td><td class="num ok">+0.16</td><td class="ok">PASS</td></tr>
-          <tr><td><strong>REQ-STR-002</strong> — no mode in excitation band</td><td class="num">3,984 Hz (f₁)</td><td class="num">87–2,293 Hz</td><td class="ok">No mode in band</td><td class="ok">PASS</td></tr>
+          <tr><td><strong>Hover</strong></td><td class="num">≈ 0 m/s (prop wash only)</td><td class="num">35 °C</td><td>Worst-case convection, lowest ESC load</td></tr>
+          <tr><td><strong>Cruise</strong></td><td class="num">18 m/s</td><td class="num">35 °C</td><td>Good convection, higher I²R loss</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:.88rem;">The two cases trade against each other, so neither is binding a priori.</p>
+  </div>
+
+  <!-- ══ 03 REQUIREMENTS ══ -->
+  <div class="prose-section">
+    <div class="sec-head"><span class="sec-num">03</span><h2><span>Requirements</span></h2></div>
+    <p class="sec-sub">Thirteen requirements across structural, thermal, mass, and envelope. Each carries
+      its source and its verification method.</p>
+
+    <div class="table-wrap">
+      <table class="dtable">
+        <caption>Structural</caption>
+        <thead><tr><th>ID</th><th>Requirement</th><th>Source</th><th>Verification</th></tr></thead>
+        <tbody>
+          <tr><td><strong>REQ-STR-001</strong></td><td>First natural frequency of the loaded assembly shall exceed 3,440 Hz</td><td>§2, 1.5× separation</td><td>Modal FEA</td></tr>
+          <tr><td><strong>REQ-STR-002</strong></td><td>No mode shall fall within 87 to 2,293 Hz</td><td>Excitation band</td><td>Modal FEA</td></tr>
+          <tr><td><strong>REQ-STR-003</strong></td><td>Margin of safety under 3σ random vibration shall be positive against 6061-T6 yield</td><td>MIL-STD-810H</td><td>Miles' equation + static FEA</td></tr>
+          <tr><td><strong>REQ-STR-004</strong></td><td>Mounting interface shall survive cumulative exposure without fatigue failure</td><td>6061-T6 S-N data</td><td>Fatigue hand calc</td></tr>
         </tbody>
       </table>
     </div>
 
-    <p>The first mode is lid drumming — a first bending shape with a central antinode on the lid. Higher
-      modes progress from lid deformation, through bending of the internal stack about each axis, to coupled
-      modes where the capacitor and video transmitter drive wall deformation. The lid is the softest element
-      in the assembly, which is what makes the contact treatment at the lid interface consequential.</p>
+    <div class="table-wrap">
+      <table class="dtable">
+        <caption>Thermal</caption>
+        <thead><tr><th>ID</th><th>Requirement</th><th>Source</th><th>Verification</th></tr></thead>
+        <tbody>
+          <tr><td><strong>REQ-THM-001</strong></td><td>Internal air temperature shall not exceed 40 °C in any flight condition</td><td>C1 max ambient</td><td>Coupled CFD / thermal FEA</td></tr>
+          <tr><td><strong>REQ-THM-002</strong></td><td>C1 component temperature shall not exceed 100 °C</td><td>C1 spec</td><td>Thermal FEA</td></tr>
+          <tr><td><strong>REQ-THM-003</strong></td><td>C2 MOSFET temperature shall not exceed 150 °C</td><td>C2 spec</td><td>Thermal FEA</td></tr>
+          <tr><td><strong>REQ-THM-004</strong></td><td>C3 case temperature shall not exceed 90 °C</td><td>C3 spec</td><td>Thermal FEA</td></tr>
+          <tr><td><strong>REQ-THM-005</strong></td><td>C6 capacitor temperature shall not exceed its rating</td><td>C6 spec</td><td>Thermal FEA</td></tr>
+        </tbody>
+      </table>
+    </div>
 
-    <h3 style="font-size:1.05rem;margin:2rem 0 .5rem;">Mesh convergence — and where it did not converge</h3>
-    <p>Three meshes were run at 10%, 7%, and 5% element size. The result is worth stating precisely rather
-      than summarising as &ldquo;converged&rdquo;:</p>
+    <div class="table-wrap">
+      <table class="dtable">
+        <caption>Mass and envelope</caption>
+        <thead><tr><th>ID</th><th>Requirement</th><th>Verification</th></tr></thead>
+        <tbody>
+          <tr><td><strong>REQ-MAS-001</strong></td><td>Enclosure mass shall not exceed the platform allocation</td><td>CAD mass properties</td></tr>
+          <tr><td><strong>REQ-ENV-001</strong></td><td>Internal volume shall accommodate C1, C2, C3 and C6 with clearance</td><td>CAD</td></tr>
+          <tr><td><strong>REQ-ENV-002</strong></td><td>Enclosure shall accept the 30.5 × 30.5 mm stack mounting pattern</td><td>CAD</td></tr>
+          <tr><td><strong>REQ-ENV-003</strong></td><td>Enclosure shall provide a cable penetration for the external C4 and C5 harness</td><td>CAD</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ 04 MARGINS ══ -->
+  <div class="prose-section">
+    <div class="sec-head"><span class="sec-num">04</span><h2><span>Margin Table</span></h2></div>
+    <p class="sec-sub">MS = (Allowable / Predicted) − 1. What passes, what fails, and what is still open.</p>
+
+    <div class="table-wrap">
+      <table class="dtable">
+        <caption>Verification status</caption>
+        <thead><tr><th>Req ID</th><th>Condition</th><th>Predicted</th><th>Allowable</th><th>Margin</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td><strong>REQ-STR-001</strong></td><td>Modal</td><td class="num">3,984 Hz</td><td class="num">3,440 Hz</td><td class="num ok">+0.16</td><td class="ok">PASS</td></tr>
+          <tr><td><strong>REQ-STR-002</strong></td><td>Modal</td><td class="num">f₁ = 3,984 Hz</td><td class="num">87–2,293 Hz</td><td class="ok">No mode in band</td><td class="ok">PASS</td></tr>
+          <tr><td><strong>REQ-STR-003</strong></td><td>Random vibration</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="warn">OPEN</td></tr>
+          <tr><td><strong>REQ-STR-004</strong></td><td>Fatigue</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="warn">OPEN</td></tr>
+          <tr><td><strong>REQ-THM-001</strong></td><td>Hover, bare Al</td><td class="num bad">86.0 °C</td><td class="num">40 °C</td><td class="num bad">−0.53</td><td class="bad">FAIL</td></tr>
+          <tr><td><strong>REQ-THM-001</strong></td><td>Hover, anodised</td><td class="num bad">69.4 °C</td><td class="num">40 °C</td><td class="num bad">−0.42</td><td class="bad">FAIL</td></tr>
+          <tr><td><strong>REQ-THM-001</strong></td><td>Cruise, bare Al</td><td class="num bad">43.9 °C</td><td class="num">40 °C</td><td class="num bad">−0.09</td><td class="bad">FAIL</td></tr>
+          <tr><td><strong>REQ-THM-001</strong></td><td>Cruise, anodised</td><td class="num bad">43.2 °C</td><td class="num">40 °C</td><td class="num bad">−0.07</td><td class="bad">FAIL</td></tr>
+          <tr><td><strong>REQ-THM-002/3/4</strong></td><td>Component temperatures</td><td class="num">—</td><td class="num">100 / 150 / 90 °C</td><td class="num">—</td><td class="warn">OPEN</td></tr>
+          <tr><td><strong>REQ-MAS-001</strong></td><td>Base mass</td><td class="num">96 g</td><td class="num">—</td><td class="num">—</td><td class="warn">OPEN</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:.85rem;">Thermal predictions come from the preliminary lumped-parameter
+      calculation, not FEA. They are <em>surface</em> temperatures and therefore optimistic — internal
+      air will run hotter.</p>
+  </div>
+
+  <!-- ══ 05 MODAL ══ -->
+  <div class="prose-section">
+    <div class="sec-head"><span class="sec-num">05</span><h2><span>Modal FEA</span></h2></div>
+    <p class="sec-sub">Ten modes extracted in Fusion 360 (Nastran), bonded contacts throughout, fixed on
+      the four mounting tab underside faces.</p>
+
+    <div class="figure">
+      <img src="images/uav/plot-mode-separation.png" alt="All ten modes plotted against the prop-passing excitation band, showing clear separation" class="dark-shot" onclick="openLightbox(this.src)" />
+      <p class="figcap"><b>Every mode clears the band.</b> The four prop harmonics at maximum RPM span
+        87–2,293 Hz. The first mode sits at 3,984 Hz — above the 3,440 Hz requirement and clear of the
+        fourth harmonic by a factor of 1.74.</p>
+    </div>
+
+    <div class="table-wrap">
+      <table class="dtable">
+        <caption>Mode shapes — frequencies at the 5% (finest) mesh</caption>
+        <thead><tr><th>Mode</th><th>Freq</th><th>Shape</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1</strong></td><td class="num">3,984 Hz</td><td>Lid drumming, first bending. Centre antinode decaying to zero at the four corner bolts; base and internal stack essentially rigid.</td></tr>
+          <tr><td><strong>2</strong></td><td class="num">4,249 Hz</td><td>Second lid mode. Lid deforms, base floor does not participate. No significant motion of internal components.</td></tr>
+          <tr><td><strong>3</strong></td><td class="num">5,779 Hz</td><td>Board stack responds about the Y axis. VTX and capacitor stationary; no lid or floor bending.</td></tr>
+          <tr><td><strong>4</strong></td><td class="num">6,029 Hz</td><td>Small coupled lid and floor bending. Outer walls stationary; board stack bends about the X axis.</td></tr>
+          <tr><td><strong>5</strong></td><td class="num">6,272 Hz</td><td>Capacitor and partial VTX response. Lid deforms out of plane over the stack, opposite half deforms inward.</td></tr>
+          <tr><td><strong>6</strong></td><td class="num">6,706 Hz</td><td>Capacitor-side wall deforms inward with the VTX. Stack largely unaffected; lid and floor deform in opposition across the two halves.</td></tr>
+          <tr><td><strong>7</strong></td><td class="num">9,163 Hz</td><td>Capacitor deformation fully coupled into the adjacent wall. Stack bending present; lid and floor deform in an anti-phase diagonal pattern.</td></tr>
+          <tr><td><strong>8</strong></td><td class="num">9,250 Hz</td><td>Coupled lid and long-wall response. Single centre antinode on the lid; stack shows a diagonal pattern peaking at one ESC corner, with the capacitor near-stationary.</td></tr>
+          <tr><td><strong>9</strong></td><td class="num">9,730 Hz</td><td>Long-wall out-of-plane bending. Two lid antinodes either side of the cable penetration with a matching pair on the opposing wall; base floor and tabs nodal.</td></tr>
+          <tr><td><strong>10</strong></td><td class="num">9,813 Hz</td><td>Higher-order side-wall mode, three antinodes along the long wall. Lid bows upward while the stack bows downward beneath it; standoffs couple the two.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ 06 CONVERGENCE ══ -->
+  <div class="prose-section">
+    <div class="sec-head"><span class="sec-num">06</span><h2><span>Mesh Convergence</span></h2></div>
+    <p class="sec-sub">Three meshes at 10%, 7%, and 5% element size. A shift below 2% is taken as converged
+      — and the result is worth stating precisely rather than summarising as &ldquo;converged&rdquo;.</p>
+
+    <div class="figure">
+      <img src="images/uav/plot-mesh-convergence.png" alt="Modal frequencies across three meshes, and per-mode convergence against the 2 percent criterion" class="dark-shot" onclick="openLightbox(this.src)" />
+      <p class="figcap"><b>Five of ten modes fail the 2% criterion.</b> Left, every mode across all three
+        meshes against the excitation band and the 3,440 Hz requirement. Right, the change from the 7% to
+        the 5% mesh — green passes, red does not.</p>
+    </div>
 
     <div class="table-wrap">
       <table class="dtable">
         <caption>Three-mesh convergence study</caption>
-        <thead><tr><th>Mode</th><th>Change 10% → 7%</th><th>Change 7% → 5%</th><th>Assessment</th></tr></thead>
+        <thead><tr><th>Mode</th><th>10% (baseline)</th><th>7% (refined)</th><th>Δ 10→7</th><th>5% (further refined)</th><th>Δ 7→5</th></tr></thead>
         <tbody>
-          <tr><td><strong>Mode 1</strong></td><td class="num warn">3.2 %</td><td class="num warn">4.0 %</td><td class="warn">Not converged — change grew</td></tr>
-          <tr><td><strong>Mode 3</strong></td><td class="num">—</td><td class="num ok">0.8 %</td><td class="ok">Converged</td></tr>
-          <tr><td><strong>Mode 4</strong></td><td class="num">—</td><td class="num ok">0.2 %</td><td class="ok">Converged</td></tr>
+          <tr><td><strong>1</strong></td><td class="num">4,286.5</td><td class="num">4,147.9</td><td class="num bad">−3.23%</td><td class="num">3,983.7</td><td class="num bad">−3.96%</td></tr>
+          <tr><td><strong>2</strong></td><td class="num">4,690.0</td><td class="num">4,352.5</td><td class="num bad">−7.20%</td><td class="num">4,249.4</td><td class="num bad">−2.37%</td></tr>
+          <tr><td><strong>3</strong></td><td class="num">5,882.3</td><td class="num">5,826.4</td><td class="num ok">−0.95%</td><td class="num">5,779.2</td><td class="num ok">−0.81%</td></tr>
+          <tr><td><strong>4</strong></td><td class="num">6,071.6</td><td class="num">6,038.9</td><td class="num ok">−0.54%</td><td class="num">6,028.6</td><td class="num ok">−0.17%</td></tr>
+          <tr><td><strong>5</strong></td><td class="num">6,955.8</td><td class="num">6,574.2</td><td class="num bad">−5.49%</td><td class="num">6,271.9</td><td class="num bad">−4.60%</td></tr>
+          <tr><td><strong>6</strong></td><td class="num">7,130.9</td><td class="num">6,793.3</td><td class="num bad">−4.73%</td><td class="num">6,705.6</td><td class="num ok">−1.29%</td></tr>
+          <tr><td><strong>7</strong></td><td class="num">9,520.8</td><td class="num">9,284.6</td><td class="num bad">−2.48%</td><td class="num">9,163.3</td><td class="num ok">−1.31%</td></tr>
+          <tr><td><strong>8</strong></td><td class="num">9,847.4</td><td class="num">9,601.5</td><td class="num bad">−2.50%</td><td class="num">9,249.5</td><td class="num bad">−3.67%</td></tr>
+          <tr><td><strong>9</strong></td><td class="num">10,081.1</td><td class="num">9,769.5</td><td class="num bad">−3.09%</td><td class="num">9,730.2</td><td class="num ok">−0.40%</td></tr>
+          <tr><td><strong>10</strong></td><td class="num">10,591.3</td><td class="num">10,156.3</td><td class="num bad">−4.11%</td><td class="num">9,812.7</td><td class="num bad">−3.38%</td></tr>
         </tbody>
       </table>
     </div>
 
     <div class="note amber">
-      <b>Mode 1 did not converge, and the other modes localise the cause.</b> A refinement that reduces error
-      should make successive changes smaller; here mode 1 moved 3.2% then 4.0% — it got worse. Modes 3 and 4
-      converged cleanly at 0.8% and 0.2% on the same meshes, so the mesh itself is adequate. What separates
-      mode 1 is that it is a lid-dominated shape, and the lid is where the bonded contact discretisation
-      lives. The convergence failure is therefore attributed to contact discretisation at the lid interface,
-      not to global mesh density. <b>The +0.16 margin should be read with that caveat attached.</b>
+      <b>Mode 1 does not converge — and the pattern says why.</b> Its shift grew from 3.23% to 3.96%
+      across successive refinements rather than shrinking, and Richardson extrapolation returns a
+      <b>negative observed order of convergence</b>: the discretisation error is not reducing
+      monotonically. Modes 3 and 4 converge cleanly at 0.81% and 0.17% — and both are dominated by the
+      base, a single solid body with no contact dependence. Every poorly converging mode (1, 2, 5, 8, 10)
+      involves the lid or the capacitor, both of which depend on bonded contact between separately meshed
+      bodies. Contact discretisation at those interfaces is the probable cause, not global mesh density.
+    </div>
+
+    <div class="note">
+      <b>The reported first mode is the lowest of the three.</b> At 3,983.7 Hz the 5% mesh gives the most
+      conservative available estimate, which is what the +0.16 margin is built on. That margin should be
+      read with the convergence caveat attached.
     </div>
   </div>
 
-  <!-- ══ 04 THERMAL ══ -->
+  <!-- ══ 07 THERMAL ══ -->
   <div class="prose-section">
-    <div class="sec-head"><span class="sec-num">04</span><h2><span>Thermal Scoping</span></h2></div>
-    <p class="sec-sub">A lumped-parameter hand calculation in Python, built deliberately <em>before</em> any
-      FEA — to establish an expected answer to check the FEA against.</p>
+    <div class="sec-head"><span class="sec-num">07</span><h2><span>Thermal Scoping</span></h2></div>
+    <p class="sec-sub">A lumped-parameter hand calculation in Python, built deliberately <em>before</em>
+      any FEA — to establish an expected answer to check the FEA against.</p>
 
     <div class="note">
-      <b>What this calculation is.</b> Churchill-Chu natural convection, flat-plate laminar forced convection,
-      and linearised radiation, solved by fixed-point iteration for a single isothermal surface temperature.
-      It does <b>not</b> resolve internal gradients, component hot spots, or conduction through mounts — those
-      need the thermal FEA, which has not yet been run. This is <b>not CFD</b>, and no CFD has been performed
-      on this project. Because the enclosure is treated as isothermal, internal air will run hotter than these
-      numbers: <b>treat them as optimistic</b>.
+      <b>What this calculation is.</b> Churchill-Chu natural convection, flat-plate laminar forced
+      convection, and linearised radiation, solved by fixed-point iteration for a single isothermal
+      surface temperature. It does <b>not</b> resolve internal gradients, component hot spots, or
+      conduction through mounts — those need the thermal FEA, which has not been run. This is
+      <b>not CFD</b>, and no CFD has been performed on this project. Because the enclosure is treated as
+      isothermal, internal air will run hotter than these numbers: <b>treat them as optimistic</b>.
     </div>
 
     <div class="table-wrap">
       <table class="dtable">
-        <caption>Sealed enclosure — 10.8 W modelled load, 35 °C ambient, 40 °C allowable</caption>
+        <caption>Sealed enclosure — 10.8 W internal load, 35 °C ambient, 40 °C allowable</caption>
         <thead><tr><th>Case</th><th>h<sub>conv</sub></th><th>h<sub>rad</sub></th><th>ΔT</th><th>T<sub>surface</sub></th><th>Margin</th><th>Status</th></tr></thead>
         <tbody>
           <tr><td><strong>Hover, bare Al</strong></td><td class="num">8.7</td><td class="num">0.8</td><td class="num">51.0 °C</td><td class="num bad">86.0 °C</td><td class="num bad">−0.53</td><td class="bad">FAIL</td></tr>
-          <tr><td><strong>Hover, anodised</strong></td><td class="num">8.0</td><td class="num">6.3</td><td class="num">34.3 °C</td><td class="num bad">69.4 °C</td><td class="num bad">−0.42</td><td class="bad">FAIL</td></tr>
-          <tr><td><strong>Cruise, bare Al</strong></td><td class="num">54.6</td><td class="num">0.7</td><td class="num">8.8 °C</td><td class="num bad">43.8 °C</td><td class="num bad">−0.09</td><td class="bad">FAIL</td></tr>
-          <tr><td><strong>Cruise, anodised</strong></td><td class="num">54.6</td><td class="num">5.5</td><td class="num">8.1 °C</td><td class="num bad">43.1 °C</td><td class="num bad">−0.07</td><td class="bad">FAIL</td></tr>
+          <tr><td><strong>Hover, anodised</strong></td><td class="num">8.0</td><td class="num">6.3</td><td class="num">34.4 °C</td><td class="num bad">69.4 °C</td><td class="num bad">−0.42</td><td class="bad">FAIL</td></tr>
+          <tr><td><strong>Cruise, bare Al</strong></td><td class="num">54.6</td><td class="num">0.7</td><td class="num">8.9 °C</td><td class="num bad">43.9 °C</td><td class="num bad">−0.09</td><td class="bad">FAIL</td></tr>
+          <tr><td><strong>Cruise, anodised</strong></td><td class="num">54.6</td><td class="num">5.5</td><td class="num">8.2 °C</td><td class="num bad">43.2 °C</td><td class="num bad">−0.07</td><td class="bad">FAIL</td></tr>
         </tbody>
       </table>
     </div>
@@ -598,9 +704,9 @@
       laminar, so the flat-plate laminar correlation is appropriate.</p>
 
     <p><strong>The sealed architecture fails REQ-THM-001 in every case.</strong> Hover is the binding
-      condition: it has the worst heat rejection despite the lowest ESC load. Anodising helps materially at
-      hover — radiation carries 6.3 of the 14.3 W/m²·K total against 0.8 for bare aluminium — which makes
-      surface finish a first-order design variable rather than a detail. It is not close to enough.</p>
+      condition: it has the worst heat rejection despite the lowest ESC load. Anodising helps materially
+      at hover — radiation carries 6.3 of the 14.3 W/m²·K total against 0.8 for bare aluminium — which
+      makes surface finish a first-order design variable rather than a detail. It is not close to enough.</p>
 
     <h3 style="font-size:1.05rem;margin:2rem 0 .5rem;">Ruling out the obvious fix</h3>
     <p>Closing a 34 °C rise against a 5 °C allowable requires <strong>9.2× the current external area</strong>.
@@ -618,39 +724,81 @@
     </div>
 
     <div class="note">
-      <b>Fins reach 3.4× while adding 101 g — nearly doubling the assembly mass — and still fall short of
+      <b>Fins reach 3.4× while adding 101 g — more than doubling the 96 g base — and still fall short of
       9.2×.</b> That result is what redirects the redesign from incremental surface area to architecture.
-      Moving the video transmitter outside removes 7.9 W of the roughly 11 W load and drops the requirement
-      to 2.5×, which fins <em>can</em> deliver. The redesign target changed because the arithmetic ruled out
-      the alternative, not because the alternative looked unattractive.
+      Moving the video transmitter outside removes 7.9 W of the 10.8 W internal load and drops the
+      requirement to 2.5×, which fins <em>can</em> deliver. The redesign target changed because the
+      arithmetic ruled out the alternative, not because the alternative looked unattractive.
     </div>
   </div>
 
-  <!-- ══ 05 NEXT ══ -->
+  <!-- ══ 08 ASSUMPTIONS ══ -->
   <div class="prose-section">
-    <div class="sec-head"><span class="sec-num">05</span><h2><span>Outstanding Work</span></h2></div>
-    <p class="sec-sub">What phases 5 and 6 cover.</p>
+    <div class="sec-head"><span class="sec-num">08</span><h2><span>Assumptions Log</span></h2></div>
+    <p class="sec-sub">Every assumption made in place of a sourced value, recorded with its justification
+      and its direction of conservatism — including the ones that do not favour the design.</p>
+
+    <div class="table-wrap">
+      <table class="dtable">
+        <caption>Assumptions and their direction of conservatism</caption>
+        <thead><tr><th>#</th><th>Assumption</th><th>Justification</th><th>Impact if wrong</th></tr></thead>
+        <tbody>
+          <tr><td><strong>A1</strong></td><td>C1 dissipation taken as 2.00 W</td><td>Published static power is 1.0 W; rounded up to bound BEC conversion losses</td><td class="ok">Over-predicts heat load by ~0.6 W. Conservative.</td></tr>
+          <tr><td><strong>A2</strong></td><td>C2 dissipation taken as 0.90 W at hover</td><td>Conduction loss scales as I²·R<sub>ds(on)</sub></td><td class="warn">Loss scales with the square of current — a 2× current error is a 4× dissipation error</td></tr>
+          <tr><td><strong>A3</strong></td><td>Ambient temperature 35 °C</td><td>Hot-day condition for the intended operating environment</td><td class="warn">Directly offsets every predicted temperature</td></tr>
+          <tr><td><strong>A4</strong></td><td>C1 40 °C limit read as max ambient</td><td>Distinct from the ~100 °C component rating; inside a sealed box the ambient limit governs</td><td class="warn">If it is a component limit, REQ-THM-001 is over-conservative</td></tr>
+          <tr><td><strong>A5</strong></td><td>Standoffs modelled as aluminium</td><td>Stiffer than the nylon commonly used in FPV builds</td><td class="bad">Nylon would lower the board stack modes. NON-CONSERVATIVE.</td></tr>
+          <tr><td><strong>A6</strong></td><td>All interfaces modelled as bonded</td><td>Represents fully preloaded bolted joints with no slip</td><td class="bad">Over-predicts assembly stiffness and therefore natural frequencies. NON-CONSERVATIVE for REQ-STR-001.</td></tr>
+          <tr><td><strong>A7</strong></td><td>Components modelled as homogeneous solids</td><td>Correct mass and envelope; FEA needs mass distribution, not board layout</td><td class="warn">Local board stiffness unrepresented. Affects board-level modes only.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note amber">
+      <b>Two assumptions work against the design, and both touch the one requirement that passes.</b>
+      Bonded contacts (A6) over-predict stiffness, and aluminium standoffs (A5) are stiffer than the nylon
+      a real build would likely use. Both inflate natural frequencies, which is precisely the direction
+      that makes REQ-STR-001 easier to satisfy. The +0.16 margin is therefore an upper bound on the true
+      margin — the same reason a 2.0× separation factor was not adopted while these assumptions stand.
+    </div>
+  </div>
+
+  <!-- ══ 09 OPEN ══ -->
+  <div class="prose-section">
+    <div class="sec-head"><span class="sec-num">09</span><h2><span>Open Items</span></h2></div>
+    <p class="sec-sub">What Phase 5 and beyond must close.</p>
     <div class="limit-grid">
       <div class="limit-card">
+        <h4>Phase 5 thermal redesign</h4>
+        <p>Relocate the video transmitter, fin to the 2.5× target, and re-run. This is the item that
+          decides whether the design closes at all.</p>
+      </div>
+      <div class="limit-card">
         <h4>Thermal FEA</h4>
-        <p>Resolve internal gradients and component hot spots that the lumped model cannot see. If the FEA
+        <p>Resolve internal gradients and component hot spots the lumped model cannot see. If the FEA
           disagrees with the hand calculation by more than ~30%, that gap needs explaining before either
           result is trusted.</p>
       </div>
       <div class="limit-card">
-        <h4>Random vibration</h4>
-        <p>Miles' equation for 3-sigma response, then static FEA to verify positive margin against 6061-T6
-          yield. REQ-STR-003 is currently open.</p>
+        <h4>Random vibration &amp; fatigue</h4>
+        <p>Miles' equation for 3σ response, then static FEA against 6061-T6 yield, plus a fatigue hand
+          calculation on the mounting interface. REQ-STR-003 and 004 are open.</p>
       </div>
       <div class="limit-card">
         <h4>MIL-STD-810H profile</h4>
-        <p>Extract and justify the Method 514.8 PSD profile for a small multirotor. The excitation band is
-          currently platform-derived only.</p>
+        <p>Obtain Method 514.8 and extract the PSD profile with a stated rationale for why it fits a
+          small multirotor. The excitation band is platform-derived only.</p>
       </div>
       <div class="limit-card">
-        <h4>Phase 5 redesign</h4>
-        <p>Relocate the video transmitter, add fins to the 2.5× target, and re-run modal — with the lid
-          contact treatment revisited so mode 1 converges.</p>
+        <h4>Datasheet gaps</h4>
+        <p>Confirm whether the C1 40 °C figure is ambient or component, state the assumed ESC phase
+          current for both flight conditions, confirm the VTX runs from VBAT, and obtain the capacitor
+          temperature rating.</p>
+      </div>
+      <div class="limit-card">
+        <h4>Mass budget</h4>
+        <p>REQ-MAS-001 has no allocation yet. The base is 96 g; a finned redesign would add materially
+          to that, so the budget needs setting before the redesign is sized.</p>
       </div>
     </div>
   </div>
