@@ -463,9 +463,9 @@
     </div>
 
     <p style="font-size:.88rem;">The ESC has no output BEC, so all 5 V loads draw from the flight
-      controller's onboard regulator and the conversion losses dissipate on C1 — which is why its
-      dissipation is booked at 2.00 W rather than its published 1.0 W static figure. The ESC's larger
-      46 × 44 mm outline, not the flight controller, sets the minimum internal footprint.</p>
+      controller and the conversion losses dissipate on C1 — which is why its dissipation is booked at
+      2.00 W rather than its published 1.0 W. The ESC's larger 46 × 44 mm outline sets the minimum
+      internal footprint.</p>
   </div>
 
   <!-- ══ 02 ENVIRONMENTS ══ -->
@@ -524,40 +524,22 @@
 
     <div class="table-wrap">
       <table class="dtable">
-        <caption>Structural</caption>
+        <caption>All thirteen requirements</caption>
         <thead><tr><th>ID</th><th>Requirement</th><th>Source</th><th>Verification</th></tr></thead>
         <tbody>
-          <tr><td><strong>REQ-STR-001</strong></td><td>First natural frequency of the loaded assembly shall exceed 3,440 Hz</td><td>§2, 1.5× separation</td><td>Modal FEA</td></tr>
+          <tr><td><strong>REQ-STR-001</strong></td><td>First natural frequency shall exceed 3,440 Hz</td><td>1.5× separation on 4× harmonic</td><td>Modal FEA</td></tr>
           <tr><td><strong>REQ-STR-002</strong></td><td>No mode shall fall within 87 to 2,293 Hz</td><td>Excitation band</td><td>Modal FEA</td></tr>
-          <tr><td><strong>REQ-STR-003</strong></td><td>Margin of safety under 3σ random vibration shall be positive against 6061-T6 yield</td><td>MIL-STD-810H</td><td>Miles' equation + static FEA</td></tr>
+          <tr><td><strong>REQ-STR-003</strong></td><td>MS under 3σ random vibration shall be positive against 6061-T6 yield</td><td>MIL-STD-810H</td><td>Miles' equation + static FEA</td></tr>
           <tr><td><strong>REQ-STR-004</strong></td><td>Mounting interface shall survive cumulative exposure without fatigue failure</td><td>6061-T6 S-N data</td><td>Fatigue hand calc</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="table-wrap">
-      <table class="dtable">
-        <caption>Thermal</caption>
-        <thead><tr><th>ID</th><th>Requirement</th><th>Source</th><th>Verification</th></tr></thead>
-        <tbody>
-          <tr><td><strong>REQ-THM-001</strong></td><td>Internal air temperature shall not exceed 40 °C in any flight condition</td><td>C1 max ambient</td><td>Coupled CFD / thermal FEA</td></tr>
+          <tr><td><strong>REQ-THM-001</strong></td><td>Internal air shall not exceed 40 °C in any flight condition</td><td>C1 max ambient</td><td>Thermal FEA</td></tr>
           <tr><td><strong>REQ-THM-002</strong></td><td>C1 component temperature shall not exceed 100 °C</td><td>C1 spec</td><td>Thermal FEA</td></tr>
           <tr><td><strong>REQ-THM-003</strong></td><td>C2 MOSFET temperature shall not exceed 150 °C</td><td>C2 spec</td><td>Thermal FEA</td></tr>
           <tr><td><strong>REQ-THM-004</strong></td><td>C3 case temperature shall not exceed 90 °C</td><td>C3 spec</td><td>Thermal FEA</td></tr>
           <tr><td><strong>REQ-THM-005</strong></td><td>C6 capacitor temperature shall not exceed its rating</td><td>C6 spec</td><td>Thermal FEA</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="table-wrap">
-      <table class="dtable">
-        <caption>Mass and envelope</caption>
-        <thead><tr><th>ID</th><th>Requirement</th><th>Verification</th></tr></thead>
-        <tbody>
-          <tr><td><strong>REQ-MAS-001</strong></td><td>Enclosure mass shall not exceed the platform allocation</td><td>CAD mass properties</td></tr>
-          <tr><td><strong>REQ-ENV-001</strong></td><td>Internal volume shall accommodate C1, C2, C3 and C6 with clearance</td><td>CAD</td></tr>
-          <tr><td><strong>REQ-ENV-002</strong></td><td>Enclosure shall accept the 30.5 × 30.5 mm stack mounting pattern</td><td>CAD</td></tr>
-          <tr><td><strong>REQ-ENV-003</strong></td><td>Enclosure shall provide a cable penetration for the external C4 and C5 harness</td><td>CAD</td></tr>
+          <tr><td><strong>REQ-MAS-001</strong></td><td>Enclosure mass shall not exceed the platform allocation</td><td>Mass budget</td><td>CAD mass properties</td></tr>
+          <tr><td><strong>REQ-ENV-001</strong></td><td>Internal volume shall accommodate C1, C2, C3 and C6 with clearance</td><td>§ Component stack</td><td>CAD</td></tr>
+          <tr><td><strong>REQ-ENV-002</strong></td><td>Enclosure shall accept the 30.5 × 30.5 mm stack mounting pattern</td><td>C1 / C2 interface</td><td>CAD</td></tr>
+          <tr><td><strong>REQ-ENV-003</strong></td><td>Enclosure shall provide a cable penetration for the external C4 / C5 harness</td><td>RF integration</td><td>CAD</td></tr>
         </tbody>
       </table>
     </div>
@@ -604,23 +586,13 @@
         fourth harmonic by a factor of 1.74.</p>
     </div>
 
-    <div class="table-wrap">
-      <table class="dtable">
-        <caption>Mode shapes — frequencies at the 5% (finest) mesh</caption>
-        <thead><tr><th>Mode</th><th>Freq</th><th>Shape</th></tr></thead>
-        <tbody>
-          <tr><td><strong>1</strong></td><td class="num">3,984 Hz</td><td>Lid drumming, first bending. Centre antinode decaying to zero at the four corner bolts; base and internal stack essentially rigid.</td></tr>
-          <tr><td><strong>2</strong></td><td class="num">4,249 Hz</td><td>Second lid mode. Lid deforms, base floor does not participate. No significant motion of internal components.</td></tr>
-          <tr><td><strong>3</strong></td><td class="num">5,779 Hz</td><td>Board stack responds about the Y axis. VTX and capacitor stationary; no lid or floor bending.</td></tr>
-          <tr><td><strong>4</strong></td><td class="num">6,029 Hz</td><td>Small coupled lid and floor bending. Outer walls stationary; board stack bends about the X axis.</td></tr>
-          <tr><td><strong>5</strong></td><td class="num">6,272 Hz</td><td>Capacitor and partial VTX response. Lid deforms out of plane over the stack, opposite half deforms inward.</td></tr>
-          <tr><td><strong>6</strong></td><td class="num">6,706 Hz</td><td>Capacitor-side wall deforms inward with the VTX. Stack largely unaffected; lid and floor deform in opposition across the two halves.</td></tr>
-          <tr><td><strong>7</strong></td><td class="num">9,163 Hz</td><td>Capacitor deformation fully coupled into the adjacent wall. Stack bending present; lid and floor deform in an anti-phase diagonal pattern.</td></tr>
-          <tr><td><strong>8</strong></td><td class="num">9,250 Hz</td><td>Coupled lid and long-wall response. Single centre antinode on the lid; stack shows a diagonal pattern peaking at one ESC corner, with the capacitor near-stationary.</td></tr>
-          <tr><td><strong>9</strong></td><td class="num">9,730 Hz</td><td>Long-wall out-of-plane bending. Two lid antinodes either side of the cable penetration with a matching pair on the opposing wall; base floor and tabs nodal.</td></tr>
-          <tr><td><strong>10</strong></td><td class="num">9,813 Hz</td><td>Higher-order side-wall mode, three antinodes along the long wall. Lid bows upward while the stack bows downward beneath it; standoffs couple the two.</td></tr>
-        </tbody>
-      </table>
+    <div class="figure">
+      <img src="images/uav/plot-mode-participation.png" alt="Matrix of which enclosure parts move in each of the ten modes, with convergence status" class="dark-shot" onclick="openLightbox(this.src)" />
+      <p class="figcap"><b>Mode shapes and convergence in one view.</b> Read down the columns: modes 1 and 2
+        are pure lid drumming, mode 3 is the board stack alone, and the higher modes couple the side walls
+        into everything else. Every mode that fails the 2% criterion (boxed red) has the lid or the
+        capacitor as a dominant participant — the two parts that sit on bonded contact between separately
+        meshed bodies.</p>
     </div>
   </div>
 
@@ -688,47 +660,20 @@
       isothermal, internal air will run hotter than these numbers: <b>treat them as optimistic</b>.
     </div>
 
-    <div class="table-wrap">
-      <table class="dtable">
-        <caption>Sealed enclosure — 10.8 W internal load, 35 °C ambient, 40 °C allowable</caption>
-        <thead><tr><th>Case</th><th>h<sub>conv</sub></th><th>h<sub>rad</sub></th><th>ΔT</th><th>T<sub>surface</sub></th><th>Margin</th><th>Status</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Hover, bare Al</strong></td><td class="num">8.7</td><td class="num">0.8</td><td class="num">51.0 °C</td><td class="num bad">86.0 °C</td><td class="num bad">−0.53</td><td class="bad">FAIL</td></tr>
-          <tr><td><strong>Hover, anodised</strong></td><td class="num">8.0</td><td class="num">6.3</td><td class="num">34.4 °C</td><td class="num bad">69.4 °C</td><td class="num bad">−0.42</td><td class="bad">FAIL</td></tr>
-          <tr><td><strong>Cruise, bare Al</strong></td><td class="num">54.6</td><td class="num">0.7</td><td class="num">8.9 °C</td><td class="num bad">43.9 °C</td><td class="num bad">−0.09</td><td class="bad">FAIL</td></tr>
-          <tr><td><strong>Cruise, anodised</strong></td><td class="num">54.6</td><td class="num">5.5</td><td class="num">8.2 °C</td><td class="num bad">43.2 °C</td><td class="num bad">−0.07</td><td class="bad">FAIL</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p style="font-size:.85rem;">h in W/m²·K. External area 0.0221 m². Cruise Reynolds number 93,095 —
-      laminar, so the flat-plate laminar correlation is appropriate.</p>
-
-    <p><strong>The sealed architecture fails REQ-THM-001 in every case.</strong> Hover is the binding
-      condition: it has the worst heat rejection despite the lowest ESC load. Anodising helps materially
-      at hover — radiation carries 6.3 of the 14.3 W/m²·K total against 0.8 for bare aluminium — which
-      makes surface finish a first-order design variable rather than a detail. It is not close to enough.</p>
-
-    <h3 style="font-size:1.05rem;margin:2rem 0 .5rem;">Ruling out the obvious fix</h3>
-    <p>Closing a 34 °C rise against a 5 °C allowable requires <strong>9.2× the current external area</strong>.
-      The obvious response is fins, so fins were sized rather than assumed:</p>
-
-    <div class="table-wrap">
-      <table class="dtable">
-        <caption>Can fins close the gap?</caption>
-        <thead><tr><th>Approach</th><th>Area achieved</th><th>Area required</th><th>Mass added</th><th>Verdict</th></tr></thead>
-        <tbody>
-          <tr><td>Densely finned long walls</td><td class="num warn">3.4×</td><td class="num">9.2×</td><td class="num bad">+101 g</td><td class="bad">Insufficient</td></tr>
-          <tr><td>Relocate the 7.9 W VTX externally</td><td class="num">—</td><td class="num ok">2.5×</td><td class="num ok">−12 g</td><td class="ok">Achievable</td></tr>
-        </tbody>
-      </table>
+    <div class="figure">
+      <img src="images/uav/plot-thermal-summary.png" alt="Surface temperature for four flight cases against the 40 degree allowable, and the surface area required to close the gap" class="dark-shot" onclick="openLightbox(this.src)" />
+      <p class="figcap"><b>Left —</b> all four cases sit above the 40 °C allowable; hover is binding despite
+        having the lowest ESC load. Anodising buys 16.6 °C at hover because radiation carries 6.3 of the
+        14.3 W/m²·K total against 0.8 bare, which makes surface finish a first-order variable rather than a
+        detail. <b>Right —</b> closing a 34 °C rise against a 5 °C allowable needs 9.2× the external area.
+        Fins reach 3.4× while adding 101 g, more than doubling the 96 g base. Relocating the 7.9 W video
+        transmitter drops the requirement to 2.5×, which fins can deliver.</p>
     </div>
 
     <div class="note">
-      <b>Fins reach 3.4× while adding 101 g — more than doubling the 96 g base — and still fall short of
-      9.2×.</b> That result is what redirects the redesign from incremental surface area to architecture.
-      Moving the video transmitter outside removes 7.9 W of the 10.8 W internal load and drops the
-      requirement to 2.5×, which fins <em>can</em> deliver. The redesign target changed because the
-      arithmetic ruled out the alternative, not because the alternative looked unattractive.
+      <b>The redesign target changed because the arithmetic ruled out the alternative</b>, not because the
+      alternative looked unattractive. Fins were sized rather than assumed, and sizing them is what showed
+      the gap had to be closed architecturally.
     </div>
   </div>
 
