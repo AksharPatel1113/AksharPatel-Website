@@ -389,10 +389,12 @@
   <!-- WHY -->
   <div class="prose-section">
     <div class="sec-head"><span class="sec-num">01</span><h2><span>Why I built it</span></h2></div>
-    <p class="why">Most student CAD stops at a part that looks right. I wanted to find out whether a part I
-      designed would actually pass the environmental qualification a real program would put it through — so
-      I wrote the requirements first, then built the hardware to meet them, then tried to break it.</p>
-    <p class="why">The answer was half yes. That turned out to be the useful half.</p>
+    <p class="why">Working in systems engineering taught me that hardware earns its place by meeting
+      requirements, not by looking finished. I wanted to run that loop end to end on something I owned
+      completely — so I wrote the requirements first, designed the enclosure to meet them, then ran the
+      analysis that would tell me whether it actually did.</p>
+    <p class="why">It cleared the structural requirements and missed the thermal one. Finding that out in
+      analysis, before any metal was cut, is exactly what the loop is for.</p>
     <div class="fig-row two" style="margin-top:2rem;">
       <div class="figure">
         <img src="images/uav/enclosure-assembly.png" alt="Closed 6061-T6 avionics enclosure" onclick="openLightbox(this.src)" />
@@ -480,9 +482,9 @@
           logged. This is how a V&amp;V package is built when test articles are expensive.</p>
       </div>
       <div class="takeaway">
-        <h4>Knowing when to stop trusting a model</h4>
-        <p>A non-converging mode and a lumped model that cannot see internal gradients both got stated as
-          limits rather than buried. Reporting that is the job.</p>
+        <h4>Knowing a model's limits</h4>
+        <p>A non-converging mode and a lumped model that cannot resolve internal gradients are both stated
+          as limits on the result, so anyone reading it knows how far it can be relied on.</p>
       </div>
     </div>
   </div>

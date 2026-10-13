@@ -390,12 +390,12 @@
   <!-- WHY -->
   <div class="prose-section">
     <div class="sec-head"><span class="sec-num">01</span><h2><span>Why I built it</span></h2></div>
-    <p class="why">CFD will produce a beautiful picture of a wrong answer without complaining. I wanted a
-      project where I had to prove the solver was right before I was allowed to use what it told me — and
-      a blunt-body stagnation region is one of the few hypersonic problems with closed-form answers to
-      check against.</p>
-    <p class="why">So the CFD gets validated three independent ways. Only then does it feed the thermal
-      sizing.</p>
+    <p class="why">Thermal design is the direction I want to take my career, and heat shield sizing is
+      where that problem is hardest. I chose a blunt-body capsule because it is one of the few hypersonic
+      cases with closed-form answers to check against — which meant I could hold my own CFD to a standard
+      instead of trusting it.</p>
+    <p class="why">I ran the whole chain myself: geometry, mesh, solver setup, validation, then the Python
+      heating and conduction models that turn a flow field into a heat shield thickness.</p>
   </div>
 
   <!-- VALIDATION -->
@@ -457,9 +457,9 @@
           against geometry caught it.</p>
       </div>
       <div class="takeaway">
-        <h4>Report what did not work</h4>
-        <p>Mach 15 never converged on the available mesh. Rather than quietly dropping it, I documented both
-          attempts and covered Mach 15–25 analytically instead.</p>
+        <h4>Document what did not work</h4>
+        <p>Mach 15 never converged on the available mesh. I recorded both attempts, explained why the mesh
+          could not resolve the shock at that speed, and covered Mach 15–25 analytically instead.</p>
       </div>
     </div>
   </div>
