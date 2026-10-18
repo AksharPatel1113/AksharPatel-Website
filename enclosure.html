@@ -365,138 +365,129 @@
   <div class="proj-hero">
     <p class="sec-label" style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;">
       Structural &amp; Thermal Qualification
-      <span style="display:inline-flex;align-items:center;gap:.4rem;color:#fbbf24;border:1px solid rgba(251,191,36,.45);background:rgba(251,191,36,.08);padding:.15rem .55rem;border-radius:999px;letter-spacing:.1em;">
-        <span style="width:6px;height:6px;border-radius:50%;background:#fbbf24;display:inline-block;"></span>In Progress
+      <span style="display:inline-flex;align-items:center;gap:.4rem;color:#4ade80;border:1px solid rgba(74,222,128,.4);background:rgba(74,222,128,.08);padding:.15rem .55rem;border-radius:999px;letter-spacing:.1em;">
+        <span style="width:6px;height:6px;border-radius:50%;background:#4ade80;display:inline-block;"></span>Rev D
       </span>
     </p>
     <h1>UAS Avionics<br><span>Enclosure</span></h1>
     <p class="subtitle">
-      Can a sealed machined box survive a multirotor's vibration and still keep its electronics cool?
-      Modal FEA says yes to the vibration. The thermal math says no to the box.
+      A machined avionics box for a 7&nbsp;in multirotor, qualified by analysis against MIL-STD-810H
+      vibration and its own thermal limits — requirements written first, then verified one by one.
     </p>
     <div class="tag-row">
-      <span class="tag">Fusion 360</span><span class="tag">Modal FEA</span><span class="tag">Python</span>
-      <span class="tag">6061-T6</span><span class="tag">MIL-STD-810H</span>
+      <span class="tag">Fusion 360</span><span class="tag">Modal FEA</span><span class="tag">Random Vibration</span>
+      <span class="tag">Thermal Network</span><span class="tag">Python</span><span class="tag">MIL-STD-810H</span>
     </div>
     <div class="stat-strip">
-      <div><div class="v">+0.16</div><div class="k">Modal margin · PASS</div></div>
-      <div><div class="v">9.2&times;</div><div class="k">Cooling area short</div></div>
-      <div><div class="v">13</div><div class="k">Requirements traced</div></div>
-      <div><div class="v">10.8 W</div><div class="k">Internal heat load</div></div>
+      <div><div class="v">12/13</div><div class="k">Requirements closed</div></div>
+      <div><div class="v">+16.8</div><div class="k">Random vib margin</div></div>
+      <div><div class="v">3,984</div><div class="k">Hz first mode</div></div>
+      <div><div class="v">69.7 g</div><div class="k">Of a 100 g budget</div></div>
     </div>
   </div>
 
   <!-- WHY -->
   <div class="prose-section">
     <div class="sec-head"><span class="sec-num">01</span><h2><span>Why I built it</span></h2></div>
-    <p class="why">Working in systems engineering taught me that hardware earns its place by meeting
-      requirements, not by looking finished. I wanted to run that loop end to end on something I owned
-      completely — so I wrote the requirements first, designed the enclosure to meet them, then ran the
-      analysis that would tell me whether it actually did.</p>
-    <p class="why">It cleared the structural requirements and missed the thermal one. Finding that out in
-      analysis, before any metal was cut, is exactly what the loop is for.</p>
-    <div class="fig-row two" style="margin-top:2rem;">
+    <p class="why">Writing requirements at Lockheed Martin showed me that hardware is accepted when every
+      requirement has a number and a verification behind it. I wanted to own that whole loop myself, so I
+      picked a part small enough to finish and held it to the same standard: write the requirements, build
+      the hardware, then run the analysis that decides whether it passes.</p>
+    <p class="why"><strong>Where it applies:</strong> frequency separation from a rotor order, random
+      vibration margin, heat rejection from a sealed box, and a mass budget are the same four constraints on
+      any avionics LRU, payload housing or spacecraft electronics enclosure.</p>
+  </div>
+
+  <!-- PROCESS -->
+  <div class="prose-section">
+    <div class="sec-head"><span class="sec-num">02</span><h2><span>Process</span></h2></div>
+    <div class="figure" style="margin-top:.8rem;">
+      <img src="images/uav/process.png" alt="Seven-step process from requirements through redesign" class="dark-shot" onclick="openLightbox(this.src)" />
+    </div>
+    <div class="fig-row two">
       <div class="figure">
         <img src="images/uav/enclosure-assembly.png" alt="Closed 6061-T6 avionics enclosure" onclick="openLightbox(this.src)" />
-        <p class="figcap">93 &times; 63 &times; 33 mm, 6061-T6, six-fastener lid, four mounting tabs.</p>
+        <p class="figcap">6061-T6, 93 &times; 63 &times; 33 mm. Base 54.3 g, lid 11.9 g, 69.7 g with fasteners.</p>
       </div>
       <div class="figure">
         <img src="images/uav/enclosure-internal.png" alt="Enclosure with lid removed" onclick="openLightbox(this.src)" />
-        <p class="figcap">Stack bay on the 30.5 mm pattern, divider rib, bay for the VTX and 6S capacitor.</p>
+        <p class="figcap">Flight controller and ESC on the 30.5 mm pattern; video transmitter and 6S
+          capacitor in the second bay. Zero interferences, 1.00 mm minimum clearance.</p>
       </div>
     </div>
+    <p>The GPS and receiver sit <em>outside</em> the box — an aluminium enclosure is a Faraday cage and both
+      use integrated antennas. That came out of the requirements work before any geometry existed.</p>
   </div>
 
-  <!-- STRUCTURAL -->
+  <!-- RESULTS -->
   <div class="prose-section">
-    <div class="sec-head"><span class="sec-num">02</span><h2><span>Structural: it passes</span></h2></div>
-    <p>The props excite 87–2,293 Hz across four harmonics. The requirement is a first mode above 3,440 Hz
-      — 1.5&times; the top harmonic. It lands at <strong>3,984 Hz, a +0.16 margin</strong>, with no mode
-      inside the band.</p>
+    <div class="sec-head"><span class="sec-num">03</span><h2><span>Results</span></h2></div>
     <div class="figure">
-      <img src="images/uav/plot-mode-participation.png" alt="Mode participation and convergence" class="dark-shot" onclick="openLightbox(this.src)" />
-      <p class="figcap">Ten modes, what moves in each, and which ones converged. Every mode that <em>failed</em>
-        the 2% convergence check has the lid or the capacitor moving — the two parts sitting on bonded
-        contact between separately meshed bodies. That is the tell.</p>
-    </div>
-    <div class="note amber">
-      <b>The margin is real but it is an upper bound.</b> Bonded contacts and aluminium standoffs both
-      over-predict stiffness, and mode 1 never converged — its error grew under refinement instead of
-      shrinking. I reported the lowest of three meshes and flagged it rather than quoting the best number.
+      <img src="images/uav/scorecard.png" alt="Scorecard of all thirteen requirements with predicted values, margins and status" class="dark-shot" onclick="openLightbox(this.src)" />
+      <p class="figcap">Structural closes with room to spare — the 3σ random vibration stress is 13.5 MPa
+        against a 241 MPa yield allowable, and fatigue damage over 1,000 flight hours is 2.3 × 10⁻⁷. One
+        requirement needed a redesign.</p>
     </div>
   </div>
 
   <!-- THERMAL -->
   <div class="prose-section">
-    <div class="sec-head"><span class="sec-num">03</span><h2><span>Thermal: it fails</span></h2></div>
-    <p>A Python lumped-parameter model run <em>before</em> any FEA, to have an expected answer to check the
-      FEA against. The sealed box misses the 40 °C internal limit in all four flight cases.</p>
+    <div class="sec-head"><span class="sec-num">04</span><h2><span>The one that failed</span></h2></div>
+    <p>A six-node thermal network put every <em>component</em> under its own limit on the sealed v1 box.
+      But the internal <em>air</em> requirement of 40 °C missed badly at hover, where there is no forced
+      convection. Closing it took four stacked changes.</p>
     <div class="figure">
-      <img src="images/uav/plot-thermal-summary.png" alt="Thermal cases and area requirement" class="dark-shot" onclick="openLightbox(this.src)" />
-      <p class="figcap">Hover is binding. Closing it needs 9.2&times; the surface area. I sized fins rather
-        than assuming them: they reach 3.4&times; and add 101 g, more than doubling the 96 g base. Moving
-        the 7.9 W video transmitter outside removes 73% of the load and drops the target to 2.5&times;.</p>
+      <img src="images/uav/thermal-revd.png" alt="Phase 5 waterfall and component temperatures against allowables" class="dark-shot" onclick="openLightbox(this.src)" />
+      <p class="figcap">Fins, derating the video transmitter and two 25 mm fans together bring internal air
+        from 73.0 °C to 39.4 °C — a 0.6 K margin, and the fans break the sealed-box concept.</p>
+    </div>
+    <div class="note amber">
+      <b>The whole redesign rests on one unverified number.</b> The 40 °C limit comes from a flight
+      controller figure I could not find a source for. If it is a component rating rather than an ambient
+      one, the anodised v1 passes with no fins, no fans and no derating. Confirming it is the next thing I
+      do — because it decides whether Phase 5 is needed at all.
     </div>
   </div>
 
-  <!-- LEARNED -->
+  <!-- CHALLENGES -->
   <div class="prose-section">
-    <div class="sec-head"><span class="sec-num">04</span><h2><span>What I took from it</span></h2></div>
+    <div class="sec-head"><span class="sec-num">05</span><h2><span>Challenges &amp; limitations</span></h2></div>
     <div class="takeaways two">
       <div class="takeaway">
-        <h4>Requirements catch what CAD cannot</h4>
-        <p>Writing the requirements first surfaced that an aluminium box is a Faraday cage. The GPS and
-          receiver moved outside before any geometry existed — and two thermal requirements disappeared
-          with them.</p>
+        <h4>Mode 1 never converged</h4>
+        <p>Its shift grew from 3.23% to 3.96% across three meshes instead of shrinking. Modes dominated by
+          the single-body base converged cleanly; every poor one crosses a bonded contact. I carried the
+          lowest of the three frequencies as the conservative value.</p>
       </div>
       <div class="takeaway">
-        <h4>A converged solver is not a converged answer</h4>
-        <p>Mode 1's error grew across three refinements. Modes dominated by a single solid body converged
-          cleanly; modes crossing a bonded contact did not. The pattern pointed at the cause.</p>
+        <h4>Bonded contacts overstate stiffness</h4>
+        <p>Modelling every joint as fully preloaded inflates natural frequencies — the direction that makes
+          the frequency requirement easier. A 2.0× separation factor would not close, which is why that
+          sensitivity is recorded rather than claimed as margin.</p>
       </div>
       <div class="takeaway">
-        <h4>Size the obvious fix before rejecting it</h4>
-        <p>Fins were the intuitive answer. Sizing them showed they top out at 3.4&times; against a
-          9.2&times; need, which is what moved the redesign from surface area to architecture.</p>
+        <h4>No measured vibration data</h4>
+        <p>No flight data exists for this airframe, so I used the MIL-STD-810H minimum-integrity profile.
+          The standard is explicit that this screens a design, it does not qualify one.</p>
       </div>
       <div class="takeaway">
-        <h4>Log which way an assumption cuts</h4>
-        <p>Seven assumptions, each with its direction of conservatism. Two are non-conservative — and both
-          happen to touch the one requirement that passes.</p>
+        <h4>Analysis only, and marginal at that</h4>
+        <p>No test article. The thermal network uses handbook conductances, and the Phase 5 result holds by
+          0.6 K — not robust to those assumptions. Thirteen open items are tracked, the datasheet question
+          first.</p>
       </div>
     </div>
   </div>
 
-  <!-- INDUSTRY -->
-  <div class="prose-section">
-    <div class="sec-head"><span class="sec-num">05</span><h2><span>Where this applies</span></h2></div>
-    <div class="takeaways">
-      <div class="takeaway">
-        <h4>Avionics &amp; payload packaging</h4>
-        <p>Frequency separation from a rotor or engine order, thermal rejection in a sealed LRU, and mass
-          budget — the same three constraints on any airborne electronics box.</p>
-      </div>
-      <div class="takeaway">
-        <h4>Qualification by analysis</h4>
-        <p>Requirements traced to datasheet limits, margins computed against stated allowables, assumptions
-          logged. This is how a V&amp;V package is built when test articles are expensive.</p>
-      </div>
-      <div class="takeaway">
-        <h4>Knowing a model's limits</h4>
-        <p>A non-converging mode and a lumped model that cannot resolve internal gradients are both stated
-          as limits on the result, so anyone reading it knows how far it can be relied on.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- REPORT -->
+  <!-- DOCS -->
   <div class="report-cta">
-    <h3>Full Technical Report</h3>
-    <p>8 pages: component trade study, environments, all 13 requirements, margin table, ten mode shapes,
-      the three-mesh convergence study, thermal scoping, and the full assumptions log.</p>
-    <a href="reports/UAS_Enclosure_Report.pdf" target="_blank" rel="noopener" class="btn btn-primary">Download PDF &darr;</a>
+    <h3>Full Documentation</h3>
+    <p>Requirements and environments, the full margin table, mode shapes, mesh convergence, random
+      vibration and fatigue calculations, the six-node thermal network, Phase 5 sizing, a 13-entry
+      assumptions log and every open item.</p>
+    <a href="reports/UAS_Enclosure_Report.pdf" target="_blank" rel="noopener" class="btn btn-primary">Technical Report (PDF) &darr;</a>
+    <a href="uav-project/requirements.md" class="btn btn-outline" style="margin-left:.6rem;">Requirements Rev D</a>
     <a href="uav-project/trade_study.xlsx" class="btn btn-outline" style="margin-left:.6rem;">Trade Study</a>
-    <a href="uav-project/thermal_scoping.py" class="btn btn-outline" style="margin-left:.6rem;">Python Model</a>
   </div>
 
 </div>

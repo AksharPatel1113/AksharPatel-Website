@@ -693,7 +693,7 @@
           <img src="images/uav/enclosure-assembly.png" alt="Machined 6061-T6 UAS avionics enclosure, isometric view with lid and mounting tabs" style="width:100%;height:100%;object-fit:contain;" />
           <div style="position:absolute;top:0.7rem;left:0.7rem;">
             <span style="display:inline-flex;align-items:center;gap:0.4rem;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#fbbf24;background:rgba(10,10,15,0.82);padding:0.3rem 0.65rem;border-radius:999px;border:1px solid rgba(251,191,36,0.45);">
-              <span style="width:6px;height:6px;border-radius:50%;background:#fbbf24;display:inline-block;"></span>In Progress
+              <span style="width:6px;height:6px;border-radius:50%;background:#fbbf24;display:inline-block;"></span>Rev D
             </span>
           </div>
           <div style="position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;padding-bottom:0.75rem;pointer-events:none;">
@@ -703,19 +703,19 @@
         <div style="padding:1.5rem;">
           <p style="font-size:0.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">STRUCTURAL &amp; THERMAL</p>
           <h3 style="font-size:1.15rem;font-weight:800;margin-bottom:0.75rem;line-height:1.3;">UAS Avionics Enclosure — Structural &amp; Thermal Qualification</h3>
-          <p style="font-size:0.88rem;color:var(--muted);line-height:1.7;margin-bottom:1rem;">Virtual environmental qualification of a machined avionics enclosure for a 7&quot; class long-range multirotor. 13 requirements traced to datasheet limits, modal FEA against a prop-passing excitation band, and a preliminary thermal hand calculation that rules the sealed architecture out.</p>
+          <p style="font-size:0.88rem;color:var(--muted);line-height:1.7;margin-bottom:1rem;">Virtual environmental qualification of a machined avionics enclosure for a 7&quot; class long-range multirotor. 13 requirements traced to datasheet limits and MIL-STD-810H, verified by modal FEA, random vibration, fatigue and a six-node thermal network.</p>
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem;margin-bottom:1.1rem;">
             <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:0.55rem 0.4rem;text-align:center;">
-              <div style="font-size:1.05rem;font-weight:800;color:var(--accent2);line-height:1.1;">3,984</div>
-              <div style="font-size:0.62rem;color:var(--muted);letter-spacing:0.04em;margin-top:0.15rem;">Hz MODE 1</div>
+              <div style="font-size:1.05rem;font-weight:800;color:var(--accent2);line-height:1.1;">12/13</div>
+              <div style="font-size:0.62rem;color:var(--muted);letter-spacing:0.04em;margin-top:0.15rem;">REQS CLOSED</div>
             </div>
             <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:0.55rem 0.4rem;text-align:center;">
               <div style="font-size:1.05rem;font-weight:800;color:#4ade80;line-height:1.1;">+0.16</div>
               <div style="font-size:0.62rem;color:var(--muted);letter-spacing:0.04em;margin-top:0.15rem;">MS · PASS</div>
             </div>
             <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:0.55rem 0.4rem;text-align:center;">
-              <div style="font-size:1.05rem;font-weight:800;color:#f87171;line-height:1.1;">9.2&times;</div>
-              <div style="font-size:0.62rem;color:var(--muted);letter-spacing:0.04em;margin-top:0.15rem;">AREA SHORT</div>
+              <div style="font-size:1.05rem;font-weight:800;color:#4ade80;line-height:1.1;">+16.8</div>
+              <div style="font-size:0.62rem;color:var(--muted);letter-spacing:0.04em;margin-top:0.15rem;">RANDOM VIB MS</div>
             </div>
           </div>
           <div class="tag-list" style="margin-bottom:1.25rem;">
@@ -1120,7 +1120,7 @@
         <div class="org">Independent Research &nbsp;·&nbsp; Fusion 360, FEA, Python</div>
         <ul class="res-list">
           <li>Achieved a <strong>+0.16 margin of safety</strong> against an 87–2,293 Hz vibration band by running modal FEA frequency sweeps in Fusion 360.</li>
-          <li>Proved a sealed 10.8 W avionics enclosure needed <strong>9.2× more cooling area</strong> by building a Python heat transfer analysis of the sealed design.</li>
+          <li>Closed random vibration and fatigue against MIL-STD-810H with a <strong>+16.8 margin of safety</strong>, and built a six-node thermal network that sized the redesign.</li>
           <li>Verified the sized aluminum enclosure by tracing every structural, thermal, mass and envelope requirement to component datasheet limits.</li>
         </ul>
         <a href="#" onclick="navigateTo('enclosure.html'); return false;" class="res-link">View full analysis &rarr;</a>
