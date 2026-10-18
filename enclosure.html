@@ -285,6 +285,7 @@
     .fig-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr)); gap:1.1rem; margin:1.5rem 0; }
     .fig-row .figure { margin:0; }
     .fig-row.two { grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr)); }
+    .fig-row.three { grid-template-columns:repeat(auto-fit,minmax(min(290px,100%),1fr)); }
 
     /* Callout */
     .note { border-left:3px solid var(--accent2); background:rgba(0,212,255,.05);
@@ -372,15 +373,16 @@
     <h1>UAS Avionics<br><span>Enclosure</span></h1>
     <p class="subtitle">
       A machined avionics box for a 7&nbsp;in multirotor, qualified by analysis against MIL-STD-810H
-      vibration and its own thermal limits — requirements written first, then verified one by one.
+      vibration and its own thermal limits — requirements written first, then verified one by one in
+      Fusion FEA and Python.
     </p>
     <div class="tag-row">
-      <span class="tag">Fusion 360</span><span class="tag">Modal FEA</span><span class="tag">Random Vibration</span>
-      <span class="tag">Thermal Network</span><span class="tag">Python</span><span class="tag">MIL-STD-810H</span>
+      <span class="tag">Fusion 360</span><span class="tag">Modal FEA</span><span class="tag">Static Stress</span>
+      <span class="tag">Thermal FEA</span><span class="tag">Python</span><span class="tag">MIL-STD-810H</span>
     </div>
     <div class="stat-strip">
       <div><div class="v">12/13</div><div class="k">Requirements closed</div></div>
-      <div><div class="v">+16.8</div><div class="k">Random vib margin</div></div>
+      <div><div class="v">32.5</div><div class="k">Min safety factor</div></div>
       <div><div class="v">3,984</div><div class="k">Hz first mode</div></div>
       <div><div class="v">69.7 g</div><div class="k">Of a 100 g budget</div></div>
     </div>
@@ -391,16 +393,15 @@
     <div class="sec-head"><span class="sec-num">01</span><h2><span>Why I built it</span></h2></div>
     <p class="why">Writing requirements at Lockheed Martin showed me that hardware is accepted when every
       requirement has a number and a verification behind it. I wanted to own that whole loop myself, so I
-      picked a part small enough to finish and held it to the same standard: write the requirements, build
-      the hardware, then run the analysis that decides whether it passes.</p>
+      picked a part small enough to finish and held it to the same standard.</p>
     <p class="why"><strong>Where it applies:</strong> frequency separation from a rotor order, random
-      vibration margin, heat rejection from a sealed box, and a mass budget are the same four constraints on
+      vibration margin, heat rejection from a sealed box and a mass budget are the same four constraints on
       any avionics LRU, payload housing or spacecraft electronics enclosure.</p>
   </div>
 
   <!-- PROCESS -->
   <div class="prose-section">
-    <div class="sec-head"><span class="sec-num">02</span><h2><span>Process</span></h2></div>
+    <div class="sec-head"><span class="sec-num">02</span><h2><span>Design &amp; process</span></h2></div>
     <div class="figure" style="margin-top:.8rem;">
       <img src="images/uav/process.png" alt="Seven-step process from requirements through redesign" class="dark-shot" onclick="openLightbox(this.src)" />
     </div>
@@ -419,39 +420,85 @@
       use integrated antennas. That came out of the requirements work before any geometry existed.</p>
   </div>
 
-  <!-- RESULTS -->
+  <!-- STRUCTURAL -->
   <div class="prose-section">
-    <div class="sec-head"><span class="sec-num">03</span><h2><span>Results</span></h2></div>
-    <div class="figure">
-      <img src="images/uav/scorecard.png" alt="Scorecard of all thirteen requirements with predicted values, margins and status" class="dark-shot" onclick="openLightbox(this.src)" />
-      <p class="figcap">Structural closes with room to spare — the 3σ random vibration stress is 13.5 MPa
-        against a 241 MPa yield allowable, and fatigue damage over 1,000 flight hours is 2.3 × 10⁻⁷. One
-        requirement needed a redesign.</p>
+    <div class="sec-head"><span class="sec-num">03</span><h2><span>Structural results</span></h2></div>
+    <p>Modal FEA put the first mode at 3,984 Hz, clear of the 87–2,293 Hz prop-passing band. Static stress
+      then ran the 3σ random-vibration load — <strong>94.7 g</strong> — separately in three axes.</p>
+    <div class="fig-row two">
+      <div class="figure">
+        <img src="images/uav/fea-stress-lc1.jpg" alt="Von Mises stress contour, governing load case, peak at the mounting tab hole" onclick="openLightbox(this.src)" />
+        <p class="figcap"><b>Governing case, −Z.</b> Peak von Mises <b>8.47 MPa</b> at a mounting tab hole
+          edge. The in-plane cases came in at 0.58× and 0.32× of this, confirming the out-of-plane axis governs.</p>
+      </div>
+      <div class="figure">
+        <img src="images/uav/fea-safety-factor.jpg" alt="Safety factor contour on the housing" onclick="openLightbox(this.src)" />
+        <p class="figcap"><b>Minimum safety factor 32.5</b> on the housing against 6061-T6 yield — a margin
+          of +27.5 on the MMPDS A-basis allowable.</p>
+      </div>
+    </div>
+    <div class="note">
+      <b>The FEA came in 37% below my hand calculation, which is the direction I wanted.</b> I had sized the
+      tab by hand at 13.5 MPa using an estimated stress concentration and a 4 mm moment arm; the FE peak is
+      8.47 MPa because the bolted bore relieves part of the bending. The lid matched within 19%. Both sit
+      inside the ±50% agreement criterion I set beforehand, so the conservative hand value is what stays in
+      the margin table.
     </div>
   </div>
 
   <!-- THERMAL -->
   <div class="prose-section">
-    <div class="sec-head"><span class="sec-num">04</span><h2><span>The one that failed</span></h2></div>
-    <p>A six-node thermal network put every <em>component</em> under its own limit on the sealed v1 box.
-      But the internal <em>air</em> requirement of 40 °C missed badly at hover, where there is no forced
-      convection. Closing it took four stacked changes.</p>
-    <div class="figure">
-      <img src="images/uav/thermal-revd.png" alt="Phase 5 waterfall and component temperatures against allowables" class="dark-shot" onclick="openLightbox(this.src)" />
-      <p class="figcap">Fins, derating the video transmitter and two 25 mm fans together bring internal air
-        from 73.0 °C to 39.4 °C — a 0.6 K margin, and the fans break the sealed-box concept.</p>
+    <div class="sec-head"><span class="sec-num">04</span><h2><span>Thermal results</span></h2></div>
+    <p>A six-node Python network sized the problem, then Fusion thermal studies checked it at hover and
+      cruise with 10.85 W of internal load against a 35 °C ambient.</p>
+    <div class="fig-row three">
+      <div class="figure">
+        <img src="images/uav/fea-thermal-iso.jpg" alt="Hover temperature contour on the enclosure shell" onclick="openLightbox(this.src)" />
+        <p class="figcap"><b>Shell at hover</b> — 63.2 to 71.0 °C.</p>
+      </div>
+      <div class="figure">
+        <img src="images/uav/fea-thermal-components.jpg" alt="Hover temperature on the internal components with the housing hidden" onclick="openLightbox(this.src)" />
+        <p class="figcap"><b>Components exposed.</b> Flight controller hottest at 71.0 °C, capacitor
+          coolest at 66.0 °C.</p>
+      </div>
+      <div class="figure">
+        <img src="images/uav/fea-thermal-bottom.jpg" alt="Base floor temperature showing the spreading hot spot under the video transmitter" onclick="openLightbox(this.src)" />
+        <p class="figcap"><b>Base floor.</b> The 7.9 W video transmitter spreads a clear hot spot through
+          the floor.</p>
+      </div>
     </div>
     <div class="note amber">
-      <b>The whole redesign rests on one unverified number.</b> The 40 °C limit comes from a flight
-      controller figure I could not find a source for. If it is a component rating rather than an ambient
-      one, the anodised v1 passes with no fins, no fans and no derating. Confirming it is the next thing I
-      do — because it decides whether Phase 5 is needed at all.
+      <b>The shell agreed within 10%. The components did not — by design.</b> Fusion has no internal air
+      node and bonds every joint perfectly, so it under-predicts the boards by 30–55%. My network carries
+      real joint resistances and an air node, so it stays the conservative model for component margins
+      while the FEA confirms the shell-to-ambient path. Knowing which model to trust for which number was
+      the useful part.
+    </div>
+    <div class="figure">
+      <img src="images/uav/thermal-revd.png" alt="Phase 5 waterfall and component temperatures against allowables" class="dark-shot" onclick="openLightbox(this.src)" />
+      <p class="figcap">Every component clears its own limit on the sealed box. The internal <em>air</em>
+        requirement does not — closing it took fins, derating the transmitter and two 25 mm fans, which
+        bring air from 73.0 °C to 39.4 °C.</p>
+    </div>
+  </div>
+
+  <!-- SCORECARD -->
+  <div class="prose-section">
+    <div class="sec-head"><span class="sec-num">05</span><h2><span>Verification status</span></h2></div>
+    <div class="figure">
+      <img src="images/uav/scorecard.png" alt="Scorecard of all thirteen requirements with predicted values, margins and status" class="dark-shot" onclick="openLightbox(this.src)" />
+    </div>
+    <div class="note amber">
+      <b>The one open requirement rests on a number I could not source.</b> The 40 °C internal air limit
+      comes from a flight controller figure with no datasheet behind it. If it is a component rating rather
+      than an ambient one, the anodised box passes with no fins, no fans and no derating. Confirming it is
+      the next thing I do, because it decides whether the redesign is needed at all.
     </div>
   </div>
 
   <!-- CHALLENGES -->
   <div class="prose-section">
-    <div class="sec-head"><span class="sec-num">05</span><h2><span>Challenges &amp; limitations</span></h2></div>
+    <div class="sec-head"><span class="sec-num">06</span><h2><span>Challenges &amp; limitations</span></h2></div>
     <div class="takeaways two">
       <div class="takeaway">
         <h4>Mode 1 never converged</h4>
@@ -462,8 +509,8 @@
       <div class="takeaway">
         <h4>Bonded contacts overstate stiffness</h4>
         <p>Modelling every joint as fully preloaded inflates natural frequencies — the direction that makes
-          the frequency requirement easier. A 2.0× separation factor would not close, which is why that
-          sensitivity is recorded rather than claimed as margin.</p>
+          the frequency requirement easier. A 2.0× separation factor would not close, so that sensitivity
+          is recorded rather than claimed as margin.</p>
       </div>
       <div class="takeaway">
         <h4>No measured vibration data</h4>
@@ -472,9 +519,8 @@
       </div>
       <div class="takeaway">
         <h4>Analysis only, and marginal at that</h4>
-        <p>No test article. The thermal network uses handbook conductances, and the Phase 5 result holds by
-          0.6 K — not robust to those assumptions. Thirteen open items are tracked, the datasheet question
-          first.</p>
+        <p>No test article. The network uses handbook conductances, and the redesign holds by 0.6 K — not
+          robust to those assumptions. Open items are tracked, the datasheet question first.</p>
       </div>
     </div>
   </div>
@@ -482,9 +528,9 @@
   <!-- DOCS -->
   <div class="report-cta">
     <h3>Full Documentation</h3>
-    <p>Requirements and environments, the full margin table, mode shapes, mesh convergence, random
-      vibration and fatigue calculations, the six-node thermal network, Phase 5 sizing, a 13-entry
-      assumptions log and every open item.</p>
+    <p>Requirements and environments, the full margin table, ten mode shapes, mesh convergence, random
+      vibration and fatigue, the six-node thermal network, both Fusion FEA studies with their hand-calc
+      comparisons, Phase 5 sizing and a 13-entry assumptions log.</p>
     <a href="reports/UAS_Enclosure_Report.pdf" target="_blank" rel="noopener" class="btn btn-primary">Technical Report (PDF) &darr;</a>
     <a href="uav-project/requirements.md" class="btn btn-outline" style="margin-left:.6rem;">Requirements Rev D</a>
     <a href="uav-project/trade_study.xlsx" class="btn btn-outline" style="margin-left:.6rem;">Trade Study</a>
