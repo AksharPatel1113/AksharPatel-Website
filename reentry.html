@@ -285,6 +285,8 @@
     .fig-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr)); gap:1.1rem; margin:1.5rem 0; }
     .fig-row .figure { margin:0; }
     .fig-row.two { grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr)); }
+    .fig-row.three { grid-template-columns:repeat(auto-fit,minmax(min(290px,100%),1fr)); }
+    .fig-row.three .figure img { height:200px; object-fit:contain; }
 
     /* Callout */
     .note { border-left:3px solid var(--accent2); background:rgba(0,212,255,.05);
@@ -363,16 +365,21 @@
 
   <!-- HERO -->
   <div class="proj-hero">
-    <p class="sec-label">CFD &amp; Aerothermal Analysis · Complete</p>
+    <p class="sec-label" style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;">
+      CFD &amp; Aerothermal Analysis
+      <span style="display:inline-flex;align-items:center;gap:.4rem;color:#4ade80;border:1px solid rgba(74,222,128,.4);background:rgba(74,222,128,.08);padding:.15rem .55rem;border-radius:999px;letter-spacing:.1em;">
+        <span style="width:6px;height:6px;border-radius:50%;background:#4ade80;display:inline-block;"></span>Complete
+      </span>
+    </p>
     <h1>Dragon Capsule<br><span>Aerothermal Re-entry</span></h1>
     <p class="subtitle">
-      How thick does a heat shield need to be? Answering that takes a pressure field you trust and a
-      heating history along the real trajectory. I built both, and checked each against theory before
-      using it.
+      How thick does a heat shield need to be? Answering it takes a pressure field you can trust and a
+      heating history along the real trajectory. I built both — and checked each against theory before
+      using it for anything.
     </p>
     <div class="tag-row">
       <span class="tag">ANSYS Fluent</span><span class="tag">k-ω SST</span><span class="tag">Python</span>
-      <span class="tag">Fay-Riddell</span><span class="tag">TPS Sizing</span>
+      <span class="tag">Fay-Riddell</span><span class="tag">Allen-Eggers</span><span class="tag">TPS Sizing</span>
     </div>
     <div class="stat-strip">
       <div><div class="v">&lt;3%</div><div class="k">CFD vs theory</div></div>
@@ -381,119 +388,166 @@
       <div><div class="v">479k</div><div class="k">Cells, grid converged</div></div>
     </div>
     <div class="figure" style="margin-top:2.2rem;">
-      <img src="images/reentry/mach-contour-bowshock.png" alt="Mach contour showing the detached bow shock" onclick="openLightbox(this.src)" />
-      <p class="figcap">Detached bow shock at Mach 7.5. Flow goes supersonic to subsonic across it, and
-        everything that matters for heat-shield sizing happens in the layer behind.</p>
+      <img src="images/reentry/mach-contour-bowshock.png" alt="Mach number contour showing the detached bow shock ahead of the capsule heat shield" onclick="openLightbox(this.src)" />
+      <p class="figcap">Detached bow shock at Mach 7.5. Everything that sizes a heat shield happens in the
+        layer behind it.</p>
     </div>
   </div>
 
   <!-- WHY -->
   <div class="prose-section">
     <div class="sec-head"><span class="sec-num">01</span><h2><span>Why I built it</span></h2></div>
-    <p class="why">Thermal design is the direction I want to take my career, and heat shield sizing is
-      where that problem is hardest. I chose a blunt-body capsule because it is one of the few hypersonic
-      cases with closed-form answers to check against — which meant I could hold my own CFD to a standard
-      instead of trusting it.</p>
-    <p class="why">I ran the whole chain myself: geometry, mesh, solver setup, validation, then the Python
-      heating and conduction models that turn a flow field into a heat shield thickness.</p>
+    <p class="why">Thermal is the thread running through most of what I've done — a 12U CubeSat control
+      subsystem at Space Ocean, a thermal control subsystem at NASA L'Space, board-level studies at Lockheed
+      Martin. Re-entry is where that problem gets hardest, so I wanted to take it on alone, start to finish.</p>
+    <p class="why">I picked a blunt-body capsule deliberately: it is one of the few hypersonic cases with
+      closed-form answers to check against, which meant I could hold my own CFD to a standard instead of
+      trusting it. I ran the whole chain myself — geometry, mesh, solver, validation, then the Python
+      heating and conduction models that turn a flow field into a thickness.</p>
+    <p class="why"><strong>Where it applies:</strong> entry, descent and landing; any vehicle where
+      aerothermal loads size the structure; and more generally, anchoring a cheap correlation to
+      high-fidelity data where high-fidelity is affordable — which is how preliminary design actually runs.</p>
+  </div>
+
+  <!-- PROCESS -->
+  <div class="prose-section">
+    <div class="sec-head"><span class="sec-num">02</span><h2><span>Process</span></h2></div>
+    <div class="figure" style="margin-top:.8rem;">
+      <img src="images/reentry/process.png" alt="Seven-step process from geometry through TPS sizing" class="dark-shot" onclick="openLightbox(this.src)" />
+    </div>
+    <div class="fig-row two">
+      <div class="figure">
+        <img src="images/reentry/geometry-capsule.png" class="dark-shot" alt="Dragon-style capsule geometry imported into SpaceClaim" onclick="openLightbox(this.src)" />
+        <p class="figcap"><b>3.6 m blunt body</b>, nose radius fitted to 3.248 m, in a spherical far field
+          20 diameters across.</p>
+      </div>
+      <div class="figure">
+        <img src="images/reentry/plot-mesh-independence.png" alt="Grid convergence study across three mesh densities" onclick="openLightbox(this.src)" />
+        <p class="figcap"><b>479k cells, grid converged.</b> The coarse grid diverged and the medium one
+          under-predicted by half; the fine grid lands within 3.1% of isentropic theory.</p>
+      </div>
+    </div>
   </div>
 
   <!-- VALIDATION -->
   <div class="prose-section">
-    <div class="sec-head"><span class="sec-num">02</span><h2><span>Proving the CFD first</span></h2></div>
-    <p>Three checks across Mach 5, 7.5 and 10: peak wall pressure against Rayleigh Pitot, peak
-      C<sub>p</sub> against modified Newtonian, and freestream total pressure against isentropic theory.
+    <div class="sec-head"><span class="sec-num">03</span><h2><span>CFD validation</span></h2></div>
+    <p>Three independent checks across Mach 5, 7.5 and 10 before any CFD number was allowed downstream.
       <strong>Worst error 2.85%.</strong></p>
     <div class="figure">
-      <img src="images/reentry/plot-validation-sweep.png" alt="Three-panel CFD validation against theory" onclick="openLightbox(this.src)" />
-      <p class="figcap">CFD points sit on the analytical curves at every Mach number. Checking freestream
-        P₀ separately confirms the inlet is delivering what I asked for — a different question from whether
-        the flow field is right.</p>
+      <img src="images/reentry/plot-validation-sweep.png" alt="Three-panel validation of wall pressure, pressure coefficient and freestream total pressure against theory" onclick="openLightbox(this.src)" />
+      <p class="figcap">Peak wall pressure against Rayleigh Pitot, peak C<sub>p</sub> against modified
+        Newtonian, and freestream P₀ against isentropic theory — the last one checks the boundary
+        conditions separately from the solution.</p>
+    </div>
+    <div class="fig-row three">
+      <div class="figure">
+        <img src="images/reentry/plot-cp-3mach.png" alt="Pressure coefficient distribution across three Mach numbers" onclick="openLightbox(this.src)" />
+        <p class="figcap"><b>C<sub>p</sub> is nearly Mach-independent</b> on the heat shield — under 2%
+          apart across a doubling of speed.</p>
+      </div>
+      <div class="figure">
+        <img src="images/reentry/wall-pressure-shaded.png" class="dark-shot" alt="Wall static pressure contour with the peak on the heat shield" onclick="openLightbox(this.src)" />
+        <p class="figcap"><b>Orientation check.</b> Peak pressure on the heat shield, not the nose — this
+          caught a reversed flow direction.</p>
+      </div>
+      <div class="figure">
+        <img src="images/reentry/pressure-bowshock.png" class="dark-shot" alt="Static pressure contours resolving the detached bow shock" onclick="openLightbox(this.src)" />
+        <p class="figcap"><b>Shock standoff.</b> Total pressure drops 93.9% across the bow shock at Mach 5.</p>
+      </div>
     </div>
     <div class="note">
-      <b>One result breaks its own bound, and that is worth saying.</b> The Mach 7.5 C<sub>p</sub> reads
-      1.878 against a Newtonian limit of 1.826 — impossible for a steady stagnation point. It is a
-      single-facet pressure spike from shock smearing on a coarse grid, not physics.
+      <b>One result breaks its own bound, and I'd rather say so.</b> The Mach 7.5 C<sub>p</sub> reads 1.878
+      against a Newtonian limit of 1.826 — impossible for a steady stagnation point. It is a single-facet
+      pressure spike from shock smearing on a coarse grid, not physics.
     </div>
   </div>
 
   <!-- HEATING -->
   <div class="prose-section">
-    <div class="sec-head"><span class="sec-num">03</span><h2><span>Heating and heat shield</span></h2></div>
+    <div class="sec-head"><span class="sec-num">04</span><h2><span>Heating &amp; heat shield</span></h2></div>
     <p>Inflation layers would not generate on this geometry, so the boundary layer is unresolved and
-      <strong>CFD wall heat flux is not trustworthy</strong>. Pressure still is. So heating comes from
-      Fay-Riddell instead — cross-checked against Sutton-Graves to <strong>0.3% at Mach 10</strong>, then
-      pushed along an Allen-Eggers entry into a 1-D transient conduction model.</p>
-    <div class="figure">
-      <img src="images/reentry/plot-tps-thermal.png" alt="Trajectory, heat flux, temperature response and through-thickness profile" onclick="openLightbox(this.src)" />
-      <p class="figcap">Peak flux 127.1 W/cm² at 106 s, 44 km, Mach 20.1. Three ablators sized to hold the
-        bondline under 523 K: PICA 4.0 cm at 10.8 kg/m², Avcoat 3.0 cm at 15.4 kg/m².</p>
+      <strong>CFD wall heat flux is not trustworthy</strong>. Surface pressure still is. So heating comes
+      from Fay-Riddell instead, cross-checked against Sutton-Graves, then pushed along an Allen-Eggers
+      entry into a 1-D transient conduction model.</p>
+    <div class="fig-row two">
+      <div class="figure">
+        <img src="images/reentry/plot-fay-riddell.png" alt="Stagnation heating and shock-layer temperature versus Mach number" onclick="openLightbox(this.src)" />
+        <p class="figcap">Two independent correlations agreeing to <b>0.3% at Mach 10</b> is what validates
+          the implementation. The shaded band marks where CFD backs it up.</p>
+      </div>
+      <div class="figure">
+        <img src="images/reentry/plot-tps-thermal.png" alt="Trajectory, heat flux, temperature response and through-thickness profile" onclick="openLightbox(this.src)" />
+        <p class="figcap">Peak flux <b>127.1 W/cm²</b> at 106 s, 44 km, Mach 20.1. Three ablators sized to
+          hold the bondline under 523 K.</p>
+      </div>
     </div>
     <div class="note">
       <b>Avcoat sizes thinner and still weighs 43% more.</b> Its lower ablation temperature caps surface
-      temperature sooner, so less heat drives inward — but at 512 kg/m³ the density wins. That trade is why
-      low-density ablators replaced Avcoat-class materials on modern vehicles.
+      temperature sooner, so less heat drives inward — 3.0 cm against PICA's 4.0 cm. But at 512 kg/m³ the
+      density wins. That trade is why low-density ablators replaced Avcoat-class materials on modern vehicles.
     </div>
   </div>
 
-  <!-- LEARNED -->
+  <!-- SCORECARD -->
   <div class="prose-section">
-    <div class="sec-head"><span class="sec-num">04</span><h2><span>What I took from it</span></h2></div>
+    <div class="sec-head"><span class="sec-num">05</span><h2><span>Verification status</span></h2></div>
+    <div class="figure">
+      <img src="images/reentry/scorecard.png" alt="Scorecard of every validation check with error, criterion and status" class="dark-shot" onclick="openLightbox(this.src)" />
+    </div>
+  </div>
+
+  <!-- CHALLENGES -->
+  <div class="prose-section">
+    <div class="sec-head"><span class="sec-num">06</span><h2><span>Challenges &amp; limitations</span></h2></div>
+    <div class="fig-row two" style="margin-bottom:1.4rem;">
+      <div class="figure">
+        <img src="images/reentry/residuals-mach15-diverged.png" alt="Mach 15 residuals diverging to 1e+8" onclick="openLightbox(this.src)" />
+        <p class="figcap"><b>Mach 15, attempt one.</b> Residuals idle near 10⁻¹ for 750 iterations, then
+          blow up to 10⁺⁸.</p>
+      </div>
+      <div class="figure">
+        <img src="images/reentry/residuals-mach15-courant005.png" alt="Mach 15 residuals at low Courant number bottoming then climbing" onclick="openLightbox(this.src)" />
+        <p class="figcap"><b>Attempt two, Courant 0.05.</b> Stable but never converged — residuals bottom
+          out and climb. Stable is not the same as converged.</p>
+      </div>
+    </div>
     <div class="takeaways two">
       <div class="takeaway">
-        <h4>Validate before you use the output</h4>
-        <p>Three independent analytical checks before any CFD number fed the thermal model. Without them
-          the heat shield sizing rests on nothing.</p>
+        <h4>Mach 15 never converged</h4>
+        <p>Shock thickness scales inversely with Mach, so a shock marginally resolved at Mach 5 is
+          under-resolved at Mach 15, and the 512k cell cap blocked the refinement that would fix it. I
+          documented both attempts and covered Mach 15–25 analytically rather than dropping them.</p>
       </div>
       <div class="takeaway">
-        <h4>Know which outputs survive a bad mesh</h4>
-        <p>No inflation layers means wall heat flux is unusable — but surface pressure, set by the inviscid
-          outer flow, is fine. Knowing the difference is what let the project continue.</p>
+        <h4>No inflation layers</h4>
+        <p>They generated inverted cells on this imported geometry across several attempts. That makes wall
+          heat flux unusable — but surface pressure, set by the inviscid outer flow, is still valid.
+          Knowing which outputs survive a bad mesh is what let the project continue.</p>
       </div>
       <div class="takeaway">
-        <h4>The failure mode is a clean-looking wrong answer</h4>
-        <p>Flying the capsule nose-first converged beautifully and produced plausible contours. Heat flux
-          scales as 1/√R<sub>n</sub>, so it would have been badly wrong. Checking stagnation location
-          against geometry caught it.</p>
+        <h4>Perfect gas above Mach 12</h4>
+        <p>γ = 1.4 throughout. Real shock-layer temperature at Mach 25 would be nearer 8,000–10,000 K than
+          the 26,258 K perfect-gas theory predicts, because dissociation absorbs the difference. That is
+          why no CFD was attempted above Mach 12.</p>
       </div>
       <div class="takeaway">
-        <h4>Document what did not work</h4>
-        <p>Mach 15 never converged on the available mesh. I recorded both attempts, explained why the mesh
-          could not resolve the shock at that speed, and covered Mach 15–25 analytically instead.</p>
+        <h4>Preliminary sizing, not design values</h4>
+        <p>The ablation model is a temperature cap with energy bookkeeping and tracks no surface recession,
+          so thicknesses under-predict flight hardware by roughly 2×. The physics and the ranking between
+          materials hold; the absolute numbers should not be quoted as design values.</p>
       </div>
     </div>
   </div>
 
-  <!-- INDUSTRY -->
-  <div class="prose-section">
-    <div class="sec-head"><span class="sec-num">05</span><h2><span>Where this applies</span></h2></div>
-    <div class="takeaways">
-      <div class="takeaway">
-        <h4>Entry, descent and landing</h4>
-        <p>TPS sizing against a bondline limit over a real trajectory is the core loop for any capsule,
-          probe or re-entry vehicle.</p>
-      </div>
-      <div class="takeaway">
-        <h4>Hypersonics and high-speed flight</h4>
-        <p>Shock-layer behaviour, stagnation heating correlations, and knowing where perfect-gas assumptions
-          stop holding — around Mach 12 here.</p>
-      </div>
-      <div class="takeaway">
-        <h4>Anchored low-fidelity methods</h4>
-        <p>Validate a cheap correlation where high-fidelity is affordable, then extrapolate with it. That is
-          how preliminary design actually runs under schedule pressure.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- REPORT -->
+  <!-- DOCS -->
   <div class="report-cta">
-    <h3>Full Technical Report</h3>
-    <p>9 pages: geometry and domain, grid convergence, solver setup, all three validation checks, the
-      Fay-Riddell implementation, trajectory and TPS sizing, a six-item debugging log, and every limitation.</p>
-    <a href="reports/Dragon_Capsule_Reentry_Report.pdf" target="_blank" rel="noopener" class="btn btn-primary">Download PDF &darr;</a>
+    <h3>Full Documentation</h3>
+    <p>Geometry and domain, grid convergence, solver setup, all three validation checks, the Fay-Riddell
+      implementation, trajectory and TPS sizing, a six-item debugging log and every limitation.</p>
+    <a href="reports/Dragon_Capsule_Reentry_Report.pdf" target="_blank" rel="noopener" class="btn btn-primary">Technical Report (PDF) &darr;</a>
     <a href="reentry-project/PROJECT_STATUS.md" class="btn btn-outline" style="margin-left:.6rem;">Project Record</a>
-    <a href="https://github.com/aksharpatel1113" target="_blank" rel="noopener" class="btn btn-outline" style="margin-left:.6rem;">GitHub</a>
+    <a href="https://github.com/AksharPatel1113/Re-entry-Vehicle-Aero-Thermal-Analysis" target="_blank" rel="noopener" class="btn btn-outline" style="margin-left:.6rem;">GitHub</a>
   </div>
 
 </div>
